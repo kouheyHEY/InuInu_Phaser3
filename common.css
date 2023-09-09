@@ -1,0 +1,21 @@
+/* 全ての要素の設定 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* フォント設定 */
+@font-face {
+    font-family: "Bit12Bold";
+    src: url('./assets/font/PixelMplus12-Bold.ttf');
+    font-weight: 400;
+    font-weight: normal;
+}
+
+/* フォント設定 */
+@font-face {
+    font-family: "Bit12";
+    src: url('./assets/font/PixelMplus12-Regular.ttf');
+    font-weight: 400;
+    font-weight: normal;
+}
