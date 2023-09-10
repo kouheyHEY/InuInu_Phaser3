@@ -1,5 +1,5 @@
 /* 全シーン共通変数 */
-const COMMON_CONST = {
+const COMMON = {
     // 画面サイズ
     D_WIDTH: 950,
     D_HEIGHT: 800,
@@ -9,7 +9,6 @@ const COMMON_CONST = {
 
     // シーンのID
     GAMESCENE: "GameScene",
-    GAMELOADSCENE: "GameLoadScene",
     TITLESCENE: "TitleScene",
 
 };

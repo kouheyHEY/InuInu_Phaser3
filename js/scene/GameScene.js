@@ -1,23 +1,7 @@
 class GameScene extends BaseScene {
     // コンストラクタ
     constructor() {
-        super(COMMON_CONST.GAMESCENE);
-
-        // 各パラメータ
-        // ブロック（足場）リスト
-        this.blockList = [];
-        // スコア変数
-        this.gameScore = 0;
-
-        // 各フラグ
-        // ゲームオーバーフラグ
-        this.gameOverFlg = false;
-        // ゲーム一時停止フラグ
-        this.gamePauseFlg = false;
-        // ゲームクリアフラグ
-        this.gameClearFlg = false;
-        // ゲーム開始フラグ
-        this.gameStartFlg = false;
+        super(COMMON.GAMESCENE);
 
     }
 

@@ -15,8 +15,5 @@ class Item extends Phaser.GameObjects.Sprite {
         // 物理演算エリアの設定
         this.body.setSize(GSCONST.ITEM_WIDTH, GSCONST.ITEM_HEIGHT);
         this.body.setOffset(0, 0);
-
-        // 重力の設定
-        // this.body.gravity.y = GSCONST.GRAVITY;
     }
 }

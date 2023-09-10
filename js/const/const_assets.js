@@ -1,11 +1,11 @@
 // 画像ファイルのディレクトリ
-const DIR_CONST = {
+const DIR = {
     DIR_ASSETS: "./assets",
     DIR_IMG: "./assets/img",
 };
 
 // 各画像ファイルのファイル名
-const IMGNAME_CONST = {
+const IMGNAME = {
     PLAYER_RIGHT: "Player_right_anim.png",
     ENEMY_RIGHT: "Enemy_right_anim.png",
     BLOCK: "Block_1.png",
@@ -21,7 +21,7 @@ const IMGNAME_CONST = {
 };
 
 // 各画像ファイルのファイルID
-const IMG_CONST = {
+const IMGID = {
     PLAYER_RIGHT: "PLAYER_RIGHT",
     ENEMY_RIGHT: "ENEMY_RIGHT",
     BLOCK: "BLOCK",
@@ -36,7 +36,7 @@ const IMG_CONST = {
     },
 };
 
-const ANIM_CONST = {
+const ANIMID = {
     PLAYER_RIGHT_ANIM: "PLAYER_RIGHT_ANIM",
     ENEMY_RIGHT_ANIM: "ENEMY_RIGHT_ANIM",
 };
