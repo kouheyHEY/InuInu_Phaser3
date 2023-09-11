@@ -1,19 +1,13 @@
 // 画像ファイルのディレクトリ
 const DIR = {
-    DIR_ASSETS: "./assets",
-    DIR_IMG: "./assets/img",
+    DIR_ASSETS: "../assets",
+    DIR_IMG: "../assets/img",
 };
 
 // 各画像ファイルのファイル名
 const IMGNAME = {
-    PLAYER_RIGHT: "Player_right_anim.png",
-    ENEMY_RIGHT: "Enemy_right_anim.png",
-    BLOCK: "Block_1.png",
-    FLOOR: "Floor.png",
-    BREAD: "Bread.png",
-    BREADCRUMS: "BreadCrumbs.png",
-    MINICOW: "MiniCow.png",
-    MILK: "Milk.png",
+    DOG_SHIBA: "dog_shiba.png",
+    DOG_PAG: "dog_pag.png",
     ICON: {
         SPEEDUP: "SpeedUp.png",
         SPEEDDOWN: "SpeedDown.png",
@@ -22,14 +16,8 @@ const IMGNAME = {
 
 // 各画像ファイルのファイルID
 const IMGID = {
-    PLAYER_RIGHT: "PLAYER_RIGHT",
-    ENEMY_RIGHT: "ENEMY_RIGHT",
-    BLOCK: "BLOCK",
-    FLOOR: "FLOOR",
-    BREAD: "BREAD",
-    BREADCRUMS: "BREADCRUMS",
-    MINICOW: "MINICOW",
-    MILK: "MILK",
+    DOG_SHIBA: "DOG_SHIBA",
+    DOG_PAG: "DOG_PAG",
     ICON: {
         SPEEDUP: "SpeedUp.png",
         SPEEDDOWN: "SpeedDown.png",

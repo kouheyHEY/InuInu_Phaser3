@@ -3,17 +3,17 @@ const config = {
     type: Phaser.AUTO,
 
     // 画面の幅
-    width: COMMON_CONST.D_WIDTH,
+    width: COMMON.D_WIDTH,
 
     // 画面の高さ
-    height: COMMON_CONST.D_HEIGHT,
+    height: COMMON.D_HEIGHT,
 
     // アンチエイリアス
     antialias: true,
 
     // シーン設定
     scene: [
-        GameLoadScene,
+        PreLoadScene,
         GameScene
     ],
 
@@ -31,15 +31,14 @@ const config = {
             // スプライトに緑の枠を表示
             // 物理演算ボディに紫の枠を表示
             debug: true,
-            // 重力の方向と強さ
-            gravity: {
-            }
         }
     },
 }
 
 // ゲームの開始
 const phaser = new Phaser.Game(config);
+// PreloadSceneを開始
+phaser.scene.add('PreloadScene', COMMON.PRELOADSCENE, true);
 
 function preload() {
 }
