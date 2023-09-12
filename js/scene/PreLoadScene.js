@@ -1,4 +1,4 @@
-class PreLoadScene extends Phaser.Scene {
+class PreLoadScene extends BaseScene {
     /**
      * コンストラクタ
      */
