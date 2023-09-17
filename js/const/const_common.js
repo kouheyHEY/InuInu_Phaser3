@@ -1,6 +1,6 @@
 /* 全シーン共通変数 */
 const COMMON = {
-    // 画面サイズ
+    // 画面サイズ（デフォルト）
     D_WIDTH: 720,
     D_HEIGHT: 960,
 
@@ -10,6 +10,7 @@ const COMMON = {
     // シーンのID
     PRELOADSCENE: "PreLoadScene",
     GAMESCENE: "GameScene",
+    GAMEOVERSCENE: "GameOverScene",
     TITLESCENE: "TitleScene",
 
 };

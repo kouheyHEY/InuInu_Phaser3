@@ -3,34 +3,28 @@ class PreLoadScene extends BaseScene {
      * コンストラクタ
      */
     constructor() {
-        super({ key: COMMON.PRELOADSCENE });
+        super(COMMON.PRELOADSCENE);
     }
 
     /**
      * GameSceneで使用する画像やスプライトシートを読み込む
      */
     preload() {
+
+        // SCR_WIDTHとSCR_HEIGHTの更新
+        SCR_WIDTH = phaser.scale.width;
+        SCR_HEIGHT = phaser.scale.height;
+
         // 各画像の読み込み
         this.load.image(IMGID.DOG_SHIBA, DIR.DIR_IMG + "/" + IMGNAME.DOG_SHIBA);
         this.load.image(IMGID.DOG_PAG, DIR.DIR_IMG + "/" + IMGNAME.DOG_PAG);
-
-        // 各スプライトシートの読み込み
-        // プレイヤー
-        // this.load.spritesheet(
-        //     IMG.PLAYER_RIGHT,
-        //     DIR.DIR_IMG + "/" + IMGNAME.PLAYER_RIGHT,
-        //     {
-        //         frameWidth: GSCONST.PLAYER_WIDTH,
-        //         frameHeight: GSCONST.PLAYER_HEIGHT
-        //     }
-        // );
 
         // プリロード中に表示するプログレスバーの背景
         this.progressBarBg = this.add.graphics();
         this.progressBarBg.fillStyle(PRELOADBAR.BGCOLOR, 0.8);
         this.progressBarBg.fillRect(
-            (COMMON.D_WIDTH - PRELOADBAR.WIDTH) / 2,
-            (COMMON.D_HEIGHT - PRELOADBAR.HEIGHT) / 2,
+            (SCR_WIDTH - PRELOADBAR.WIDTH) / 2,
+            (SCR_HEIGHT - PRELOADBAR.HEIGHT) / 2,
             PRELOADBAR.WIDTH,
             PRELOADBAR.HEIGHT
         );
@@ -70,8 +64,8 @@ class PreLoadScene extends BaseScene {
         this.progressBar.clear();
         this.progressBar.fillStyle(PRELOADBAR.COLOR, 1);
         this.progressBar.fillRect(
-            (COMMON.D_WIDTH - PRELOADBAR.WIDTH) / 2,
-            (COMMON.D_HEIGHT - PRELOADBAR.HEIGHT) / 2,
+            (SCR_WIDTH - PRELOADBAR.WIDTH) / 2,
+            (SCR_HEIGHT - PRELOADBAR.HEIGHT) / 2,
             PRELOADBAR.WIDTH * value,
             PRELOADBAR.HEIGHT
         );

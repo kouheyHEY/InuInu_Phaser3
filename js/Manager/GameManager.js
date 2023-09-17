@@ -1,8 +1,10 @@
 class GameManager {
     constructor(scene) {
         this.scene = scene;
-        this.score = 0;
-        this.timer = null; // 制限時間のタイマー
+        this.initialTime = 5;
+        this.currentTime = this.initialTime;
+        this.timer = null;
+
         this.currentDogType = null; // 現在のお題の犬の種類
 
         // ゲームの初期化
@@ -18,22 +20,23 @@ class GameManager {
 
     resetTimer() {
         if (this.timer) {
-            this.timer.destroy(); // 既存のタイマーがあれば破棄
+            this.timer.remove(false); // 既存のタイマーがあれば削除
         }
 
         // 新しい制限時間の設定
         this.timer = this.scene.time.addEvent({
             delay: 1000, // 1秒ごとにカウントダウン
-            callback: this.onTimerTick,
-            callbackScope: this,
+            callback: () => this.onTimerTick(),
             loop: true,
         });
     }
 
     onTimerTick() {
         // 制限時間のカウントダウン処理
+        this.currentTime--;
+        this.scene.updateTimerText(this.currentTime);
 
-        if (this.timer.getProgress() === 1) {
+        if (this.currentTime <= 0) {
             // 制限時間切れの場合の処理
             this.gameOver();
         }
@@ -49,13 +52,12 @@ class GameManager {
 
     getRandomDogType() {
         // ランダムな犬の種類を取得
-        // 例: const dogTypes = ['dog1', 'dog2', 'dog3'];
-        //     return Phaser.Math.RND.pick(dogTypes);
+        const dogTypes = ['dog1', 'dog2', 'dog3']; // 仮の犬の種類のリスト
+        return Phaser.Math.RND.pick(dogTypes);
     }
 
     checkSelection(selectedType) {
         // プレイヤーの選択をチェックし、正しい場合の処理を追加
-
         if (selectedType === this.currentDogType) {
             // 正しい選択の場合
             this.score += 1; // スコアを加算
@@ -69,8 +71,9 @@ class GameManager {
 
     gameOver() {
         // ゲームオーバー処理を追加
+        console.log("GAMEOVER");
 
         // ゲームオーバー画面を表示
-        this.scene.scene.start('GameOverScene', { score: this.score });
+        this.scene.scene.start(COMMON.GAMEOVERSCENE);
     }
 }

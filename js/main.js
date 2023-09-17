@@ -8,13 +8,20 @@ const config = {
     // 画面の高さ
     height: COMMON.D_HEIGHT,
 
+    scale: {
+        mode: Phaser.Scale.RESIZE, // スケールモードをリサイズに設定
+        parent: 'phaser-game', // レンダリングする要素のID
+        autoCenter: Phaser.Scale.CENTER_BOTH // ゲーム画面を中央に配置
+    },
+
     // アンチエイリアス
     antialias: true,
 
     // シーン設定
     scene: [
         PreLoadScene,
-        GameScene
+        GameScene,
+        GameOverScene
     ],
 
     // フレームレート設定
@@ -35,16 +42,7 @@ const config = {
     },
 }
 
-// ゲームの開始
+var SCR_WIDTH = COMMON.D_WIDTH;
+var SCR_HEIGHT = COMMON.D_HEIGHT;
+
 const phaser = new Phaser.Game(config);
-// PreloadSceneを開始
-phaser.scene.add('PreloadScene', COMMON.PRELOADSCENE, true);
-
-function preload() {
-}
-
-function create() {
-}
-
-function update() {
-}

@@ -28,3 +28,8 @@ const ANIMID = {
     PLAYER_RIGHT_ANIM: "PLAYER_RIGHT_ANIM",
     ENEMY_RIGHT_ANIM: "ENEMY_RIGHT_ANIM",
 };
+
+const ICON = {
+    WIDTH: 96,
+    HEIGHT: 96
+};
