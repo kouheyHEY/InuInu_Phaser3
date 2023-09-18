@@ -8,6 +8,8 @@ const DIR = {
 const IMGNAME = {
     DOG_SHIBA: "dog_shiba.png",
     DOG_PAG: "dog_pag.png",
+    DOG_DALMATIAN: "dog_dalmatian.png",
+    DOG_CORGI: "dog_corgi.png",
     ICON: {
         SPEEDUP: "SpeedUp.png",
         SPEEDDOWN: "SpeedDown.png",
@@ -18,6 +20,8 @@ const IMGNAME = {
 const IMGID = {
     DOG_SHIBA: "DOG_SHIBA",
     DOG_PAG: "DOG_PAG",
+    DOG_DALMATIAN: "DOG_DALMATIAN",
+    DOG_CORGI: "DOG_CORGI",
     ICON: {
         SPEEDUP: "SpeedUp.png",
         SPEEDDOWN: "SpeedDown.png",

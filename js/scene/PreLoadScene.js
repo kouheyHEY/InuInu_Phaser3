@@ -15,9 +15,18 @@ class PreLoadScene extends BaseScene {
         SCR_WIDTH = phaser.scale.width;
         SCR_HEIGHT = phaser.scale.height;
 
+        // 各画像の画像IDとファイル名のリスト
+        let preLoadImgList = [
+            [IMGID.DOG_SHIBA, IMGNAME.DOG_SHIBA],
+            [IMGID.DOG_PAG, IMGNAME.DOG_PAG],
+            [IMGID.DOG_DALMATIAN, IMGNAME.DOG_DALMATIAN],
+            [IMGID.DOG_CORGI, IMGNAME.DOG_CORGI],
+        ];
+
         // 各画像の読み込み
-        this.load.image(IMGID.DOG_SHIBA, DIR.DIR_IMG + "/" + IMGNAME.DOG_SHIBA);
-        this.load.image(IMGID.DOG_PAG, DIR.DIR_IMG + "/" + IMGNAME.DOG_PAG);
+        preLoadImgList.forEach(img => {
+            this.load.image(img[0], DIR.DIR_IMG + "/" + img[1]);
+        });
 
         // プリロード中に表示するプログレスバーの背景
         this.progressBarBg = this.add.graphics();
