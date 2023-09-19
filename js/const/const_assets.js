@@ -10,6 +10,7 @@ const IMGNAME = {
     DOG_PAG: "dog_pag.png",
     DOG_DALMATIAN: "dog_dalmatian.png",
     DOG_CORGI: "dog_corgi.png",
+    DOG_LABRADOR: "dog_labrador.png",
     ICON: {
         SPEEDUP: "SpeedUp.png",
         SPEEDDOWN: "SpeedDown.png",
@@ -22,10 +23,7 @@ const IMGID = {
     DOG_PAG: "DOG_PAG",
     DOG_DALMATIAN: "DOG_DALMATIAN",
     DOG_CORGI: "DOG_CORGI",
-    ICON: {
-        SPEEDUP: "SpeedUp.png",
-        SPEEDDOWN: "SpeedDown.png",
-    },
+    DOG_LABRADOR: "DOG_LABRADOR",
 };
 
 const ANIMID = {

@@ -4,6 +4,15 @@ class PreLoadScene extends BaseScene {
      */
     constructor() {
         super(COMMON.PRELOADSCENE);
+
+        // 各画像の画像IDとファイル名のリスト
+        this.preLoadImgList = [
+            [IMGID.DOG_SHIBA, IMGNAME.DOG_SHIBA],
+            [IMGID.DOG_PAG, IMGNAME.DOG_PAG],
+            [IMGID.DOG_DALMATIAN, IMGNAME.DOG_DALMATIAN],
+            [IMGID.DOG_CORGI, IMGNAME.DOG_CORGI],
+            [IMGID.DOG_LABRADOR, IMGNAME.DOG_LABRADOR]
+        ];
     }
 
     /**
@@ -15,16 +24,8 @@ class PreLoadScene extends BaseScene {
         SCR_WIDTH = phaser.scale.width;
         SCR_HEIGHT = phaser.scale.height;
 
-        // 各画像の画像IDとファイル名のリスト
-        let preLoadImgList = [
-            [IMGID.DOG_SHIBA, IMGNAME.DOG_SHIBA],
-            [IMGID.DOG_PAG, IMGNAME.DOG_PAG],
-            [IMGID.DOG_DALMATIAN, IMGNAME.DOG_DALMATIAN],
-            [IMGID.DOG_CORGI, IMGNAME.DOG_CORGI],
-        ];
-
         // 各画像の読み込み
-        preLoadImgList.forEach(img => {
+        this.preLoadImgList.forEach(img => {
             this.load.image(img[0], DIR.DIR_IMG + "/" + img[1]);
         });
 
