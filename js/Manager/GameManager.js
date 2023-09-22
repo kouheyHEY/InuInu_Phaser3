@@ -56,18 +56,6 @@ class GameManager {
         return Phaser.Math.RND.pick(dogTypes);
     }
 
-    checkSelection(selectedType) {
-        // プレイヤーの選択をチェックし、正しい場合の処理を追加
-        if (selectedType === this.currentDogType) {
-            // 正しい選択の場合
-            this.score += 1; // スコアを加算
-            this.resetTimer(); // 制限時間をリセット
-            this.showRandomDog(); // 新しいお題を表示
-        } else {
-            // 間違った選択の場合
-            this.gameOver(); // ゲームオーバー処理
-        }
-    }
 
     gameOver() {
         // ゲームオーバー処理を追加

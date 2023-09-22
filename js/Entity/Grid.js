@@ -19,6 +19,7 @@ class Grid {
         let gridY = (SCR_HEIGHT - this.numRows * ICON.HEIGHT) / 2;
         // グリッドにアイコンを配置する処理を追加
         for (let row = 0; row < this.numRows; row++) {
+            let iconsTmp = [];
             for (let col = 0; col < this.numCols; col++) {
                 const x = col * ICON.WIDTH + gridX + ICON.WIDTH / 2;
                 const y = row * ICON.HEIGHT + gridY + ICON.HEIGHT / 2;
@@ -26,9 +27,10 @@ class Grid {
                 // ランダムなアイコンの種類を取得
                 const iconType = this.getRandomIconType();
 
-                const icon = new Icon(this.scene, x, y, ICONTYPE[iconType], iconType);
-                this.icons.push(icon);
+                const icon = new Icon(this.scene, x, y, ICONTYPE[iconType], iconType, row, col, this);
+                iconsTmp.push(icon);
             }
+            this.icons.push(iconsTmp);
         }
     }
 

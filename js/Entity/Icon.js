@@ -1,10 +1,17 @@
 class Icon extends Phaser.GameObjects.Image {
-    constructor(scene, x, y, texture, type) {
+    constructor(scene, x, y, texture, type, row, col, grid) {
         super(scene, x, y, texture);
         scene.add.existing(this);
 
         // アイコンの種類
         this.type = type;
+
+        //　アイコンの位置
+        this.row = row;
+        this.col = col;
+
+        // グリッド
+        this.grid = grid;
 
         // アイコンをタップしたときの処理を追加
         this.setInteractive();
@@ -13,6 +20,6 @@ class Icon extends Phaser.GameObjects.Image {
 
     onIconClicked() {
         // アイコンがタップされたときの処理を追加
-        // 例: GameManager.checkSelection(this.type);
+        grid.checkSelection(this.type);
     }
 }
