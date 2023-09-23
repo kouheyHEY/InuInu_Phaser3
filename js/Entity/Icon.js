@@ -20,6 +20,6 @@ class Icon extends Phaser.GameObjects.Image {
 
     onIconClicked() {
         // アイコンがタップされたときの処理を追加
-        grid.checkSelection(this.type);
+        grid.selectIcon(this.row, this.col);
     }
 }

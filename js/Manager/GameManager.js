@@ -5,7 +5,10 @@ class GameManager {
         this.currentTime = this.initialTime;
         this.timer = null;
 
-        this.currentDogType = null; // 現在のお題の犬の種類
+        // 現在のお題の犬の種類
+        this.currentDogType = null;
+        // 消去した犬のタイプごとの数
+        this.deleteDogNum = {};
 
         // ゲームの初期化
         this.init();
@@ -64,4 +67,6 @@ class GameManager {
         // ゲームオーバー画面を表示
         this.scene.scene.start(COMMON.GAMEOVERSCENE);
     }
+
+
 }
