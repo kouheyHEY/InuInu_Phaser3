@@ -8,7 +8,7 @@ class GameScene extends BaseScene {
 
         // ゲームの初期化と設定
         this.gameManager = new GameManager(this);
-        this.grid = new Grid(this, 4, 6);
+        this.grid = new Grid(this, 4, 6, this.gameManager);
 
         // お題の表示
         this.gameManager.showRandomDog();

@@ -8,14 +8,17 @@ class GameManager {
         // 現在のお題の犬の種類
         this.currentDogType = null;
         // 消去した犬のタイプごとの数
-        this.deleteDogNum = {};
+        this.deleteDogNum = [];
 
         // ゲームの初期化
         this.init();
     }
 
     init() {
-        // ゲーム初期化の処理を追加
+        // 消去したアイコン数の初期化
+        ICONTYPE.forEach(type => {
+            this.deleteDogNum.push(0);
+        });
 
         // 制限時間の初期化
         this.resetTimer();
@@ -59,8 +62,11 @@ class GameManager {
         return Phaser.Math.RND.pick(dogTypes);
     }
 
-
     gameOver() {
+        let iconType = 0;
+        ICONTYPE.forEach(type => {
+            console.log(type + " : " + this.deleteDogNum[iconType++]);
+        });
         // ゲームオーバー処理を追加
         console.log("GAMEOVER");
 
@@ -68,5 +74,13 @@ class GameManager {
         this.scene.scene.start(COMMON.GAMEOVERSCENE);
     }
 
+    /**
+     * 消去したアイコンの数を計上する
+     * @param {int} _deleteType アイコンのタイプ
+     * @param {int} _deleteNum 消去数
+     */
+    countDeleteDog(_deleteType, _deleteNum) {
+        this.deleteDogNum[_deleteType] += _deleteNum;
+    }
 
 }

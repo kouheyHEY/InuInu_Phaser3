@@ -11,6 +11,7 @@ class Icon extends Phaser.GameObjects.Image {
         this.col = col;
 
         // グリッド
+        /** @type {Grid} */
         this.grid = grid;
 
         // アイコンをタップしたときの処理を追加
@@ -20,6 +21,6 @@ class Icon extends Phaser.GameObjects.Image {
 
     onIconClicked() {
         // アイコンがタップされたときの処理を追加
-        grid.selectIcon(this.row, this.col);
+        this.grid.selectIcon(this.row, this.col, this.type);
     }
 }
