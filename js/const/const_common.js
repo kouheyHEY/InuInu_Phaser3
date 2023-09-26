@@ -13,5 +13,12 @@ const COMMON = {
     GAMEOVERSCENE: "GameOverScene",
     TITLESCENE: "TitleScene",
 
+    // 文字の色
+    FONTCOLOR_DEFAULT: "#ffffff",
+    FONTSTYLE_NORMAL: "Bit12",
+    FONTSTYLE_BOLD: "Bit12Bold",
+
+    // 背景色
+    BGCOLOR_DEFAULT: "#808080",
 };
 

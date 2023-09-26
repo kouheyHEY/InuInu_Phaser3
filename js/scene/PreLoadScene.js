@@ -19,7 +19,6 @@ class PreLoadScene extends BaseScene {
      * GameSceneで使用する画像やスプライトシートを読み込む
      */
     preload() {
-
         // SCR_WIDTHとSCR_HEIGHTの更新
         SCR_WIDTH = phaser.scale.width;
         SCR_HEIGHT = phaser.scale.height;

@@ -27,10 +27,9 @@ class BaseScene extends Phaser.Scene {
      * @param {int} _y 文字列のy座標
      * @param {int} _fontSize 文字列のサイズ
      * @param {int} _color 文字列の色
-     * @param {boolean} _isBold 太字かどうか
      */
-    setText(_text, _x, _y, _fontSize, _color = "#000000", _isBold = false) {
-        return this.add.text(_x, _y, _text).setFontSize(_fontSize).setFill(_color).setFontFamily(_isBold ? "Bit12Bold" : "Bit12");
+    setText(_text, _x, _y, _fontSize, _color = "#000000") {
+        return this.add.text(_x, _y, _text).setFontSize(_fontSize).setFill(_color);
     }
 
     preload() { }

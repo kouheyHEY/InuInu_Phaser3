@@ -4,6 +4,7 @@ class GameScene extends BaseScene {
     }
 
     create() {
+        this.cameras.main.setBackgroundColor(COMMON.BGCOLOR_DEFAULT);
         console.log("GameScene Start");
 
         // ゲームの初期化と設定
@@ -14,10 +15,8 @@ class GameScene extends BaseScene {
         this.gameManager.showRandomDog();
 
         // 制限時間を表示するテキスト
-        this.timerText = this.add.text(16, 16, `Time: ${this.gameManager.currentTime}`, {
-            fontSize: '24px',
-            fill: '#ffffff',
-        });
+        this.timerText = this.setText(`Time: ${this.gameManager.currentTime}`, 16, 16, 36, COMMON.FONTCOLOR_DEFAULT);
+        this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
     }
 
     update() {

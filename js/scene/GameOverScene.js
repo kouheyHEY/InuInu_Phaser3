@@ -4,22 +4,20 @@ class GameOverScene extends BaseScene {
     }
 
     create() {
+        this.cameras.main.setBackgroundColor(COMMON.BGCOLOR_DEFAULT);
         // ゲームオーバーテキストを画面中央に配置
-        const gameOverText = this.add.text(SCR_WIDTH / 2, SCR_HEIGHT / 2 - 50, 'Game Over', {
-            fontSize: '48px',
-            fill: '#ffffff',
-        }).setOrigin(0.5);
+        const gameOverText = this.setText('Game Over', SCR_WIDTH / 2, SCR_HEIGHT / 2 - 50, 48, COMMON.FONTCOLOR_DEFAULT);
+        gameOverText.setOrigin(0.5).setFontFamily(COMMON.FONTSTYLE_BOLD);
 
         // リトライボタンを画面中央に配置
-        const retryButton = this.add.text(SCR_WIDTH / 2, SCR_HEIGHT / 2 + 50, 'Retry', {
-            fontSize: '24px',
-            fill: '#ffffff',
-            backgroundColor: '#000000',
+        const retryButton = this.setText('Retry', SCR_WIDTH / 2, SCR_HEIGHT / 2 + 50, 24, COMMON.FONTCOLOR_DEFAULT);
+        retryButton.setOrigin(0.5).setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        retryButton.setStyle({
             padding: {
-                x: 20,
-                y: 10
-            },
-        }).setOrigin(0.5);
+                x: 0,
+                y: 0
+            }
+        });
 
         // ボタンにクリックイベントを追加
         retryButton.setInteractive();
