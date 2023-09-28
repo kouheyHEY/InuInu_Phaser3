@@ -3,16 +3,17 @@ class Grid {
         this.scene = scene;
         this.numRows = numRows;
         this.numCols = numCols;
+
         /** @type {GameManager} */
         this.gameManager = gameManager;
         this.icons = [];
+
         // 消去フラグの配列
         this.deleteFlg = [];
 
         // グリッドの初期化
         this.initGrid();
         this.createGrid();
-
     }
 
     /**

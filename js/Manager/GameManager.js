@@ -1,5 +1,6 @@
 class GameManager {
     constructor(scene) {
+        /** @type {GameScene} */
         this.scene = scene;
         this.initialTime = 5;
         this.currentTime = this.initialTime;
@@ -81,6 +82,7 @@ class GameManager {
      */
     countDeleteDog(_deleteType, _deleteNum) {
         this.deleteDogNum[_deleteType] += _deleteNum;
+        this.scene.updateDeleteInfo(_deleteType, this.deleteDogNum[_deleteType]);
     }
 
 }

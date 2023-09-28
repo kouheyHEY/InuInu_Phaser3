@@ -1,5 +1,5 @@
 class Icon extends Phaser.GameObjects.Image {
-    constructor(scene, x, y, texture, type, row, col, grid) {
+    constructor(scene, x, y, texture, type, row, col, grid = null, clickable = true) {
         super(scene, x, y, texture);
         scene.add.existing(this);
 
@@ -14,6 +14,8 @@ class Icon extends Phaser.GameObjects.Image {
         /** @type {Grid} */
         this.grid = grid;
 
+        this.clickable = clickable
+
         // アイコンをタップしたときの処理を追加
         this.setInteractive();
         this.on('pointerdown', this.onIconClicked, this);
@@ -21,6 +23,8 @@ class Icon extends Phaser.GameObjects.Image {
 
     onIconClicked() {
         // アイコンがタップされたときの処理を追加
-        this.grid.selectIcon(this.row, this.col, this.type);
+        if (this.clickable) {
+            this.grid.selectIcon(this.row, this.col, this.type);
+        }
     }
 }
