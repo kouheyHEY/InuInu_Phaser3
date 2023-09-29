@@ -35,3 +35,8 @@ const ICON = {
     WIDTH: 96,
     HEIGHT: 96
 };
+
+const ICON_DELETEINFO = {
+    WIDTH: 48,
+    HEIGHT: 48
+}

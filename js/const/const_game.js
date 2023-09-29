@@ -10,6 +10,6 @@ const ICONTYPE = [
 // アイコン消去数の表示位置
 const DELETEINFO = {
     X: 200,
-    Y: ICON.HEIGHT / 2 + 24,
-    MAXWIDTH: 480,
+    WIDTH: 140,
+    Y: ICON_DELETEINFO.HEIGHT / 2 + 24,
 }

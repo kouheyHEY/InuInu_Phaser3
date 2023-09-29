@@ -15,27 +15,50 @@ class GameScene extends BaseScene {
         this.gameManager.showRandomDog();
 
         // 画面上部に消去数を表示する
-        this.deleteNumTextList = [];
+        this.deleteInfoArea = this.add.group();
+
         let deleteInfoX = DELETEINFO.X;
         let deleteInfoY = DELETEINFO.Y;
         let typeID = 0;
         ICONTYPE.forEach(type => {
 
-            let icon = new Icon(this, deleteInfoX, deleteInfoY, type, 0, 0, 0, null, false);
-
-            let deleteNumStr = ` × ${this.gameManager.deleteDogNum[typeID++]}`;
-            let deleteNumText = this.setText(deleteNumStr, deleteInfoX + ICON.WIDTH / 2, deleteInfoY, COMMON.FONTSIZE_DELETEINFO, COMMON.FONTCOLOR_DEFAULT);
-            deleteNumText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
-
-            deleteInfoX += (ICON.WIDTH + deleteNumText.displayWidth);
-
-            this.deleteNumTextList.push(deleteNumText);
+            // 消去数の表示位置が画面外の場合、位置調整
             console.log(deleteInfoX);
+            if (deleteInfoX + DELETEINFO.WIDTH >= SCR_WIDTH) {
+                deleteInfoX = DELETEINFO.X;
+                deleteInfoY += ICON_DELETEINFO.HEIGHT;
+            }
+
+            // 消去数表示用のアイコンとテキストの設定
+            this.createDeleteInfoSet(deleteInfoX, deleteInfoY, typeID++);
+
+            deleteInfoX += DELETEINFO.WIDTH;
         });
 
         // 制限時間を表示するテキスト
         this.timerText = this.setText(`Time: ${this.gameManager.currentTime}`, 16, 16, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
         this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+    }
+
+    createDeleteInfoSet(_x, _y, _type) {
+        let infoSet = this.add.container(_x, _y);
+
+        // アイコンの生成
+        let icon = this.add.image(0, 0, ICONTYPE[_type]);
+        icon.displayWidth = ICON_DELETEINFO.WIDTH;
+        icon.displayHeight = ICON_DELETEINFO.HEIGHT;
+        infoSet.add(icon);
+
+        // アイコンの消去数テキストを作成
+        let deleteNumText = this.setText(` × ${this.gameManager.deleteDogNum[_type]}`, ICON_DELETEINFO.WIDTH / 2, 0, COMMON.FONTSIZE_DELETEINFO, COMMON.FONTCOLOR_DEFAULT);
+        deleteNumText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        deleteNumText.setOrigin(0, 0.5);
+        infoSet.add(deleteNumText);
+
+        // エリアにアイコンセットを追加
+        this.deleteInfoArea.add(infoSet);
+
+        return infoSet;
     }
 
     update() {
@@ -49,6 +72,6 @@ class GameScene extends BaseScene {
     }
 
     updateDeleteInfo(_type, _num) {
-        this.deleteNumTextList[_type].setText(` × ${_num}`);
+        this.deleteInfoArea.getChildren()[_type].list[1].setText(` × ${_num}`);
     }
 }
