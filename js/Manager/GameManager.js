@@ -59,8 +59,7 @@ class GameManager {
 
     getRandomDogType() {
         // ランダムな犬の種類を取得
-        const dogTypes = ['dog1', 'dog2', 'dog3']; // 仮の犬の種類のリスト
-        return Phaser.Math.RND.pick(dogTypes);
+        return Math.floor(Math.random() * ICONTYPE.length);
     }
 
     gameOver() {

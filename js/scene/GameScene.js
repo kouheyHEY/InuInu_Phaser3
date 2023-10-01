@@ -20,11 +20,12 @@ class GameScene extends BaseScene {
         let deleteInfoX = DELETEINFO.X;
         let deleteInfoY = DELETEINFO.Y;
         let typeID = 0;
+        let DELETEINFO_X_LIMIT = SCR_WIDTH - DELETEINFO.X;
         ICONTYPE.forEach(type => {
 
             // 消去数の表示位置が画面外の場合、位置調整
             console.log(deleteInfoX);
-            if (deleteInfoX + DELETEINFO.WIDTH >= SCR_WIDTH) {
+            if (deleteInfoX + DELETEINFO.WIDTH >= DELETEINFO_X_LIMIT) {
                 deleteInfoX = DELETEINFO.X;
                 deleteInfoY += ICON_DELETEINFO.HEIGHT;
             }
@@ -38,6 +39,8 @@ class GameScene extends BaseScene {
         // 制限時間を表示するテキスト
         this.timerText = this.setText(`Time: ${this.gameManager.currentTime}`, 16, 16, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
         this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+
+        // TODO: 画面右上に、ボーナスとなるアイコンの種類を表示する
     }
 
     createDeleteInfoSet(_x, _y, _type) {
