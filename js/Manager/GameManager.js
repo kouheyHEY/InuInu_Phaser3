@@ -49,14 +49,6 @@ class GameManager {
         }
     }
 
-    showRandomDog() {
-        // ランダムな犬のアイコンを画面に表示
-        const randomDogType = this.getRandomDogType();
-        this.currentDogType = randomDogType;
-
-        // アイコン表示の処理を追加
-    }
-
     getRandomDogType() {
         // ランダムな犬の種類を取得
         return Math.floor(Math.random() * ICONTYPE.length);
