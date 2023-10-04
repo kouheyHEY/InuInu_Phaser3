@@ -10,6 +10,8 @@ class GameScene extends BaseScene {
         // ゲームの初期化と設定
         this.gameManager = new GameManager(this);
         this.grid = new Grid(this, 4, 6, this.gameManager);
+        // this.tweens = this.tweens.add.tweenManager;
+        // console.log(this.tweens);
 
         // アイコン消去数表示用エリアの設定
         this.createDeleteInfoArea();
@@ -18,26 +20,8 @@ class GameScene extends BaseScene {
         this.timerText = this.setText(`Time: ${this.gameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
         this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
 
-        // TODO: 画面右上に、ボーナスとなるアイコンの種類を表示する
-        let bonusInfoX = SCR_WIDTH - BONUSINFO.WIDTH;
-        let bonusInfoY = BONUSINFO.Y;
-
-        // ボーナス表示情報
-        this.bonusInfoArea = this.add.container(bonusInfoX, bonusInfoY);
-
-        // ボーナス表示時のテキスト
-        let bonusText = this.setText("Bonus:", 0, 0, COMMON.FONTSIZE_BONUS, COMMON.FONTCOLOR_DEFAULT);
-        bonusText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
-        bonusText.setOrigin(0, 0.5);
-
-        this.bonusInfoArea.add(bonusText);
-
-        // アイコンの表示
-        let icon = this.add.image(bonusText.displayWidth + ICON_DELETEINFO.WIDTH / 2, 0, ICONTYPE[this.gameManager.getRandomDogType()]);
-        icon.displayWidth = ICON_DELETEINFO.WIDTH;
-        icon.displayHeight = ICON_DELETEINFO.HEIGHT;
-
-        this.bonusInfoArea.add(icon);
+        // 画面右上に、ボーナスとなるアイコンの種類を表示する
+        this.createBonusInfoArea();
 
     }
 
@@ -64,7 +48,6 @@ class GameScene extends BaseScene {
 
             deleteInfoX += DELETEINFO.WIDTH;
         });
-
     }
 
     createDeleteInfoSet(_x, _y, _type) {
@@ -86,6 +69,29 @@ class GameScene extends BaseScene {
         this.deleteInfoArea.add(infoSet);
 
         return infoSet;
+    }
+
+    createBonusInfoArea() {
+        // 画面右上に、ボーナスとなるアイコンの種類を表示する
+        let bonusInfoX = SCR_WIDTH - BONUSINFO.WIDTH;
+        let bonusInfoY = BONUSINFO.Y;
+
+        // ボーナス表示情報
+        this.bonusInfoArea = this.add.container(bonusInfoX, bonusInfoY);
+
+        // ボーナス表示時のテキスト
+        let bonusText = this.setText("Bonus:", 0, 0, COMMON.FONTSIZE_BONUS, COMMON.FONTCOLOR_DEFAULT);
+        bonusText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        bonusText.setOrigin(0, 0.5);
+
+        this.bonusInfoArea.add(bonusText);
+
+        // アイコンの表示
+        let icon = this.add.image(bonusText.displayWidth + ICON_DELETEINFO.WIDTH / 2, 0, ICONTYPE[this.gameManager.getRandomDogType()]);
+        icon.displayWidth = ICON_DELETEINFO.WIDTH;
+        icon.displayHeight = ICON_DELETEINFO.HEIGHT;
+
+        this.bonusInfoArea.add(icon);
     }
 
     update() {

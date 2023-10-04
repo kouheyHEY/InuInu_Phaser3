@@ -1,14 +1,21 @@
 class Grid {
     constructor(scene, numRows, numCols, gameManager) {
+        /** @type {GameScene} */
         this.scene = scene;
         this.numRows = numRows;
         this.numCols = numCols;
+
+        this.gridX = (SCR_WIDTH - this.numCols * ICON.WIDTH) / 2;
+        this.gridY = (SCR_HEIGHT - this.numRows * ICON.HEIGHT) / 2;
 
         /** @type {GameManager} */
         this.gameManager = gameManager;
         this.icons = [];
 
-        // 消去フラグの配列
+        // 消去可能フラグ
+        this.canDelete = true;
+
+        // 消去済フラグの配列
         this.deleteFlg = [];
 
         // グリッドの初期化
@@ -77,11 +84,8 @@ class Grid {
      * @returns 生成したアイコン
      */
     createIcon(_row, _col, _iconType) {
-        let gridX = (SCR_WIDTH - this.numCols * ICON.WIDTH) / 2;
-        let gridY = (SCR_HEIGHT - this.numRows * ICON.HEIGHT) / 2;
-
-        let x = _col * ICON.WIDTH + gridX + ICON.WIDTH / 2;
-        let y = _row * ICON.HEIGHT + gridY + ICON.HEIGHT / 2;
+        let x = _col * ICON.WIDTH + this.gridX + ICON.WIDTH / 2;
+        let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
 
         let icon = new Icon(this.scene, x, y, ICONTYPE[_iconType], _iconType, _row, _col, this);
         return icon;
@@ -94,6 +98,11 @@ class Grid {
      * @param {int} _type アイコンのタイプ
      */
     selectIcon(_selectRow, _selectCol, _type) {
+        // 消去不可の場合は何もしない
+        if (!this.canDelete) {
+            return;
+        }
+
         let deleteType = _type;
         let deleteIconNum = 0;
 
@@ -103,10 +112,52 @@ class Grid {
         // アイコンを消去する
         deleteIconNum = this.deleteIcons();
 
+        // アイコン消去時アニメーションの再生
+        this.fallIcons();
+
         this.gameManager.countDeleteDog(deleteType, deleteIconNum);
 
         // アイコンを生成する
-        this.generateIcons();
+        setTimeout(() => {
+            this.generateIcons();
+        }, 300);  // 300ミリ秒（＝0.3秒）後に処理を実行
+    }
+
+    fallIcons() {
+        for (let i = this.numRows - 1; i >= 0; i--) {
+            for (let j = 0; j < this.numCols; j++) {
+                /** @type {Icon} */
+                let icon = this.icons[i][j];
+                if (icon) {
+                    // 移動先の座標
+                    let moveRow = 0;
+                    for (let iconRow = i + 1; iconRow < this.numRows; iconRow++) {
+                        if (this.icons[iconRow][j] == null) {
+                            moveRow++;
+                        } else {
+                            break;
+                        }
+                    }
+                    // 移動する場合
+                    if (moveRow > 0) {
+                        // 移動先の座標
+                        let targetY = (i + moveRow) * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
+                        // アニメーションの設定
+                        this.scene.tweens.add({
+                            targets: icon,
+                            y: targetY,
+                            duration: 300,
+                            ease: 'Power2',
+                        }, this.scene);
+
+                        // アイコンの座標の変更
+                        icon.row = i + moveRow;
+                        this.icons[i + moveRow][j] = icon;
+                        this.icons[i][j] = null;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -169,5 +220,4 @@ class Grid {
 
         return deleteNum;
     }
-
 }
