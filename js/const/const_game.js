@@ -9,6 +9,7 @@ const ICONTYPE = [
 
 // 制限時間表示位置
 const TIMEINFO = {
+    INITTIME: 30,
     X: 16,
     Y: 16
 }
@@ -24,4 +25,17 @@ const DELETEINFO = {
 const BONUSINFO = {
     WIDTH: 180,
     Y: ICON_DELETEINFO.HEIGHT / 2 + 24
+}
+
+const ICONFADEIN = {
+    TIME: 200,
+    YDIST: ICON.HEIGHT / 2,
+}
+
+const ICONDELETE = {
+    TIME: 200,
+}
+
+const ICONFALL = {
+    TIME: 300,
 }

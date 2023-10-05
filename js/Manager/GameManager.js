@@ -2,7 +2,8 @@ class GameManager {
     constructor(scene) {
         /** @type {GameScene} */
         this.scene = scene;
-        this.initialTime = 5;
+        // this.initialTime = TIMEINFO.INITTIME;
+        this.initialTime = 30;
         this.currentTime = this.initialTime;
         this.timer = null;
 
@@ -61,6 +62,7 @@ class GameManager {
         });
         // ゲームオーバー処理を追加
         console.log("GAMEOVER");
+        this.scene.grid.initGrid();
 
         // ゲームオーバー画面を表示
         this.scene.scene.start(COMMON.GAMEOVERSCENE);
