@@ -11,20 +11,20 @@ const ICONTYPE = [
 const TIMEINFO = {
     INITTIME: 30,
     X: 16,
-    Y: 16
+    Y: 40
 }
 
 // アイコン消去数の表示位置
 const DELETEINFO = {
-    X: 200,
-    WIDTH: 140,
-    Y: ICON_DELETEINFO.HEIGHT / 2 + 24,
+    X: 208,
+    WIDTH: 160,
+    Y: ICON_DELETEINFO.HEIGHT / 2 + 16,
 }
 
 // ボーナスアイコン表示位置
 const BONUSINFO = {
     WIDTH: 180,
-    Y: ICON_DELETEINFO.HEIGHT / 2 + 24
+    Y: ICON_DELETEINFO.HEIGHT / 2 + 16
 }
 
 const ICONFADEIN = {

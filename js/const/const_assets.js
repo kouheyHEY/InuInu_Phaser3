@@ -11,10 +11,8 @@ const IMGNAME = {
     DOG_DALMATIAN: "dog_dalmatian.png",
     DOG_CORGI: "dog_corgi.png",
     DOG_LABRADOR: "dog_labrador.png",
-    ICON: {
-        SPEEDUP: "SpeedUp.png",
-        SPEEDDOWN: "SpeedDown.png",
-    },
+    ITEM_BONE_SINGLE: "bone_single.png",
+    ITEM_BONE_DOUBLE: "bone_double.png"
 };
 
 // 各画像ファイルのファイルID
@@ -24,11 +22,8 @@ const IMGID = {
     DOG_DALMATIAN: "DOG_DALMATIAN",
     DOG_CORGI: "DOG_CORGI",
     DOG_LABRADOR: "DOG_LABRADOR",
-};
-
-const ANIMID = {
-    PLAYER_RIGHT_ANIM: "PLAYER_RIGHT_ANIM",
-    ENEMY_RIGHT_ANIM: "ENEMY_RIGHT_ANIM",
+    ITEM_BONE_SINGLE: "ITEM_BONE_SINGLE",
+    ITEM_BONE_DOUBLE: "ITEM_BONE_DOUBLE"
 };
 
 const ICON = {

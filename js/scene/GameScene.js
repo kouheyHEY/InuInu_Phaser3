@@ -10,8 +10,6 @@ class GameScene extends BaseScene {
         // ゲームの初期化と設定
         this.gameManager = new GameManager(this);
         this.grid = new Grid(this, 4, 6, this.gameManager);
-        // this.tweens = this.tweens.add.tweenManager;
-        // console.log(this.tweens);
 
         // アイコン消去数表示用エリアの設定
         this.createDeleteInfoArea();
@@ -19,6 +17,7 @@ class GameScene extends BaseScene {
         // 制限時間を表示するテキスト
         this.timerText = this.setText(`Time: ${this.gameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
         this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        this.timerText.setOrigin(0, 0.5);
 
         // 画面右上に、ボーナスとなるアイコンの種類を表示する
         this.createBonusInfoArea();
