@@ -7,6 +7,17 @@ const ICONTYPE = [
     IMGID.DOG_LABRADOR
 ]
 
+// アイテムの種類
+const ITEMTYPE = [
+    IMGID.ITEM_BONE_SINGLE,
+    IMGID.ITEM_BONE_DOUBLE
+]
+
+const ITEMTYPE_ID = {
+    ITEM_BONE_SINGLE: 0,
+    ITEM_BONE_DOUBLE: 1
+}
+
 // 制限時間表示位置
 const TIMEINFO = {
     INITTIME: 30,
@@ -20,6 +31,9 @@ const DELETEINFO = {
     WIDTH: 160,
     Y: ICON_DELETEINFO.HEIGHT / 2 + 16,
 }
+
+// アイテムを生成するための必要な消去数
+const ITEM_ICON_NUM = 5;
 
 // ボーナスアイコン表示位置
 const BONUSINFO = {

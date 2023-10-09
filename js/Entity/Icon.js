@@ -19,6 +19,9 @@ class Icon extends Phaser.GameObjects.Image {
         // アイコンをタップしたときの処理を追加
         this.setInteractive();
         this.on('pointerdown', this.onIconClicked, this);
+
+        // アイテムかどうかを判別
+        this.isItem = false;
     }
 
     onIconClicked() {
@@ -26,5 +29,9 @@ class Icon extends Phaser.GameObjects.Image {
         if (this.clickable) {
             this.grid.selectIcon(this.row, this.col, this.type);
         }
+    }
+
+    setThisItem() {
+        this.isItem = true;
     }
 }

@@ -110,6 +110,28 @@ class Grid {
     }
 
     /**
+     * アイテムを所定の位置に生成する
+     * @param {int} _row 生成する行
+     * @param {int} _col 生成する列
+     * @param {int} _itemType アイテムの種類
+     * @param {boolean} _fadeIn フェードインするか
+     * @returns 生成したアイコン
+     */
+    createItem(_row, _col, _itemType, _fadeIn = false) {
+        let x = _col * ICON.WIDTH + this.gridX + ICON.WIDTH / 2;
+        let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
+
+        let item = new Icon(this.scene, x, y, ITEMTYPE[_itemType], _itemType, _row, _col, this);
+
+        // フェードインする場合
+        if (_fadeIn) {
+            item.y = y - ICONFADEIN.YDIST;
+            item.setAlpha(0);
+        }
+        return item;
+    }
+
+    /**
      * 消去するアイコンの配列を設定し、消去する
      * @param {int} _selectRow アイコンの行
      * @param {int} _selectCol アイコンの列
@@ -125,7 +147,7 @@ class Grid {
         let deleteIconNum = 0;
 
         this.deleteFlg[_selectRow][_selectCol] = 1;
-        this.setDeleteFlg(_selectRow, _selectCol, _type);
+        this.setDeleteFlg(_selectRow, _selectCol, _type, true, 0);
 
         // アイコンを消去する
         deleteIconNum = this.deleteIcons();
@@ -192,8 +214,11 @@ class Grid {
      * @param {int} _selectRow アイコンの行
      * @param {int} _selectCol アイコンの列
      * @param {int} _type アイコンのタイプ
+     * @param {boolean} _isParent 呼び出し元かどうか
+     * @param {int} _deleteNum アイコンの消去数
+     * @returns アイコンの消去数
      */
-    setDeleteFlg(_selectRow, _selectCol, _type) {
+    setDeleteFlg(_selectRow, _selectCol, _type, _isParent = true, _deleteNum) {
         for (let i = -1; i <= 1; i++) {
             let checkRow = _selectRow + i;
             // 範囲外だった場合
@@ -218,11 +243,32 @@ class Grid {
                     // 消去アイコンとタイプが同じアイコンの場合
                     if (this.icons[checkRow][checkCol].type == _type) {
                         this.deleteFlg[checkRow][checkCol] = 1;
-                        this.setDeleteFlg(checkRow, checkCol, _type);
+                        this.setDeleteFlg(checkRow, checkCol, _type, false, _deleteNum + 1);
                     }
-
                 }
             }
+        }
+
+        // 呼び出し元でなければ返却
+        if (!_isParent) {
+            return _deleteNum;
+        }
+
+        console.log(_deleteNum);
+
+        if (_deleteNum >= ITEM_ICON_NUM) {
+            this.deleteFlg[checkRow][checkCol] = 0;
+
+            // アイテムを生成
+            let item = this.createItem(checkRow, checkCol, ITEMTYPE_ID.ITEM_BONE_SINGLE, true);
+            item.setThisItem();
+
+            // アイコンがあった場所をアイテムに変更
+            let selectIcon = this.icons[checkRow][checkCol];
+            this.icons[checkRow][checkCol] = item;
+            selectIcon.destroy();
+
+            console.log("TEST");
         }
     }
 
