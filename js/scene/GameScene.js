@@ -33,7 +33,8 @@ class GameScene extends BaseScene {
         let deleteInfoY = DELETEINFO.Y;
         let typeID = 0;
         let DELETEINFO_X_LIMIT = SCR_WIDTH - DELETEINFO.X;
-        ICONTYPE.forEach(type => {
+
+        for (let i = 0; i < DOG_NUM; i++) {
 
             // 消去数の表示位置が定義範囲外の場合、位置調整
             console.log(deleteInfoX);
@@ -46,7 +47,7 @@ class GameScene extends BaseScene {
             this.createDeleteInfoSet(deleteInfoX, deleteInfoY, typeID++);
 
             deleteInfoX += DELETEINFO.WIDTH;
-        });
+        }
     }
 
     createDeleteInfoSet(_x, _y, _type) {

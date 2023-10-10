@@ -56,11 +56,10 @@ class Grid {
 
     /**
      * ランダムなアイコンのタイプを取得する
-     * @returns アイコンのタイプ
+     * @returns アイコンのタイプ（犬のみ）
      */
     getRandomIconType() {
-        let typeNum = ICONTYPE.length;
-        return Math.floor(Math.random() * typeNum);
+        return Math.floor(Math.random() * DOG_NUM);
     }
 
     /**
@@ -69,19 +68,27 @@ class Grid {
     generateIcons() {
         for (let i = 0; i < this.numRows; i++) {
             for (let j = 0; j < this.numCols; j++) {
-                if (this.icons[i][j] == null) {
-                    let newIcon = this.createIcon(i, j, this.getRandomIconType(), true);
-                    this.icons[i][j] = newIcon;
-
-                    // フェードイン
-                    this.scene.tweens.add({
-                        targets: newIcon,
-                        alpha: 1,
-                        y: newIcon.y + ICONFADEIN.YDIST,
-                        duration: ICONFADEIN.TIME,
-                        ease: 'Power2',
-                    }, this.scene);
+                if (this.icons[i][j] != null && this.icons[i][j].type < DOG_NUM) {
+                    continue;
                 }
+
+                let newIcon = null;
+
+                if (this.icons[i][j] == null) {
+                    newIcon = this.createIcon(i, j, this.getRandomIconType(), true);
+                    this.icons[i][j] = newIcon;
+                } else {
+                    newIcon = this.icons[i][j];
+                }
+
+                // フェードイン
+                this.scene.tweens.add({
+                    targets: newIcon,
+                    alpha: 1,
+                    y: newIcon.y + ICONFADEIN.YDIST,
+                    duration: ICONFADEIN.TIME,
+                    ease: 'Power2',
+                }, this.scene);
             }
         }
     }
@@ -121,7 +128,7 @@ class Grid {
         let x = _col * ICON.WIDTH + this.gridX + ICON.WIDTH / 2;
         let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
 
-        let item = new Icon(this.scene, x, y, ITEMTYPE[_itemType], _itemType, _row, _col, this);
+        let item = new Icon(this.scene, x, y, ICONTYPE[_itemType], _itemType, _row, _col, this);
 
         // フェードインする場合
         if (_fadeIn) {
@@ -147,7 +154,7 @@ class Grid {
         let deleteIconNum = 0;
 
         this.deleteFlg[_selectRow][_selectCol] = 1;
-        this.setDeleteFlg(_selectRow, _selectCol, _type, true, 0);
+        this.setDeleteFlg(_selectRow, _selectCol, _type, true);
 
         // アイコンを消去する
         deleteIconNum = this.deleteIcons();
@@ -164,7 +171,7 @@ class Grid {
         //     this.generateIcons();
         // }, ICONDELETE.TIME + ICONFALL.TIME);
         setTimeout(() => {
-            this.generateIcons();
+            this.generateIcons((deleteIconNum + 1 >= ITEM_ICON_NUM));
         }, ICONFALL.TIME);
     }
 
@@ -215,10 +222,10 @@ class Grid {
      * @param {int} _selectCol アイコンの列
      * @param {int} _type アイコンのタイプ
      * @param {boolean} _isParent 呼び出し元かどうか
-     * @param {int} _deleteNum アイコンの消去数
      * @returns アイコンの消去数
      */
-    setDeleteFlg(_selectRow, _selectCol, _type, _isParent = true, _deleteNum) {
+    setDeleteFlg(_selectRow, _selectCol, _type, _isParent = true) {
+        let deleteNum = 0;
         for (let i = -1; i <= 1; i++) {
             let checkRow = _selectRow + i;
             // 範囲外だった場合
@@ -243,7 +250,8 @@ class Grid {
                     // 消去アイコンとタイプが同じアイコンの場合
                     if (this.icons[checkRow][checkCol].type == _type) {
                         this.deleteFlg[checkRow][checkCol] = 1;
-                        this.setDeleteFlg(checkRow, checkCol, _type, false, _deleteNum + 1);
+                        deleteNum++;
+                        deleteNum += this.setDeleteFlg(checkRow, checkCol, _type, false);
                     }
                 }
             }
@@ -251,25 +259,24 @@ class Grid {
 
         // 呼び出し元でなければ返却
         if (!_isParent) {
-            return _deleteNum;
+            return deleteNum;
         }
 
-        console.log(_deleteNum);
-
-        if (_deleteNum >= ITEM_ICON_NUM) {
-            this.deleteFlg[checkRow][checkCol] = 0;
+        if (deleteNum + 1 >= ITEM_ICON_NUM) {
+            this.deleteFlg[_selectRow][_selectCol] = 0;
 
             // アイテムを生成
-            let item = this.createItem(checkRow, checkCol, ITEMTYPE_ID.ITEM_BONE_SINGLE, true);
+            let item = this.createItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE, true);
             item.setThisItem();
 
             // アイコンがあった場所をアイテムに変更
-            let selectIcon = this.icons[checkRow][checkCol];
-            this.icons[checkRow][checkCol] = item;
+            let selectIcon = this.icons[_selectRow][_selectCol];
+            this.icons[_selectRow][_selectCol] = item;
             selectIcon.destroy();
-
-            console.log("TEST");
         }
+
+        // 消去数を返却
+        return deleteNum;
     }
 
     /**

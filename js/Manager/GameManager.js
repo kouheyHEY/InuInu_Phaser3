@@ -18,9 +18,9 @@ class GameManager {
 
     init() {
         // 消去したアイコン数の初期化
-        ICONTYPE.forEach(type => {
+        for (let i = 0; i < DOG_NUM; i++) {
             this.deleteDogNum.push(0);
-        });
+        }
 
         // 制限時間の初期化
         this.resetTimer();
@@ -52,14 +52,15 @@ class GameManager {
 
     getRandomDogType() {
         // ランダムな犬の種類を取得
-        return Math.floor(Math.random() * ICONTYPE.length);
+        return Math.floor(Math.random() * DOG_NUM);
     }
 
     gameOver() {
         let iconType = 0;
-        ICONTYPE.forEach(type => {
-            console.log(type + " : " + this.deleteDogNum[iconType++]);
-        });
+        for (let i = 0; i < DOG_NUM; i++) {
+            console.log(ICONTYPE[i] + " : " + this.deleteDogNum[iconType++]);
+        }
+
         // ゲームオーバー処理を追加
         console.log("GAMEOVER");
         this.scene.grid.initGrid();
@@ -74,6 +75,10 @@ class GameManager {
      * @param {int} _deleteNum 消去数
      */
     countDeleteDog(_deleteType, _deleteNum) {
+        if (_deleteType >= DOG_NUM) {
+            return;
+        }
+
         this.deleteDogNum[_deleteType] += _deleteNum;
         this.scene.updateDeleteInfo(_deleteType, this.deleteDogNum[_deleteType]);
     }
