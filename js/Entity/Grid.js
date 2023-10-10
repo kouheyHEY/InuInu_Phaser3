@@ -51,7 +51,6 @@ class Grid {
             this.deleteFlg.push(deleteFlgTmp);
         }
 
-        console.log(this.deleteFlg[1][0]);
     }
 
     /**
@@ -68,18 +67,14 @@ class Grid {
     generateIcons() {
         for (let i = 0; i < this.numRows; i++) {
             for (let j = 0; j < this.numCols; j++) {
-                if (this.icons[i][j] != null && this.icons[i][j].type < DOG_NUM) {
+
+                // アイコンがすでにある場合
+                if (this.icons[i][j] != null) {
                     continue;
                 }
 
-                let newIcon = null;
-
-                if (this.icons[i][j] == null) {
-                    newIcon = this.createIcon(i, j, this.getRandomIconType(), true);
-                    this.icons[i][j] = newIcon;
-                } else {
-                    newIcon = this.icons[i][j];
-                }
+                let newIcon = this.createIcon(i, j, this.getRandomIconType(), true);
+                this.icons[i][j] = newIcon;
 
                 // フェードイン
                 this.scene.tweens.add({
@@ -89,8 +84,31 @@ class Grid {
                     duration: ICONFADEIN.TIME,
                     ease: 'Power2',
                 }, this.scene);
+
             }
         }
+    }
+
+    /**
+     * 指定した場所にアイテムを生成する
+     * 
+     */
+    generateItem(_itemRow, _itemCol, _itemType) {
+
+        // アイテムを生成
+        let item = this.createItem(_itemRow, _itemCol, _itemType);
+        item.setAlpha(0);
+
+        this.icons[_itemRow][_itemCol] = item;
+
+        // アイテムをフェードイン
+        this.scene.tweens.add({
+            targets: item,
+            alpha: 1,
+            duration: ICONFADEIN.TIME,
+            ease: 'Power2',
+        }, this.scene);
+
     }
 
     /**
@@ -154,11 +172,16 @@ class Grid {
         let deleteIconNum = 0;
 
         this.deleteFlg[_selectRow][_selectCol] = 1;
-        this.setDeleteFlg(_selectRow, _selectCol, _type, true);
+        let createItemFlg = this.setDeleteFlg(_selectRow, _selectCol, _type) + 1 >= ITEM_ICON_NUM;
 
         // アイコンを消去する
         deleteIconNum = this.deleteIcons();
 
+        if (createItemFlg) {
+            this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE);
+        }
+
+        // アイテムを生成する場合
         // アイコン落下アニメーションの再生
         setTimeout(() => {
             this.fallIcons();
@@ -197,7 +220,8 @@ class Grid {
                     // 移動する場合
                     if (moveRow > 0) {
                         // 移動先の座標
-                        let targetY = (i + moveRow) * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
+                        let targetY = icon.y + moveRow * ICON.HEIGHT;
+
                         // アニメーションの設定
                         this.scene.tweens.add({
                             targets: icon,
@@ -221,10 +245,9 @@ class Grid {
      * @param {int} _selectRow アイコンの行
      * @param {int} _selectCol アイコンの列
      * @param {int} _type アイコンのタイプ
-     * @param {boolean} _isParent 呼び出し元かどうか
      * @returns アイコンの消去数
      */
-    setDeleteFlg(_selectRow, _selectCol, _type, _isParent = true) {
+    setDeleteFlg(_selectRow, _selectCol, _type) {
         let deleteNum = 0;
         for (let i = -1; i <= 1; i++) {
             let checkRow = _selectRow + i;
@@ -251,28 +274,10 @@ class Grid {
                     if (this.icons[checkRow][checkCol].type == _type) {
                         this.deleteFlg[checkRow][checkCol] = 1;
                         deleteNum++;
-                        deleteNum += this.setDeleteFlg(checkRow, checkCol, _type, false);
+                        deleteNum += this.setDeleteFlg(checkRow, checkCol, _type);
                     }
                 }
             }
-        }
-
-        // 呼び出し元でなければ返却
-        if (!_isParent) {
-            return deleteNum;
-        }
-
-        if (deleteNum + 1 >= ITEM_ICON_NUM) {
-            this.deleteFlg[_selectRow][_selectCol] = 0;
-
-            // アイテムを生成
-            let item = this.createItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE, true);
-            item.setThisItem();
-
-            // アイコンがあった場所をアイテムに変更
-            let selectIcon = this.icons[_selectRow][_selectCol];
-            this.icons[_selectRow][_selectCol] = item;
-            selectIcon.destroy();
         }
 
         // 消去数を返却
