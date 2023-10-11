@@ -75,12 +75,21 @@ class GameManager {
      * @param {int} _deleteNum 消去数
      */
     countDeleteDog(_deleteType, _deleteNum) {
-        if (_deleteType >= DOG_NUM) {
+        if (GameManager.isItem(_deleteType)) {
             return;
         }
 
         this.deleteDogNum[_deleteType] += _deleteNum;
         this.scene.updateDeleteInfo(_deleteType, this.deleteDogNum[_deleteType]);
+    }
+
+    /**
+     * アイコンがアイテムかどうかを判別する
+     * @param {int} _type アイコンのタイプ
+     * @returns アイテムかどうか
+     */
+    static isItem(_type) {
+        return _type >= DOG_NUM;
     }
 
 }

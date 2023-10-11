@@ -61,6 +61,147 @@ class Grid {
         return Math.floor(Math.random() * DOG_NUM);
     }
 
+
+    /**
+     * 消去するアイコンの配列を設定し、消去する
+     * @param {int} _selectRow アイコンの行
+     * @param {int} _selectCol アイコンの列
+     * @param {int} _type アイコンのタイプ
+     */
+    selectIcon(_selectRow, _selectCol, _type) {
+        // 消去不可の場合は何もしない
+        if (!this.canDelete) {
+            return;
+        }
+
+        let deleteIconNum = 0;
+
+        this.deleteFlg[_selectRow][_selectCol] = 1;
+
+        // アイテム生成用フラグの設定
+        let deleteNum = this.setDeleteFlg(_selectRow, _selectCol, _type) + 1;
+        let isItem = GameManager.isItem(_type);
+        let createItemFlg = (deleteNum >= ITEM_ICON_NUM) && !isItem;
+
+        // アイコンを消去する
+        deleteIconNum = this.deleteIcons();
+
+        // アイテムを生成する
+        if (createItemFlg) {
+            this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE);
+        }
+
+        // アイテムを生成する場合
+        // アイコン落下アニメーションの再生
+        setTimeout(() => {
+            this.fallIcons();
+        }, ICONDELETE.TIME / 2);
+
+        // アイコンを生成する
+        // setTimeout(() => {
+        //     this.generateIcons();
+        // }, ICONDELETE.TIME + ICONFALL.TIME);
+        setTimeout(() => {
+            this.generateIcons((deleteIconNum + 1 >= ITEM_ICON_NUM));
+        }, ICONFALL.TIME);
+    }
+
+    /**
+     * アイコンの消去を再帰的に判断する
+     * @param {int} _selectRow アイコンの行
+     * @param {int} _selectCol アイコンの列
+     * @param {int} _type 消去するアイコンのタイプ
+     * @returns アイコンの消去数
+     */
+    setDeleteFlg(_selectRow, _selectCol, _type) {
+        let deleteNum = 0;
+        for (let i = -1; i <= 1; i++) {
+            let checkRow = _selectRow + i;
+            // 範囲外だった場合
+            if (checkRow < 0 || checkRow >= this.numRows) {
+                continue;
+            }
+
+            for (let j = -1; j <= 1; j++) {
+                let checkCol = _selectCol + j;
+                // 範囲外だった場合
+                if (checkCol < 0 || checkCol >= this.numCols) {
+                    continue;
+                }
+
+                if (GameManager.isItem(_type)) {
+                    // 消去アイコンがアイテムの場合
+
+                    if (i == 0 && j == 0) {
+                        continue;
+                    }
+
+                    // 自分自身の周囲はすべて消去する
+                    this.deleteFlg[checkRow][checkCol] = 1;
+
+                } else {
+                    // 消去アイコンが犬の場合
+
+                    // 上下左右の隣接したアイコンの場合
+                    if (i == 0 ^ j == 0) {
+                        // すでにフラグが設定済みの場合
+                        if (this.deleteFlg[checkRow][checkCol] == 1) {
+                            continue;
+                        }
+
+                        // 消去アイコンとタイプが同じアイコンの場合
+                        if (this.icons[checkRow][checkCol].type == _type) {
+                            this.deleteFlg[checkRow][checkCol] = 1;
+                            deleteNum++;
+                            deleteNum += this.setDeleteFlg(checkRow, checkCol, _type);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 消去数を返却
+        return deleteNum;
+    }
+
+    /**
+     * 消去フラグ配列に基づいてアイコンを消去する
+     * @returns 消去したアイコンの数
+     */
+    deleteIcons() {
+        let deleteNum = 0;
+        for (let i = 0; i < this.numRows; i++) {
+            for (let j = 0; j < this.numCols; j++) {
+                if (this.deleteFlg[i][j] == 1) {
+                    this.deleteFlg[i][j] = 0;
+
+                    let deleteIcon = this.icons[i][j];
+                    this.icons[i][j] = null;
+
+                    // 消去したアイコンをカウントする
+                    this.gameManager.countDeleteDog(deleteIcon.type, 1);
+
+                    // 消去時アニメーションの設定
+                    this.scene.tweens.add({
+                        targets: deleteIcon,
+                        alpha: 0,
+                        duration: ICONDELETE.TIME,
+                        ease: 'Power2',
+                    }, this.scene);
+
+                    // 消去時アニメーションが終了次第アイコンを消去
+                    setTimeout(() => {
+                        deleteIcon.destroy();
+                    }, ICONDELETE.TIME);
+
+                    deleteNum++;
+                }
+            }
+        }
+
+        return deleteNum;
+    }
+
     /**
      * 消去された場所にアイコンを生成する
      */
@@ -157,48 +298,6 @@ class Grid {
     }
 
     /**
-     * 消去するアイコンの配列を設定し、消去する
-     * @param {int} _selectRow アイコンの行
-     * @param {int} _selectCol アイコンの列
-     * @param {int} _type アイコンのタイプ
-     */
-    selectIcon(_selectRow, _selectCol, _type) {
-        // 消去不可の場合は何もしない
-        if (!this.canDelete) {
-            return;
-        }
-
-        let deleteType = _type;
-        let deleteIconNum = 0;
-
-        this.deleteFlg[_selectRow][_selectCol] = 1;
-        let createItemFlg = this.setDeleteFlg(_selectRow, _selectCol, _type) + 1 >= ITEM_ICON_NUM;
-
-        // アイコンを消去する
-        deleteIconNum = this.deleteIcons();
-
-        if (createItemFlg) {
-            this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE);
-        }
-
-        // アイテムを生成する場合
-        // アイコン落下アニメーションの再生
-        setTimeout(() => {
-            this.fallIcons();
-        }, ICONDELETE.TIME / 2);
-
-        this.gameManager.countDeleteDog(deleteType, deleteIconNum);
-
-        // アイコンを生成する
-        // setTimeout(() => {
-        //     this.generateIcons();
-        // }, ICONDELETE.TIME + ICONFALL.TIME);
-        setTimeout(() => {
-            this.generateIcons((deleteIconNum + 1 >= ITEM_ICON_NUM));
-        }, ICONFALL.TIME);
-    }
-
-    /**
      * アイコンを下方向へ移動させる
      */
     fallIcons() {
@@ -238,84 +337,5 @@ class Grid {
                 }
             }
         }
-    }
-
-    /**
-     * アイコンの消去を再帰的に判断する
-     * @param {int} _selectRow アイコンの行
-     * @param {int} _selectCol アイコンの列
-     * @param {int} _type アイコンのタイプ
-     * @returns アイコンの消去数
-     */
-    setDeleteFlg(_selectRow, _selectCol, _type) {
-        let deleteNum = 0;
-        for (let i = -1; i <= 1; i++) {
-            let checkRow = _selectRow + i;
-            // 範囲外だった場合
-            if (checkRow < 0 || checkRow >= this.numRows) {
-                continue;
-            }
-
-            for (let j = -1; j <= 1; j++) {
-                let checkCol = _selectCol + j;
-                // 範囲外だった場合
-                if (checkCol < 0 || checkCol >= this.numCols) {
-                    continue;
-                }
-
-                // 上下左右の隣接したアイコンの場合
-                if (i == 0 ^ j == 0) {
-                    // すでにフラグが設定済みの場合
-                    if (this.deleteFlg[checkRow][checkCol] == 1) {
-                        continue;
-                    }
-
-                    // 消去アイコンとタイプが同じアイコンの場合
-                    if (this.icons[checkRow][checkCol].type == _type) {
-                        this.deleteFlg[checkRow][checkCol] = 1;
-                        deleteNum++;
-                        deleteNum += this.setDeleteFlg(checkRow, checkCol, _type);
-                    }
-                }
-            }
-        }
-
-        // 消去数を返却
-        return deleteNum;
-    }
-
-    /**
-     * 消去フラグ配列に基づいてアイコンを消去する
-     * @returns 消去したアイコンの数
-     */
-    deleteIcons() {
-        let deleteNum = 0;
-        for (let i = 0; i < this.numRows; i++) {
-            for (let j = 0; j < this.numCols; j++) {
-                if (this.deleteFlg[i][j] == 1) {
-                    this.deleteFlg[i][j] = 0;
-
-                    let deleteIcon = this.icons[i][j];
-                    this.icons[i][j] = null;
-
-                    // 消去時アニメーションの設定
-                    this.scene.tweens.add({
-                        targets: deleteIcon,
-                        alpha: 0,
-                        duration: ICONDELETE.TIME,
-                        ease: 'Power2',
-                    }, this.scene);
-
-                    // 消去時アニメーションが終了次第アイコンを消去
-                    setTimeout(() => {
-                        deleteIcon.destroy();
-                    }, ICONDELETE.TIME);
-
-                    deleteNum++;
-                }
-            }
-        }
-
-        return deleteNum;
     }
 }
