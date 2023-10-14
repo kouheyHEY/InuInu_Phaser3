@@ -52,7 +52,7 @@ class PreLoadScene extends BaseScene {
         // 非同期で待機する例（3秒待機）
         this.wait(3000).then(() => {
             // 待機後の処理
-            console.log('Waiting is done!');
+            console.log('END LOADING RESOURCES!');
             // ゲームシーンに遷移
             this.scene.start(COMMON.GAMESCENE);
         });

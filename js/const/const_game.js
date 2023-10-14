@@ -18,7 +18,7 @@ const ITEMTYPE_ID = {
 
 // 制限時間表示位置
 const TIMEINFO = {
-    INITTIME: 30,
+    INITTIME: 90,
     X: 16,
     Y: 40
 }
@@ -31,7 +31,15 @@ const DELETEINFO = {
 }
 
 // アイテムを生成するための必要な消去数
-const ITEM_ICON_NUM = 5;
+const ICON_NUM = {
+    ITEM_BONE_SINGLE: 5,
+    ITEM_BONE_DOUBLE: 2,
+};
+
+// 消去するアイコンの種類数
+const DELETE_TYPE_NUM = {
+    ITEM_BONE_DOUBLE: 2,
+}
 
 // ボーナスアイコン表示位置
 const BONUSINFO = {
@@ -51,3 +59,5 @@ const ICONDELETE = {
 const ICONFALL = {
     TIME: 300,
 }
+
+const DELETE_INTERVAL = ICONFADEIN.TIME + ICONFALL.TIME;

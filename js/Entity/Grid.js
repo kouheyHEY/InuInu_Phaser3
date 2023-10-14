@@ -74,21 +74,25 @@ class Grid {
             return;
         }
 
-        let deleteIconNum = 0;
+        // 消去処理中は消去不可にする
+        this.canDelete = false;
 
+        // 自身を消去する
         this.deleteFlg[_selectRow][_selectCol] = 1;
 
         // アイテム生成用フラグの設定
-        let deleteNum = this.setDeleteFlg(_selectRow, _selectCol, _type) + 1;
-        let isItem = GameManager.isItem(_type);
-        let createItemFlg = (deleteNum >= ITEM_ICON_NUM) && !isItem;
+        let deleteResult = this.setDeleteFlg(_selectRow, _selectCol, _type);
 
         // アイコンを消去する
-        deleteIconNum = this.deleteIcons();
+        this.deleteIcons();
 
         // アイテムを生成する
-        if (createItemFlg) {
+        if (deleteResult.createBoneSingleFlg) {
             this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE);
+        }
+
+        if (deleteResult.createBoneDoubleFlg) {
+            this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_DOUBLE);
         }
 
         // アイテムを生成する場合
@@ -102,8 +106,13 @@ class Grid {
         //     this.generateIcons();
         // }, ICONDELETE.TIME + ICONFALL.TIME);
         setTimeout(() => {
-            this.generateIcons((deleteIconNum + 1 >= ITEM_ICON_NUM));
+            this.generateIcons();
         }, ICONFALL.TIME);
+
+        // 消去可能に戻す
+        setTimeout(() => {
+            this.canDelete = true;
+        }, DELETE_INTERVAL);
     }
 
     /**
@@ -111,10 +120,54 @@ class Grid {
      * @param {int} _selectRow アイコンの行
      * @param {int} _selectCol アイコンの列
      * @param {int} _type 消去するアイコンのタイプ
-     * @returns アイコンの消去数
+     * @returns {Object} returnResult 削除フラグ設定結果
+     * @returns {int} returnResult.deleteNum 削除数
+     * @returns {boolean} returnResult.createBoneSingleFlg BoneSingleアイテム生成用フラグ
+     * @returns {boolean} returnResult.createBoneDoubleFlg BoneDoubleアイテム生成用フラグ
      */
     setDeleteFlg(_selectRow, _selectCol, _type) {
-        let deleteNum = 0;
+        let returnResult = {
+            deleteNum: 0,
+            createBoneSingleFlg: false,
+            createBoneDoubleFlg: false,
+        };
+
+        // アイテムがBoneDoubleの場合、ランダムに数種類のアイコンを消去する
+        if (_type == ITEMTYPE_ID.ITEM_BONE_DOUBLE) {
+            // 消去タイプの配列を生成する
+            let deleteTypeList = [];
+
+
+            // 消去するタイプをランダムに決定する
+            while (deleteTypeList.length < DELETE_TYPE_NUM.ITEM_BONE_DOUBLE) {
+                // 消去するタイプを、盤面上のアイコンのタイプから決定
+                let rndRow = Math.floor(Math.random() * this.numRows);
+                let rndCol = Math.floor(Math.random() * this.numCols);
+                let deleteType = this.icons[rndRow][rndCol].type;
+
+                // アイテムならやり直し
+                if (GameManager.isItem(deleteType)) {
+                    continue;
+                }
+
+                // 消去するタイプが重複していればやり直し
+                if (deleteTypeList.includes(deleteType)) {
+                    continue;
+                }
+
+                // 消去タイプの配列に消去タイプを追加する
+                deleteTypeList.push(deleteType);
+            }
+
+            // アイコンを消去する
+            deleteTypeList.forEach(type => {
+                this.setDeleteFlgOfType(type);
+            });
+
+            return returnResult;
+        }
+
+
         for (let i = -1; i <= 1; i++) {
             let checkRow = _selectRow + i;
             // 範囲外だった場合
@@ -129,6 +182,8 @@ class Grid {
                     continue;
                 }
 
+                let deleteIconType = this.icons[checkRow][checkCol].type;
+
                 if (GameManager.isItem(_type)) {
                     // 消去アイコンがアイテムの場合
 
@@ -136,9 +191,21 @@ class Grid {
                         continue;
                     }
 
-                    // 自分自身の周囲はすべて消去する
-                    this.deleteFlg[checkRow][checkCol] = 1;
+                    // アイテムがBoneSingleの場合
+                    if (_type == ITEMTYPE_ID.ITEM_BONE_SINGLE) {
+                        // 自分自身の周囲はすべて消去する
+                        this.deleteFlg[checkRow][checkCol] = 1;
 
+                        // 同じアイテムが上下左右に隣接している場合
+                        if (
+                            deleteIconType == ITEMTYPE_ID.ITEM_BONE_SINGLE &&
+                            (i == 0 ^ j == 0)
+                        ) {
+                            // BoneDoubleを生成するフラグを設定する
+                            returnResult.createBoneDoubleFlg = true;
+
+                        }
+                    }
                 } else {
                     // 消去アイコンが犬の場合
 
@@ -152,16 +219,22 @@ class Grid {
                         // 消去アイコンとタイプが同じアイコンの場合
                         if (this.icons[checkRow][checkCol].type == _type) {
                             this.deleteFlg[checkRow][checkCol] = 1;
-                            deleteNum++;
-                            deleteNum += this.setDeleteFlg(checkRow, checkCol, _type);
+                            returnResult.deleteNum++;
+                            returnResult.deleteNum += this.setDeleteFlg(checkRow, checkCol, _type).deleteNum;
                         }
                     }
+
                 }
             }
         }
 
-        // 消去数を返却
-        return deleteNum;
+        // アイテムの生成フラグの設定
+        returnResult.createBoneSingleFlg =
+            (returnResult.deleteNum + 1 >= ICON_NUM.ITEM_BONE_SINGLE)
+            && !GameManager.isItem(_type);
+
+        // 消去結果を返却
+        return returnResult;
     }
 
     /**
@@ -334,6 +407,20 @@ class Grid {
                         this.icons[i + moveRow][j] = icon;
                         this.icons[i][j] = null;
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * 特定のタイプのアイコンの消去フラグを設定する
+     * @param {int} _type 消去するアイコンのタイプ
+     */
+    setDeleteFlgOfType(_type) {
+        for (let i = 0; i < this.numRows; i++) {
+            for (let j = 0; j < this.numCols; j++) {
+                if (this.icons[i][j].type == _type) {
+                    this.deleteFlg[i][j] = 1;
                 }
             }
         }

@@ -2,8 +2,7 @@ class GameManager {
     constructor(scene) {
         /** @type {GameScene} */
         this.scene = scene;
-        // this.initialTime = TIMEINFO.INITTIME;
-        this.initialTime = 30;
+        this.initialTime = TIMEINFO.INITTIME;
         this.currentTime = this.initialTime;
         this.timer = null;
 

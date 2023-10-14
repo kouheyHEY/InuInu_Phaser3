@@ -37,7 +37,6 @@ class GameScene extends BaseScene {
         for (let i = 0; i < DOG_NUM; i++) {
 
             // 消去数の表示位置が定義範囲外の場合、位置調整
-            console.log(deleteInfoX);
             if (deleteInfoX + DELETEINFO.WIDTH >= DELETEINFO_X_LIMIT) {
                 deleteInfoX = DELETEINFO.X;
                 deleteInfoY += ICON_DELETEINFO.HEIGHT;
