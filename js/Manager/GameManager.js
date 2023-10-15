@@ -57,7 +57,7 @@ class GameManager {
     gameOver() {
         let iconType = 0;
         for (let i = 0; i < DOG_NUM; i++) {
-            console.log(ICONTYPE[i] + " : " + this.deleteDogNum[iconType++]);
+            (ICONTYPE[i] + " : " + this.deleteDogNum[iconType++]);
         }
 
         // ゲームオーバー処理を追加

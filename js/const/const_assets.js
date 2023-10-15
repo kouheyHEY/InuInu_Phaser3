@@ -12,7 +12,9 @@ const IMGNAME = {
     DOG_CORGI: "dog_corgi.png",
     DOG_LABRADOR: "dog_labrador.png",
     ITEM_BONE_SINGLE: "bone_single.png",
-    ITEM_BONE_DOUBLE: "bone_double.png"
+    ITEM_BONE_DOUBLE: "bone_double.png",
+
+    ANIM_EFFECT_DELETEICON: "effect_delete_icon.png",
 };
 
 // 各画像ファイルのファイルID
@@ -23,8 +25,22 @@ const IMGID = {
     DOG_CORGI: "DOG_CORGI",
     DOG_LABRADOR: "DOG_LABRADOR",
     ITEM_BONE_SINGLE: "ITEM_BONE_SINGLE",
-    ITEM_BONE_DOUBLE: "ITEM_BONE_DOUBLE"
+    ITEM_BONE_DOUBLE: "ITEM_BONE_DOUBLE",
+    ANIM_EFFECT_DELETEICON: "ANIM_EFFECT_DELETEICON",
 };
+
+// 各アニメーションの識別用キー
+const ANIMKEY = {
+    EFFECT_DELETEICON: "EFFECT_DELETEICON",
+}
+
+const ANIMFRAME = {
+    EFFECT_DELETEICON: 42,
+}
+
+const ANIMFRAMENUM = {
+    EFFECT_DELETEICON: 7,
+}
 
 const ICON = {
     WIDTH: 96,

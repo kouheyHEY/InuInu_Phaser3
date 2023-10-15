@@ -40,6 +40,7 @@ class Grid {
             let iconsTmp = [];
             let deleteFlgTmp = [];
             for (let col = 0; col < this.numCols; col++) {
+
                 // アイコンを配列に追加
                 const icon = this.createIcon(row, col, this.getRandomIconType());
                 iconsTmp.push(icon);
@@ -61,18 +62,20 @@ class Grid {
         return Math.floor(Math.random() * DOG_NUM);
     }
 
-
     /**
      * 消去するアイコンの配列を設定し、消去する
      * @param {int} _selectRow アイコンの行
      * @param {int} _selectCol アイコンの列
      * @param {int} _type アイコンのタイプ
      */
-    selectIcon(_selectRow, _selectCol, _type) {
+    async selectIcon(_selectRow, _selectCol, _type) {
         // 消去不可の場合は何もしない
         if (!this.canDelete) {
             return;
         }
+
+        // 選択したアイコン
+        let selectedIcon = this.icons[_selectRow][_selectCol];
 
         // 消去処理中は消去不可にする
         this.canDelete = false;
@@ -80,17 +83,31 @@ class Grid {
         // 自身を消去する
         this.deleteFlg[_selectRow][_selectCol] = 1;
 
-        // アイテム生成用フラグの設定
+        // アイコン削除用フラグの設定
         let deleteResult = this.setDeleteFlg(_selectRow, _selectCol, _type);
+        let createItemFlg = deleteResult.createBoneSingleFlg || deleteResult.createBoneDoubleFlg;
+
+        // アイテム消去時、エフェクトを適用する
+        if (GameManager.isItem(selectedIcon.type)
+            && !createItemFlg
+        ) {
+            // エフェクトアニメーションの再生
+            this.scene.tweens.add({
+                targets: selectedIcon,
+                scale: ITEMDELETE.SCALE,
+                duration: ITEMDELETE.TIME,
+                ease: 'Power1',
+            }, this.scene);
+            await this.wait(ITEMDELETE.TIME);
+        }
 
         // アイコンを消去する
-        this.deleteIcons();
+        this.deleteIcons(_selectRow, _selectCol, createItemFlg);
 
         // アイテムを生成する
         if (deleteResult.createBoneSingleFlg) {
             this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE);
         }
-
         if (deleteResult.createBoneDoubleFlg) {
             this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_DOUBLE);
         }
@@ -239,24 +256,64 @@ class Grid {
 
     /**
      * 消去フラグ配列に基づいてアイコンを消去する
+     * @param {int} _selectRow タップしたアイコンの行
+     * @param {int} _selectCol タップしたアイコンの列
+     * @param {boolean} _createItemFlg アイテム生成フラグ
      * @returns 消去したアイコンの数
      */
-    deleteIcons() {
+    deleteIcons(_selectRow, _selectCol, _createItemFlg) {
+        // 消去数
         let deleteNum = 0;
+
+        let selectIconX = this.icons[_selectRow][_selectCol].x;
+        let selectIconY = this.icons[_selectRow][_selectCol].y;
+
         for (let i = 0; i < this.numRows; i++) {
             for (let j = 0; j < this.numCols; j++) {
                 if (this.deleteFlg[i][j] == 1) {
                     this.deleteFlg[i][j] = 0;
 
+                    /** @type {Icon} */
                     let deleteIcon = this.icons[i][j];
-                    this.icons[i][j] = null;
+
+                    // アイコン消去時の移動先の座標
+                    let targetX = deleteIcon.x;
+                    let targetY = deleteIcon.y;
 
                     // 消去したアイコンをカウントする
                     this.gameManager.countDeleteDog(deleteIcon.type, 1);
 
+                    if (_createItemFlg) {
+                        // アイテムを生成する場合
+
+                        // 消去と同時にアイテムの場所に移動させる
+                        targetX = selectIconX;
+                        targetY = selectIconY;
+
+                    } else {
+                        if (i == _selectRow && j == _selectCol && GameManager.isItem(deleteIcon.type)) {
+                            // アイテム消去エフェクトの前に、スケールをもとに戻す
+
+                            // 一旦tweenを停止
+                            let targetTween = this.scene.tweens.getTweensOf(deleteIcon)[0];
+                            if (targetTween) {
+                                targetTween.stop();
+                            }
+
+                            // スケールをもとに戻す
+                            deleteIcon.setScale(1);
+
+                        }
+                        // アニメーションを開始する
+                        deleteIcon.startAnimation();
+
+                    }
+
                     // 消去時アニメーションの設定
                     this.scene.tweens.add({
                         targets: deleteIcon,
+                        x: targetX,
+                        y: targetY,
                         alpha: 0,
                         duration: ICONDELETE.TIME,
                         ease: 'Power2',
@@ -266,6 +323,8 @@ class Grid {
                     setTimeout(() => {
                         deleteIcon.destroy();
                     }, ICONDELETE.TIME);
+
+                    this.icons[i][j] = null;
 
                     deleteNum++;
                 }
@@ -294,6 +353,7 @@ class Grid {
                 this.scene.tweens.add({
                     targets: newIcon,
                     alpha: 1,
+                    scale: 1,
                     y: newIcon.y + ICONFADEIN.YDIST,
                     duration: ICONFADEIN.TIME,
                     ease: 'Power2',
@@ -310,7 +370,7 @@ class Grid {
     generateItem(_itemRow, _itemCol, _itemType) {
 
         // アイテムを生成
-        let item = this.createItem(_itemRow, _itemCol, _itemType);
+        let item = this.createItem(_itemRow, _itemCol, _itemType, true);
         item.setAlpha(0);
 
         this.icons[_itemRow][_itemCol] = item;
@@ -319,6 +379,7 @@ class Grid {
         this.scene.tweens.add({
             targets: item,
             alpha: 1,
+            scale: 1,
             duration: ICONFADEIN.TIME,
             ease: 'Power2',
         }, this.scene);
@@ -338,12 +399,16 @@ class Grid {
         let x = _col * ICON.WIDTH + this.gridX + ICON.WIDTH / 2;
         let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
 
+        // アイコンの設定をする
         let icon = new Icon(this.scene, x, y, ICONTYPE[_iconType], _iconType, _row, _col, this);
+        // アニメーションの設定をする
+        icon.setAnimation();
 
         // フェードインする場合
         if (_fadeIn) {
             icon.y = y - ICONFADEIN.YDIST;
             icon.setAlpha(0);
+            icon.setScale(0.5);
         }
         return icon;
     }
@@ -361,11 +426,14 @@ class Grid {
         let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
 
         let item = new Icon(this.scene, x, y, ICONTYPE[_itemType], _itemType, _row, _col, this);
+        // アニメーションの設定をする
+        item.setAnimation();
 
         // フェードインする場合
         if (_fadeIn) {
-            item.y = y - ICONFADEIN.YDIST;
+            // item.y = y - ICONFADEIN.YDIST;
             item.setAlpha(0);
+            item.setScale(0.1);
         }
         return item;
     }
@@ -424,5 +492,13 @@ class Grid {
                 }
             }
         }
+    }
+
+    /**
+     * 一定時間待機する
+     * @param {int} ms 待機時間
+     */
+    wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

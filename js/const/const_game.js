@@ -47,13 +47,18 @@ const BONUSINFO = {
     Y: ICON_DELETEINFO.HEIGHT / 2 + 16
 }
 
+const ITEMDELETE = {
+    TIME: 400,
+    SCALE: 0.6,
+}
+
 const ICONFADEIN = {
-    TIME: 200,
+    TIME: 300,
     YDIST: ICON.HEIGHT / 2,
 }
 
 const ICONDELETE = {
-    TIME: 200,
+    TIME: 250,
 }
 
 const ICONFALL = {

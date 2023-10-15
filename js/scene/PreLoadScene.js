@@ -30,6 +30,17 @@ class PreLoadScene extends BaseScene {
             this.load.image(img[0], DIR.DIR_IMG + "/" + img[1]);
         });
 
+        // 各スプライトシートの読み込み
+        // 消去アニメーション
+        this.load.spritesheet(
+            IMGID.ANIM_EFFECT_DELETEICON,
+            DIR.DIR_IMG + "/" + IMGNAME.ANIM_EFFECT_DELETEICON,
+            {
+                frameWidth: ICON.WIDTH,
+                frameHeight: ICON.HEIGHT
+            }
+        );
+
         // プリロード中に表示するプログレスバーの背景
         this.progressBarBg = this.add.graphics();
         this.progressBarBg.fillStyle(PRELOADBAR.BGCOLOR, 0.8);
@@ -63,6 +74,7 @@ class PreLoadScene extends BaseScene {
         // });
 
     }
+
     // 非同期で待機するカスタム関数（デバッグ用）
     wait(ms) {
         return new Promise(resolve => {

@@ -1,4 +1,4 @@
-class Icon extends Phaser.GameObjects.Image {
+class Icon extends BaseEntity {
     constructor(scene, x, y, texture, type, row, col, grid = null, clickable = true) {
         super(scene, x, y, texture);
         scene.add.existing(this);
@@ -22,6 +22,10 @@ class Icon extends Phaser.GameObjects.Image {
 
         // アイテムかどうかを判別
         this.isItem = false;
+
+        // その他フラグ設定
+        this.playableAnimationFlg = false;
+
     }
 
     onIconClicked() {
@@ -33,5 +37,36 @@ class Icon extends Phaser.GameObjects.Image {
 
     setThisItem() {
         this.isItem = true;
+    }
+
+    /**
+     * アニメーションを設定する
+     */
+    setAnimation() {
+        // アイコン消去時のアニメーションを作成
+        this.anims.create({
+            key: ANIMKEY.EFFECT_DELETEICON,  // アニメーションの識別キー
+            frames: this.anims.generateFrameNumbers(
+                IMGID.ANIM_EFFECT_DELETEICON,
+                {
+                    start: 0,
+                    end: ANIMFRAMENUM.EFFECT_DELETEICON
+                }
+            ),
+            frameRate: ANIMFRAME.EFFECT_DELETEICON,
+            repeat: 0
+        });
+
+        this.playableAnimationFlg = true;
+    }
+
+    /**
+     * アニメーションを再生する
+     */
+    startAnimation() {
+        // アニメーション再生可能なら再生する
+        if (this.playableAnimationFlg) {
+            this.anims.play(ANIMKEY.EFFECT_DELETEICON, true);
+        }
     }
 }
