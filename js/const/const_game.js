@@ -18,7 +18,7 @@ const ITEMTYPE_ID = {
 
 // 制限時間表示位置
 const TIMEINFO = {
-    INITTIME: 90,
+    INITTIME: 40,
     X: 16,
     Y: 40
 }
