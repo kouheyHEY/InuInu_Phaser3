@@ -5,9 +5,17 @@ class BaseEntity extends Phaser.GameObjects.Sprite {
         _scene.add.existing(this);
 
         // 共通のプロパティや初期化処理
+        this.debugMode = false;
     }
 
     // その他共通のメソッドを追加
+    /**
+     * デバッグモードを有効にする
+     * @param {Phaser.Game} _game ゲームオブジェクト
+     */
+    setDebugMode(_game) {
+        this.debugMode = _game.config.debug;
+    }
 }
 
 // ベースシーン

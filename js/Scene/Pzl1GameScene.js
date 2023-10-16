@@ -1,21 +1,21 @@
-class GameScene extends BaseScene {
+class Pzl1GameScene extends BaseScene {
     constructor() {
-        super(COMMON.GAMESCENE);
+        super(COMMON.PZL1GAMESCENE);
     }
 
     create() {
         this.cameras.main.setBackgroundColor(COMMON.BGCOLOR_DEFAULT);
-        console.log("GameScene Start");
+        console.log("Pzl1GameScene Start");
 
         // ゲームの初期化と設定
-        this.gameManager = new GameManager(this);
-        this.grid = new Grid(this, 4, 6, this.gameManager);
+        this.pzl1GameManager = new Pzl1GameManager(this);
+        this.grid = new Grid(this, 4, 6, this.pzl1GameManager);
 
         // アイコン消去数表示用エリアの設定
         this.createDeleteInfoArea();
 
         // 制限時間を表示するテキスト
-        this.timerText = this.setText(`Time: ${this.gameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
+        this.timerText = this.setText(`Time: ${this.pzl1GameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
         this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
         this.timerText.setOrigin(0, 0.5);
 
@@ -59,7 +59,7 @@ class GameScene extends BaseScene {
         infoSet.add(icon);
 
         // アイコンの消去数テキストを作成
-        let deleteNumText = this.setText(` × ${this.gameManager.deleteDogNum[_type]}`, ICON_DELETEINFO.WIDTH / 2, 0, COMMON.FONTSIZE_DELETEINFO, COMMON.FONTCOLOR_DEFAULT);
+        let deleteNumText = this.setText(` × ${this.pzl1GameManager.deleteDogNum[_type]}`, ICON_DELETEINFO.WIDTH / 2, 0, COMMON.FONTSIZE_DELETEINFO, COMMON.FONTCOLOR_DEFAULT);
         deleteNumText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
         deleteNumText.setOrigin(0, 0.5);
         infoSet.add(deleteNumText);
@@ -86,7 +86,7 @@ class GameScene extends BaseScene {
         this.bonusInfoArea.add(bonusText);
 
         // アイコンの表示
-        let icon = this.add.image(bonusText.displayWidth + ICON_DELETEINFO.WIDTH / 2, 0, ICONTYPE[this.gameManager.getRandomDogType()]);
+        let icon = this.add.image(bonusText.displayWidth + ICON_DELETEINFO.WIDTH / 2, 0, ICONTYPE[this.pzl1GameManager.getRandomDogType()]);
         icon.displayWidth = ICON_DELETEINFO.WIDTH;
         icon.displayHeight = ICON_DELETEINFO.HEIGHT;
 

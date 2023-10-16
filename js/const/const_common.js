@@ -8,9 +8,9 @@ const COMMON = {
     FPS: 60,
 
     // シーンのID
-    PRELOADSCENE: "PreLoadScene",
-    GAMESCENE: "GameScene",
-    GAMEOVERSCENE: "GameOverScene",
+    PZL1PRELOADSCENE: "Pzl1PreLoadScene",
+    PZL1GAMESCENE: "Pzl1GameScene",
+    PZL1GAMEOVERSCENE: "Pzl1GameOverScene",
     TITLESCENE: "TitleScene",
 
     // 文字の色

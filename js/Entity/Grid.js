@@ -1,6 +1,6 @@
 class Grid {
-    constructor(scene, numRows, numCols, gameManager) {
-        /** @type {GameScene} */
+    constructor(scene, numRows, numCols, pzl1GameManager) {
+        /** @type {Pzl1GameScene} */
         this.scene = scene;
         this.numRows = numRows;
         this.numCols = numCols;
@@ -8,8 +8,8 @@ class Grid {
         this.gridX = (SCR_WIDTH - this.numCols * ICON.WIDTH) / 2;
         this.gridY = (SCR_HEIGHT - this.numRows * ICON.HEIGHT) / 2;
 
-        /** @type {GameManager} */
-        this.gameManager = gameManager;
+        /** @type {Pzl1GameManager} */
+        this.pzl1GameManager = pzl1GameManager;
         this.icons = [];
 
         // 消去可能フラグ
@@ -88,7 +88,7 @@ class Grid {
         let createItemFlg = deleteResult.createBoneSingleFlg || deleteResult.createBoneDoubleFlg;
 
         // アイテム消去時、エフェクトを適用する
-        if (GameManager.isItem(selectedIcon.type)
+        if (Pzl1GameManager.isItem(selectedIcon.type)
             && !createItemFlg
         ) {
             // エフェクトアニメーションの再生
@@ -163,7 +163,7 @@ class Grid {
                 let deleteType = this.icons[rndRow][rndCol].type;
 
                 // アイテムならやり直し
-                if (GameManager.isItem(deleteType)) {
+                if (Pzl1GameManager.isItem(deleteType)) {
                     continue;
                 }
 
@@ -201,7 +201,7 @@ class Grid {
 
                 let deleteIconType = this.icons[checkRow][checkCol].type;
 
-                if (GameManager.isItem(_type)) {
+                if (Pzl1GameManager.isItem(_type)) {
                     // 消去アイコンがアイテムの場合
 
                     if (i == 0 && j == 0) {
@@ -248,7 +248,7 @@ class Grid {
         // アイテムの生成フラグの設定
         returnResult.createBoneSingleFlg =
             (returnResult.deleteNum + 1 >= ICON_NUM.ITEM_BONE_SINGLE)
-            && !GameManager.isItem(_type);
+            && !Pzl1GameManager.isItem(_type);
 
         // 消去結果を返却
         return returnResult;
@@ -281,7 +281,7 @@ class Grid {
                     let targetY = deleteIcon.y;
 
                     // 消去したアイコンをカウントする
-                    this.gameManager.countDeleteDog(deleteIcon.type, 1);
+                    this.pzl1GameManager.countDeleteDog(deleteIcon.type, 1);
 
                     if (_createItemFlg) {
                         // アイテムを生成する場合
@@ -291,7 +291,7 @@ class Grid {
                         targetY = selectIconY;
 
                     } else {
-                        if (i == _selectRow && j == _selectCol && GameManager.isItem(deleteIcon.type)) {
+                        if (i == _selectRow && j == _selectCol && Pzl1GameManager.isItem(deleteIcon.type)) {
                             // アイテム消去エフェクトの前に、スケールをもとに戻す
 
                             // 一旦tweenを停止

@@ -1,6 +1,6 @@
-class GameOverScene extends BaseScene {
+class Pzl1GameOverScene extends BaseScene {
     constructor() {
-        super(COMMON.GAMEOVERSCENE);
+        super(COMMON.PZL1GAMEOVERSCENE);
     }
 
     create() {
@@ -22,7 +22,7 @@ class GameOverScene extends BaseScene {
         // ボタンにクリックイベントを追加
         retryButton.setInteractive();
         retryButton.on('pointerup', () => {
-            this.scene.start('GameScene'); // ゲームを再開
+            this.scene.start('Pzl1GameScene'); // ゲームを再開
         });
     }
 }

@@ -1,9 +1,9 @@
-class PreLoadScene extends BaseScene {
+class Pzl1PreLoadScene extends BaseScene {
     /**
      * コンストラクタ
      */
     constructor() {
-        super(COMMON.PRELOADSCENE);
+        super(COMMON.PZL1PRELOADSCENE);
 
         // 各画像の画像IDとファイル名のリスト
         this.preLoadImgList = [
@@ -18,7 +18,7 @@ class PreLoadScene extends BaseScene {
     }
 
     /**
-     * GameSceneで使用する画像やスプライトシートを読み込む
+     * Pzl1GameSceneで使用する画像やスプライトシートを読み込む
      */
     preload() {
         // SCR_WIDTHとSCR_HEIGHTの更新
@@ -65,12 +65,12 @@ class PreLoadScene extends BaseScene {
             // 待機後の処理
             console.log('END LOADING RESOURCES!');
             // ゲームシーンに遷移
-            this.scene.start(COMMON.GAMESCENE);
+            this.scene.start(COMMON.PZL1GAMESCENE);
         });
 
         // プリロードが完了したときに次のシーンに遷移
         // this.load.on('complete', () => {
-        //     this.scene.start(COMMON.GAMESCENE);
+        //     this.scene.start(COMMON.PZL1GAMESCENE);
         // });
 
     }

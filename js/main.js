@@ -19,9 +19,9 @@ const config = {
 
     // シーン設定
     scene: [
-        PreLoadScene,
-        GameScene,
-        GameOverScene
+        Pzl1PreLoadScene,
+        Pzl1GameScene,
+        Pzl1GameOverScene
     ],
 
     // フレームレート設定
@@ -40,6 +40,7 @@ const config = {
             debug: true,
         }
     },
+
 }
 
 var SCR_WIDTH = COMMON.D_WIDTH;

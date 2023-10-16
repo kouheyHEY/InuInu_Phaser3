@@ -1,6 +1,6 @@
-class GameManager {
+class Pzl1GameManager {
     constructor(scene) {
-        /** @type {GameScene} */
+        /** @type {Pzl1GameScene} */
         this.scene = scene;
         this.initialTime = TIMEINFO.INITTIME;
         this.currentTime = this.initialTime;
@@ -74,7 +74,7 @@ class GameManager {
      * @param {int} _deleteNum 消去数
      */
     countDeleteDog(_deleteType, _deleteNum) {
-        if (GameManager.isItem(_deleteType)) {
+        if (Pzl1GameManager.isItem(_deleteType)) {
             return;
         }
 
