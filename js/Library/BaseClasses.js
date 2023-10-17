@@ -19,7 +19,6 @@ class BaseEntity extends Phaser.GameObjects.Sprite {
 }
 
 // ベースシーン
-
 class BaseScene extends Phaser.Scene {
     /**
      * コンストラクタ
@@ -46,3 +45,4 @@ class BaseScene extends Phaser.Scene {
 
     update() { }
 }
+
