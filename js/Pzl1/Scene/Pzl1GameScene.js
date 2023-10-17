@@ -4,7 +4,7 @@ class Pzl1GameScene extends BaseScene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(COMMON.BGCOLOR_DEFAULT);
+        this.cameras.main.setBackgroundColor(COMMON_PZL1.BGCOLOR_DEFAULT);
         console.log("Pzl1GameScene Start");
 
         // ゲームの初期化と設定
@@ -15,8 +15,8 @@ class Pzl1GameScene extends BaseScene {
         this.createDeleteInfoArea();
 
         // 制限時間を表示するテキスト
-        this.timerText = this.setText(`Time: ${this.pzl1GameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON.FONTSIZE_TIMER, COMMON.FONTCOLOR_DEFAULT);
-        this.timerText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        this.timerText = this.setText(`Time: ${this.pzl1GameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON_PZL1.FONTSIZE_TIMER, COMMON_PZL1.FONTCOLOR_DEFAULT);
+        this.timerText.setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
         this.timerText.setOrigin(0, 0.5);
 
         // 画面右上に、ボーナスとなるアイコンの種類を表示する
@@ -59,8 +59,8 @@ class Pzl1GameScene extends BaseScene {
         infoSet.add(icon);
 
         // アイコンの消去数テキストを作成
-        let deleteNumText = this.setText(` × ${this.pzl1GameManager.deleteDogNum[_type]}`, ICON_DELETEINFO.WIDTH / 2, 0, COMMON.FONTSIZE_DELETEINFO, COMMON.FONTCOLOR_DEFAULT);
-        deleteNumText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        let deleteNumText = this.setText(` × ${this.pzl1GameManager.deleteDogNum[_type]}`, ICON_DELETEINFO.WIDTH / 2, 0, COMMON_PZL1.FONTSIZE_DELETEINFO, COMMON_PZL1.FONTCOLOR_DEFAULT);
+        deleteNumText.setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
         deleteNumText.setOrigin(0, 0.5);
         infoSet.add(deleteNumText);
 
@@ -79,8 +79,8 @@ class Pzl1GameScene extends BaseScene {
         this.bonusInfoArea = this.add.container(bonusInfoX, bonusInfoY);
 
         // ボーナス表示時のテキスト
-        let bonusText = this.setText("Bonus:", 0, 0, COMMON.FONTSIZE_BONUS, COMMON.FONTCOLOR_DEFAULT);
-        bonusText.setFontFamily(COMMON.FONTSTYLE_NORMAL);
+        let bonusText = this.setText("Bonus:", 0, 0, COMMON_PZL1.FONTSIZE_BONUS, COMMON_PZL1.FONTCOLOR_DEFAULT);
+        bonusText.setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
         bonusText.setOrigin(0, 0.5);
 
         this.bonusInfoArea.add(bonusText);

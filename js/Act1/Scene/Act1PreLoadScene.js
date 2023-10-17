@@ -3,7 +3,7 @@ class Pzl1PreLoadScene extends BaseScene {
      * コンストラクタ
      */
     constructor() {
-        super(COMMON.PZL1PRELOADSCENE);
+        super(COMMON.ACT1PRELOADSCENE);
 
         // 各画像の画像IDとファイル名のリスト
         this.preLoadImgList = [

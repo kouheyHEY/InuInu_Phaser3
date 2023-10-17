@@ -65,7 +65,7 @@ class Pzl1GameManager {
         this.scene.grid.initGrid();
 
         // ゲームオーバー画面を表示
-        this.scene.scene.start(COMMON.GAMEOVERSCENE);
+        this.scene.scene.start(COMMON.PZL1GAMEOVERSCENE);
     }
 
     /**

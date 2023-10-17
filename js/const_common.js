@@ -11,22 +11,10 @@ const COMMON = {
     PZL1PRELOADSCENE: "Pzl1PreLoadScene",
     PZL1GAMESCENE: "Pzl1GameScene",
     PZL1GAMEOVERSCENE: "Pzl1GameOverScene",
+    ACT1PRELOADSCENE: "Act1PreLoadScene",
+    ACT1GAMESCENE: "Act1GameScene",
+    ACT1GAMEOVERSCENE: "Act1GameOverScene",
     TITLESCENE: "TitleScene",
-
-    // 文字の色
-    FONTCOLOR_DEFAULT: "#ffffff",
-    FONTSTYLE_NORMAL: "Bit12",
-    FONTSTYLE_BOLD: "Bit12Bold",
-    // フォントサイズ
-    FONTSIZE_DELETEINFO: 36,
-    FONTSIZE_TIMER: 36,
-    FONTSIZE_BONUS: 36,
-
-    FONTSIZE_GAMEOVER: 48,
-    FONTSIZE_RETRY: 24,
-
-    // 背景色
-    BGCOLOR_DEFAULT: "#808080",
 
 };
 
