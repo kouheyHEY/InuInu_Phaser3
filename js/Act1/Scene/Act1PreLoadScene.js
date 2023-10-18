@@ -1,4 +1,4 @@
-class Pzl1PreLoadScene extends BaseScene {
+class Act1PreLoadScene extends BaseScene {
     /**
      * コンストラクタ
      */
@@ -7,13 +7,7 @@ class Pzl1PreLoadScene extends BaseScene {
 
         // 各画像の画像IDとファイル名のリスト
         this.preLoadImgList = [
-            CONST_ACT1.IMGID.DOG_SHIBA, CONST_ACT1.IMGNAME.DOG_SHIBA,
-            CONST_ACT1.IMGID.DOG_PAG, CONST_ACT1.IMGNAME.DOG_PAG,
-            CONST_ACT1.IMGID.DOG_DALMATIAN, CONST_ACT1.IMGNAME.DOG_DALMATIAN,
-            CONST_ACT1.IMGID.DOG_CORGI, CONST_ACT1.IMGNAME.DOG_CORGI,
-            CONST_ACT1.IMGID.DOG_LABRADOR, CONST_ACT1.IMGNAME.DOG_LABRADOR,
-            CONST_ACT1.IMGID.ITEM_BONE_SINGLE, CONST_ACT1.IMGNAME.ITEM_BONE_SINGLE,
-            CONST_ACT1.IMGID.ITEM_BONE_DOUBLE, CONST_ACT1.IMGNAME.ITEM_BONE_DOUBLE
+            [CONST_ACT1.IMGID.ANIM_PLAYER_STOP, CONST_ACT1.IMGNAME.ANIM_PLAYER_STOP],
         ];
     }
 
@@ -31,24 +25,24 @@ class Pzl1PreLoadScene extends BaseScene {
         });
 
         // 各スプライトシートの読み込み
-        // 消去アニメーション
+        // プレイヤーアニメーション
         this.load.spritesheet(
-            CONST_ACT1.IMGID.ANIM_EFFECT_DELETEICON,
-            CONST_ACT1.DIR.DIR_IMG + "/" + CONST_ACT1.IMGNAME.ANIM_EFFECT_DELETEICON,
+            CONST_ACT1.IMGID.ANIM_PLAYER_STOP,
+            CONST_ACT1.DIR.DIR_IMG + "/" + CONST_ACT1.IMGNAME.ANIM_PLAYER_STOP,
             {
-                frameWidth: CONST_ACT1.ICON.WIDTH,
-                frameHeight: CONST_ACT1.ICON.HEIGHT
+                frameWidth: CONST_ACT1.SIZE.PLAYER.WIDTH,
+                frameHeight: CONST_ACT1.SIZE.PLAYER.HEIGHT
             }
         );
 
         // プリロード中に表示するプログレスバーの背景
         this.progressBarBg = this.add.graphics();
-        this.progressBarBg.fillStyle(PRELOADBAR.BGCOLOR, 0.8);
+        this.progressBarBg.fillStyle(CONST_ACT1.PRELOADBAR.BGCOLOR, 0.8);
         this.progressBarBg.fillRect(
-            (SCR_WIDTH - PRELOADBAR.WIDTH) / 2,
-            (SCR_HEIGHT - PRELOADBAR.HEIGHT) / 2,
-            PRELOADBAR.WIDTH,
-            PRELOADBAR.HEIGHT
+            (SCR_WIDTH - CONST_ACT1.PRELOADBAR.WIDTH) / 2,
+            (SCR_HEIGHT - CONST_ACT1.PRELOADBAR.HEIGHT) / 2,
+            CONST_ACT1.PRELOADBAR.WIDTH,
+            CONST_ACT1.PRELOADBAR.HEIGHT
         );
 
         // プリロード中に表示するプログレスバー
@@ -65,7 +59,7 @@ class Pzl1PreLoadScene extends BaseScene {
             // 待機後の処理
             console.log('END LOADING RESOURCES!');
             // ゲームシーンに遷移
-            this.scene.start(COMMON.PZL1GAMESCENE);
+            this.scene.start(COMMON.ACT1GAMESCENE);
         });
 
         // プリロードが完了したときに次のシーンに遷移
@@ -85,12 +79,12 @@ class Pzl1PreLoadScene extends BaseScene {
     updateProgressBar(value) {
         // プログレスバーを更新する
         this.progressBar.clear();
-        this.progressBar.fillStyle(PRELOADBAR.COLOR, 1);
+        this.progressBar.fillStyle(CONST_ACT1.PRELOADBAR.COLOR, 1);
         this.progressBar.fillRect(
-            (SCR_WIDTH - PRELOADBAR.WIDTH) / 2,
-            (SCR_HEIGHT - PRELOADBAR.HEIGHT) / 2,
-            PRELOADBAR.WIDTH * value,
-            PRELOADBAR.HEIGHT
+            (SCR_WIDTH - CONST_ACT1.PRELOADBAR.WIDTH) / 2,
+            (SCR_HEIGHT - CONST_ACT1.PRELOADBAR.HEIGHT) / 2,
+            CONST_ACT1.PRELOADBAR.WIDTH * value,
+            CONST_ACT1.PRELOADBAR.HEIGHT
         );
     }
 

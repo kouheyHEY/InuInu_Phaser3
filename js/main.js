@@ -19,9 +19,13 @@ const config = {
 
     // シーン設定
     scene: [
+        Stt1TitleScene,
         Pzl1PreLoadScene,
         Pzl1GameScene,
-        Pzl1GameOverScene
+        Pzl1GameOverScene,
+        Act1PreLoadScene,
+        Act1GameScene,
+        Act1GameOverScene
     ],
 
     // フレームレート設定
