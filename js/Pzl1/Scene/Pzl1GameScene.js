@@ -4,7 +4,7 @@ class Pzl1GameScene extends BaseScene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(COMMON_PZL1.BGCOLOR_DEFAULT);
+        this.cameras.main.setBackgroundColor(CONST_PZL1.COMMON_PZL1.BGCOLOR_DEFAULT);
         console.log("Pzl1GameScene Start");
 
         // ゲームの初期化と設定
@@ -15,8 +15,8 @@ class Pzl1GameScene extends BaseScene {
         this.createDeleteInfoArea();
 
         // 制限時間を表示するテキスト
-        this.timerText = this.setText(`Time: ${this.pzl1GameManager.currentTime}`, TIMEINFO.X, TIMEINFO.Y, COMMON_PZL1.FONTSIZE_TIMER, COMMON_PZL1.FONTCOLOR_DEFAULT);
-        this.timerText.setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
+        this.timerText = this.setText(`Time: ${this.pzl1GameManager.currentTime}`, CONST_PZL1.TIMEINFO.X, CONST_PZL1.TIMEINFO.Y, CONST_PZL1.COMMON_PZL1.FONTSIZE_TIMER, CONST_PZL1.COMMON_PZL1.FONTCOLOR_DEFAULT);
+        this.timerText.setFontFamily(CONST_PZL1.COMMON_PZL1.FONTSTYLE_NORMAL);
         this.timerText.setOrigin(0, 0.5);
 
         // 画面右上に、ボーナスとなるアイコンの種類を表示する
@@ -29,23 +29,23 @@ class Pzl1GameScene extends BaseScene {
         // 画面上部に消去数を表示する
         this.deleteInfoArea = this.add.group();
 
-        let deleteInfoX = DELETEINFO.X;
-        let deleteInfoY = DELETEINFO.Y;
+        let deleteInfoX = CONST_PZL1.DELETEINFO.X;
+        let deleteInfoY = CONST_PZL1.DELETEINFO.Y;
         let typeID = 0;
-        let DELETEINFO_X_LIMIT = SCR_WIDTH - DELETEINFO.X;
+        let DELETEINFO_X_LIMIT = SCR_WIDTH - CONST_PZL1.DELETEINFO.X;
 
-        for (let i = 0; i < DOG_NUM; i++) {
+        for (let i = 0; i < CONST_PZL1.DOG_NUM; i++) {
 
             // 消去数の表示位置が定義範囲外の場合、位置調整
-            if (deleteInfoX + DELETEINFO.WIDTH >= DELETEINFO_X_LIMIT) {
-                deleteInfoX = DELETEINFO.X;
-                deleteInfoY += ICON_DELETEINFO.HEIGHT;
+            if (deleteInfoX + CONST_PZL1.DELETEINFO.WIDTH >= DELETEINFO_X_LIMIT) {
+                deleteInfoX = CONST_PZL1.DELETEINFO.X;
+                deleteInfoY += CONST_PZL1.ICON_DELETEINFO.HEIGHT;
             }
 
             // 消去数表示用のアイコンとテキストの設定
             this.createDeleteInfoSet(deleteInfoX, deleteInfoY, typeID++);
 
-            deleteInfoX += DELETEINFO.WIDTH;
+            deleteInfoX += CONST_PZL1.DELETEINFO.WIDTH;
         }
     }
 
@@ -53,14 +53,20 @@ class Pzl1GameScene extends BaseScene {
         let infoSet = this.add.container(_x, _y);
 
         // アイコンの生成
-        let icon = this.add.image(0, 0, ICONTYPE[_type]);
-        icon.displayWidth = ICON_DELETEINFO.WIDTH;
-        icon.displayHeight = ICON_DELETEINFO.HEIGHT;
+        let icon = this.add.image(0, 0, CONST_PZL1.ICONTYPE[_type]);
+        icon.displayWidth = CONST_PZL1.ICON_DELETEINFO.WIDTH;
+        icon.displayHeight = CONST_PZL1.ICON_DELETEINFO.HEIGHT;
         infoSet.add(icon);
 
         // アイコンの消去数テキストを作成
-        let deleteNumText = this.setText(` × ${this.pzl1GameManager.deleteDogNum[_type]}`, ICON_DELETEINFO.WIDTH / 2, 0, COMMON_PZL1.FONTSIZE_DELETEINFO, COMMON_PZL1.FONTCOLOR_DEFAULT);
-        deleteNumText.setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
+        let deleteNumText = this.setText(
+            ` × ${this.pzl1GameManager.deleteDogNum[_type]}`,
+            CONST_PZL1.ICON_DELETEINFO.WIDTH / 2,
+            0,
+            CONST_PZL1.COMMON_PZL1.FONTSIZE_DELETEINFO,
+            CONST_PZL1.COMMON_PZL1.FONTCOLOR_DEFAULT
+        );
+        deleteNumText.setFontFamily(CONST_PZL1.COMMON_PZL1.FONTSTYLE_NORMAL);
         deleteNumText.setOrigin(0, 0.5);
         infoSet.add(deleteNumText);
 
@@ -72,23 +78,23 @@ class Pzl1GameScene extends BaseScene {
 
     createBonusInfoArea() {
         // 画面右上に、ボーナスとなるアイコンの種類を表示する
-        let bonusInfoX = SCR_WIDTH - BONUSINFO.WIDTH;
-        let bonusInfoY = BONUSINFO.Y;
+        let bonusInfoX = SCR_WIDTH - CONST_PZL1.BONUSINFO.WIDTH;
+        let bonusInfoY = CONST_PZL1.BONUSINFO.Y;
 
         // ボーナス表示情報
         this.bonusInfoArea = this.add.container(bonusInfoX, bonusInfoY);
 
         // ボーナス表示時のテキスト
-        let bonusText = this.setText("Bonus:", 0, 0, COMMON_PZL1.FONTSIZE_BONUS, COMMON_PZL1.FONTCOLOR_DEFAULT);
-        bonusText.setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
+        let bonusText = this.setText("Bonus:", 0, 0, CONST_PZL1.COMMON_PZL1.FONTSIZE_BONUS, CONST_PZL1.COMMON_PZL1.FONTCOLOR_DEFAULT);
+        bonusText.setFontFamily(CONST_PZL1.COMMON_PZL1.FONTSTYLE_NORMAL);
         bonusText.setOrigin(0, 0.5);
 
         this.bonusInfoArea.add(bonusText);
 
         // アイコンの表示
-        let icon = this.add.image(bonusText.displayWidth + ICON_DELETEINFO.WIDTH / 2, 0, ICONTYPE[this.pzl1GameManager.getRandomDogType()]);
-        icon.displayWidth = ICON_DELETEINFO.WIDTH;
-        icon.displayHeight = ICON_DELETEINFO.HEIGHT;
+        let icon = this.add.image(bonusText.displayWidth + CONST_PZL1.ICON_DELETEINFO.WIDTH / 2, 0, CONST_PZL1.ICONTYPE[this.pzl1GameManager.getRandomDogType()]);
+        icon.displayWidth = CONST_PZL1.ICON_DELETEINFO.WIDTH;
+        icon.displayHeight = CONST_PZL1.ICON_DELETEINFO.HEIGHT;
 
         this.bonusInfoArea.add(icon);
     }

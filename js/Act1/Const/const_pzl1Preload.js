@@ -1,5 +1,5 @@
 // 進捗バー
-const PRELOADBAR = {
+CONST_ACT1.PRELOADBAR = {
     WIDTH: 400,
     HEIGHT: 30,
     COLOR: 0x00ff00,

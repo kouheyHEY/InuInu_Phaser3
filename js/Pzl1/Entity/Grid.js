@@ -5,8 +5,8 @@ class Grid {
         this.numRows = numRows;
         this.numCols = numCols;
 
-        this.gridX = (SCR_WIDTH - this.numCols * ICON.WIDTH) / 2;
-        this.gridY = (SCR_HEIGHT - this.numRows * ICON.HEIGHT) / 2;
+        this.gridX = (SCR_WIDTH - this.numCols * CONST_PZL1.ICON.WIDTH) / 2;
+        this.gridY = (SCR_HEIGHT - this.numRows * CONST_PZL1.ICON.HEIGHT) / 2;
 
         /** @type {Pzl1GameManager} */
         this.pzl1GameManager = pzl1GameManager;
@@ -59,7 +59,8 @@ class Grid {
      * @returns アイコンのタイプ（犬のみ）
      */
     getRandomIconType() {
-        return Math.floor(Math.random() * DOG_NUM);
+        console.log(CONST_PZL1.DOG_NUM);
+        return Math.floor(Math.random() * CONST_PZL1.DOG_NUM);
     }
 
     /**
@@ -94,11 +95,11 @@ class Grid {
             // エフェクトアニメーションの再生
             this.scene.tweens.add({
                 targets: selectedIcon,
-                scale: ITEMDELETE.SCALE,
-                duration: ITEMDELETE.TIME,
+                scale: CONST_PZL1.ITEMDELETE.SCALE,
+                duration: CONST_PZL1.ITEMDELETE.TIME,
                 ease: 'Power1',
             }, this.scene);
-            await this.wait(ITEMDELETE.TIME);
+            await this.wait(CONST_PZL1.ITEMDELETE.TIME);
         }
 
         // アイコンを消去する
@@ -106,30 +107,30 @@ class Grid {
 
         // アイテムを生成する
         if (deleteResult.createBoneSingleFlg) {
-            this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_SINGLE);
+            this.generateItem(_selectRow, _selectCol, CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_SINGLE);
         }
         if (deleteResult.createBoneDoubleFlg) {
-            this.generateItem(_selectRow, _selectCol, ITEMTYPE_ID.ITEM_BONE_DOUBLE);
+            this.generateItem(_selectRow, _selectCol, CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_DOUBLE);
         }
 
         // アイテムを生成する場合
         // アイコン落下アニメーションの再生
         setTimeout(() => {
             this.fallIcons();
-        }, ICONDELETE.TIME / 2);
+        }, CONST_PZL1.ICONDELETE.TIME / 2);
 
         // アイコンを生成する
         // setTimeout(() => {
         //     this.generateIcons();
-        // }, ICONDELETE.TIME + ICONFALL.TIME);
+        // },CONST_PZL1.ICONDELETE.TIME +CONST_PZL1.ICONFALL.TIME);
         setTimeout(() => {
             this.generateIcons();
-        }, ICONFALL.TIME);
+        }, CONST_PZL1.ICONFALL.TIME);
 
         // 消去可能に戻す
         setTimeout(() => {
             this.canDelete = true;
-        }, DELETE_INTERVAL);
+        }, CONST_PZL1.DELETE_INTERVAL);
     }
 
     /**
@@ -150,7 +151,7 @@ class Grid {
         };
 
         // アイテムがBoneDoubleの場合、ランダムに数種類のアイコンを消去する
-        if (_type == ITEMTYPE_ID.ITEM_BONE_DOUBLE) {
+        if (_type == CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_DOUBLE) {
             // 消去タイプの配列を生成する
             let deleteTypeList = [];
 
@@ -209,13 +210,13 @@ class Grid {
                     }
 
                     // アイテムがBoneSingleの場合
-                    if (_type == ITEMTYPE_ID.ITEM_BONE_SINGLE) {
+                    if (_type == CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_SINGLE) {
                         // 自分自身の周囲はすべて消去する
                         this.deleteFlg[checkRow][checkCol] = 1;
 
                         // 同じアイテムが上下左右に隣接している場合
                         if (
-                            deleteIconType == ITEMTYPE_ID.ITEM_BONE_SINGLE &&
+                            deleteIconType == CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_SINGLE &&
                             (i == 0 ^ j == 0)
                         ) {
                             // BoneDoubleを生成するフラグを設定する
@@ -247,7 +248,7 @@ class Grid {
 
         // アイテムの生成フラグの設定
         returnResult.createBoneSingleFlg =
-            (returnResult.deleteNum + 1 >= ICON_NUM.ITEM_BONE_SINGLE)
+            (returnResult.deleteNum + 1 >= CONST_PZL1.ICON_NUM.ITEM_BONE_SINGLE)
             && !Pzl1GameManager.isItem(_type);
 
         // 消去結果を返却
@@ -315,14 +316,14 @@ class Grid {
                         x: targetX,
                         y: targetY,
                         alpha: 0,
-                        duration: ICONDELETE.TIME,
+                        duration: CONST_PZL1.ICONDELETE.TIME,
                         ease: 'Power2',
                     }, this.scene);
 
                     // 消去時アニメーションが終了次第アイコンを消去
                     setTimeout(() => {
                         deleteIcon.destroy();
-                    }, ICONDELETE.TIME);
+                    }, CONST_PZL1.ICONDELETE.TIME);
 
                     this.icons[i][j] = null;
 
@@ -354,8 +355,8 @@ class Grid {
                     targets: newIcon,
                     alpha: 1,
                     scale: 1,
-                    y: newIcon.y + ICONFADEIN.YDIST,
-                    duration: ICONFADEIN.TIME,
+                    y: newIcon.y + CONST_PZL1.ICONFADEIN.YDIST,
+                    duration: CONST_PZL1.ICONFADEIN.TIME,
                     ease: 'Power2',
                 }, this.scene);
 
@@ -380,7 +381,7 @@ class Grid {
             targets: item,
             alpha: 1,
             scale: 1,
-            duration: ICONFADEIN.TIME,
+            duration: CONST_PZL1.ICONFADEIN.TIME,
             ease: 'Power2',
         }, this.scene);
 
@@ -396,17 +397,17 @@ class Grid {
      */
     createIcon(_row, _col, _iconType, _fadeIn = false) {
 
-        let x = _col * ICON.WIDTH + this.gridX + ICON.WIDTH / 2;
-        let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
+        let x = _col * CONST_PZL1.ICON.WIDTH + this.gridX + CONST_PZL1.ICON.WIDTH / 2;
+        let y = _row * CONST_PZL1.ICON.HEIGHT + this.gridY + CONST_PZL1.ICON.HEIGHT / 2;
 
         // アイコンの設定をする
-        let icon = new Icon(this.scene, x, y, ICONTYPE[_iconType], _iconType, _row, _col, this);
+        let icon = new Icon(this.scene, x, y, CONST_PZL1.ICONTYPE[_iconType], _iconType, _row, _col, this);
         // アニメーションの設定をする
         icon.setAnimation();
 
         // フェードインする場合
         if (_fadeIn) {
-            icon.y = y - ICONFADEIN.YDIST;
+            icon.y = y - CONST_PZL1.ICONFADEIN.YDIST;
             icon.setAlpha(0);
             icon.setScale(0.5);
         }
@@ -422,16 +423,16 @@ class Grid {
      * @returns 生成したアイコン
      */
     createItem(_row, _col, _itemType, _fadeIn = false) {
-        let x = _col * ICON.WIDTH + this.gridX + ICON.WIDTH / 2;
-        let y = _row * ICON.HEIGHT + this.gridY + ICON.HEIGHT / 2;
+        let x = _col * CONST_PZL1.ICON.WIDTH + this.gridX + CONST_PZL1.ICON.WIDTH / 2;
+        let y = _row * CONST_PZL1.ICON.HEIGHT + this.gridY + CONST_PZL1.ICON.HEIGHT / 2;
 
-        let item = new Icon(this.scene, x, y, ICONTYPE[_itemType], _itemType, _row, _col, this);
+        let item = new Icon(this.scene, x, y, CONST_PZL1.ICONTYPE[_itemType], _itemType, _row, _col, this);
         // アニメーションの設定をする
         item.setAnimation();
 
         // フェードインする場合
         if (_fadeIn) {
-            // item.y = y - ICONFADEIN.YDIST;
+            // item.y = y -CONST_PZL1.ICONFADEIN.YDIST;
             item.setAlpha(0);
             item.setScale(0.1);
         }
@@ -460,13 +461,13 @@ class Grid {
                     // 移動する場合
                     if (moveRow > 0) {
                         // 移動先の座標
-                        let targetY = icon.y + moveRow * ICON.HEIGHT;
+                        let targetY = icon.y + moveRow * CONST_PZL1.ICON.HEIGHT;
 
                         // アニメーションの設定
                         this.scene.tweens.add({
                             targets: icon,
                             y: targetY,
-                            duration: ICONFALL.TIME,
+                            duration: CONST_PZL1.ICONFALL.TIME,
                             ease: 'Power2',
                         }, this.scene);
 

@@ -4,14 +4,26 @@ class Pzl1GameOverScene extends BaseScene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(COMMON_PZL1.BGCOLOR_DEFAULT);
+        this.cameras.main.setBackgroundColor(CONST_PZL1.COMMON_PZL1.BGCOLOR_DEFAULT);
         // ゲームオーバーテキストを画面中央に配置
-        const gameOverText = this.setText('Game Over', SCR_WIDTH / 2, SCR_HEIGHT / 2 - 50, COMMON_PZL1.FONTSIZE_GAMEOVER, COMMON_PZL1.FONTCOLOR_DEFAULT);
-        gameOverText.setOrigin(0.5).setFontFamily(COMMON_PZL1.FONTSTYLE_BOLD);
+        const gameOverText = this.setText(
+            'Game Over',
+            SCR_WIDTH / 2,
+            SCR_HEIGHT / 2 - 50,
+            CONST_PZL1.COMMON_PZL1.FONTSIZE_GAMEOVER,
+            CONST_PZL1.COMMON_PZL1.FONTCOLOR_DEFAULT
+        );
+        gameOverText.setOrigin(0.5).setFontFamily(CONST_PZL1.COMMON_PZL1.FONTSTYLE_BOLD);
 
         // リトライボタンを画面中央に配置
-        const retryButton = this.setText('Retry', SCR_WIDTH / 2, SCR_HEIGHT / 2 + 50, COMMON_PZL1.FONTSIZE_RETRY, COMMON_PZL1.FONTCOLOR_DEFAULT);
-        retryButton.setOrigin(0.5).setFontFamily(COMMON_PZL1.FONTSTYLE_NORMAL);
+        const retryButton = this.setText(
+            'Retry',
+            SCR_WIDTH / 2,
+            SCR_HEIGHT / 2 + 50,
+            CONST_PZL1.COMMON_PZL1.FONTSIZE_RETRY,
+            CONST_PZL1.COMMON_PZL1.FONTCOLOR_DEFAULT
+        );
+        retryButton.setOrigin(0.5).setFontFamily(CONST_PZL1.COMMON_PZL1.FONTSTYLE_NORMAL);
         retryButton.setStyle({
             padding: {
                 x: 0,

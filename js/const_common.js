@@ -18,3 +18,6 @@ const COMMON = {
 
 };
 
+
+const CONST_PZL1 = {};
+const CONST_ACT1 = {};

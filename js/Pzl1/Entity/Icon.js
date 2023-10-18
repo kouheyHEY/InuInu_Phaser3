@@ -45,15 +45,15 @@ class Icon extends BaseEntity {
     setAnimation() {
         // アイコン消去時のアニメーションを作成
         this.anims.create({
-            key: ANIMKEY.EFFECT_DELETEICON,  // アニメーションの識別キー
+            key: CONST_PZL1.ANIMKEY.EFFECT_DELETEICON,  // アニメーションの識別キー
             frames: this.anims.generateFrameNumbers(
-                IMGID.ANIM_EFFECT_DELETEICON,
+                CONST_PZL1.IMGID.ANIM_EFFECT_DELETEICON,
                 {
                     start: 0,
-                    end: ANIMFRAMENUM.EFFECT_DELETEICON
+                    end: CONST_PZL1.ANIMFRAMENUM.EFFECT_DELETEICON
                 }
             ),
-            frameRate: ANIMFRAME.EFFECT_DELETEICON,
+            frameRate: CONST_PZL1.ANIMFRAME.EFFECT_DELETEICON,
             repeat: 0
         });
 
@@ -66,7 +66,7 @@ class Icon extends BaseEntity {
     startAnimation() {
         // アニメーション再生可能なら再生する
         if (this.playableAnimationFlg) {
-            this.anims.play(ANIMKEY.EFFECT_DELETEICON, true);
+            this.anims.play(CONST_PZL1.ANIMKEY.EFFECT_DELETEICON, true);
         }
     }
 }

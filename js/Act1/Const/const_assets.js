@@ -1,11 +1,11 @@
 // 画像ファイルのディレクトリ
-const DIR = {
+CONST_ACT1.DIR = {
     DIR_ASSETS: "../assets",
     DIR_IMG: "../assets/img",
 };
 
 // 各画像ファイルのファイル名
-const IMGNAME = {
+CONST_ACT1.IMGNAME = {
     DOG_SHIBA: "dog_shiba.png",
     DOG_PAG: "dog_pag.png",
     DOG_DALMATIAN: "dog_dalmatian.png",
@@ -18,7 +18,7 @@ const IMGNAME = {
 };
 
 // 各画像ファイルのファイルID
-const IMGID = {
+CONST_ACT1.IMGID = {
     DOG_SHIBA: "DOG_SHIBA",
     DOG_PAG: "DOG_PAG",
     DOG_DALMATIAN: "DOG_DALMATIAN",
@@ -30,24 +30,24 @@ const IMGID = {
 };
 
 // 各アニメーションの識別用キー
-const ANIMKEY = {
+CONST_ACT1.ANIMKEY = {
     EFFECT_DELETEICON: "EFFECT_DELETEICON",
 }
 
-const ANIMFRAME = {
+CONST_ACT1.ANIMFRAME = {
     EFFECT_DELETEICON: 42,
 }
 
-const ANIMFRAMENUM = {
+CONST_ACT1.ANIMFRAMENUM = {
     EFFECT_DELETEICON: 7,
 }
 
-const ICON = {
+CONST_ACT1.ICON = {
     WIDTH: 96,
     HEIGHT: 96
 };
 
-const ICON_DELETEINFO = {
+CONST_ACT1.ICON_DELETEINFO = {
     WIDTH: 48,
     HEIGHT: 48
 }

@@ -1,5 +1,5 @@
 /* 共通変数 */
-const COMMON_PZL1 = {
+CONST_ACT1.COMMON_PZL1 = {
     // 文字の色
     FONTCOLOR_DEFAULT: "#ffffff",
     FONTSTYLE_NORMAL: "Bit12",

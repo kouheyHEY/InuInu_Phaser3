@@ -2,7 +2,7 @@ class Pzl1GameManager {
     constructor(scene) {
         /** @type {Pzl1GameScene} */
         this.scene = scene;
-        this.initialTime = TIMEINFO.INITTIME;
+        this.initialTime = CONST_PZL1.TIMEINFO.INITTIME;
         this.currentTime = this.initialTime;
         this.timer = null;
 
@@ -17,7 +17,7 @@ class Pzl1GameManager {
 
     init() {
         // 消去したアイコン数の初期化
-        for (let i = 0; i < DOG_NUM; i++) {
+        for (let i = 0; i < CONST_PZL1.DOG_NUM; i++) {
             this.deleteDogNum.push(0);
         }
 
@@ -51,13 +51,13 @@ class Pzl1GameManager {
 
     getRandomDogType() {
         // ランダムな犬の種類を取得
-        return Math.floor(Math.random() * DOG_NUM);
+        return Math.floor(Math.random() * CONST_PZL1.DOG_NUM);
     }
 
     gameOver() {
         let iconType = 0;
-        for (let i = 0; i < DOG_NUM; i++) {
-            (ICONTYPE[i] + " : " + this.deleteDogNum[iconType++]);
+        for (let i = 0; i < CONST_PZL1.DOG_NUM; i++) {
+            (CONST_PZL1.ICONTYPE[i] + " : " + this.deleteDogNum[iconType++]);
         }
 
         // ゲームオーバー処理を追加
@@ -88,7 +88,7 @@ class Pzl1GameManager {
      * @returns アイテムかどうか
      */
     static isItem(_type) {
-        return _type >= DOG_NUM;
+        return _type >= CONST_PZL1.DOG_NUM;
     }
 
 }

@@ -7,13 +7,13 @@ class Pzl1PreLoadScene extends BaseScene {
 
         // 各画像の画像IDとファイル名のリスト
         this.preLoadImgList = [
-            [IMGID.DOG_SHIBA, IMGNAME.DOG_SHIBA],
-            [IMGID.DOG_PAG, IMGNAME.DOG_PAG],
-            [IMGID.DOG_DALMATIAN, IMGNAME.DOG_DALMATIAN],
-            [IMGID.DOG_CORGI, IMGNAME.DOG_CORGI],
-            [IMGID.DOG_LABRADOR, IMGNAME.DOG_LABRADOR],
-            [IMGID.ITEM_BONE_SINGLE, IMGNAME.ITEM_BONE_SINGLE],
-            [IMGID.ITEM_BONE_DOUBLE, IMGNAME.ITEM_BONE_DOUBLE]
+            CONST_ACT1.IMGID.DOG_SHIBA, CONST_ACT1.IMGNAME.DOG_SHIBA,
+            CONST_ACT1.IMGID.DOG_PAG, CONST_ACT1.IMGNAME.DOG_PAG,
+            CONST_ACT1.IMGID.DOG_DALMATIAN, CONST_ACT1.IMGNAME.DOG_DALMATIAN,
+            CONST_ACT1.IMGID.DOG_CORGI, CONST_ACT1.IMGNAME.DOG_CORGI,
+            CONST_ACT1.IMGID.DOG_LABRADOR, CONST_ACT1.IMGNAME.DOG_LABRADOR,
+            CONST_ACT1.IMGID.ITEM_BONE_SINGLE, CONST_ACT1.IMGNAME.ITEM_BONE_SINGLE,
+            CONST_ACT1.IMGID.ITEM_BONE_DOUBLE, CONST_ACT1.IMGNAME.ITEM_BONE_DOUBLE
         ];
     }
 
@@ -27,17 +27,17 @@ class Pzl1PreLoadScene extends BaseScene {
 
         // 各画像の読み込み
         this.preLoadImgList.forEach(img => {
-            this.load.image(img[0], DIR.DIR_IMG + "/" + img[1]);
+            this.load.image(img[0], CONST_ACT1.DIR.DIR_IMG + "/" + img[1]);
         });
 
         // 各スプライトシートの読み込み
         // 消去アニメーション
         this.load.spritesheet(
-            IMGID.ANIM_EFFECT_DELETEICON,
-            DIR.DIR_IMG + "/" + IMGNAME.ANIM_EFFECT_DELETEICON,
+            CONST_ACT1.IMGID.ANIM_EFFECT_DELETEICON,
+            CONST_ACT1.DIR.DIR_IMG + "/" + CONST_ACT1.IMGNAME.ANIM_EFFECT_DELETEICON,
             {
-                frameWidth: ICON.WIDTH,
-                frameHeight: ICON.HEIGHT
+                frameWidth: CONST_ACT1.ICON.WIDTH,
+                frameHeight: CONST_ACT1.ICON.HEIGHT
             }
         );
 
