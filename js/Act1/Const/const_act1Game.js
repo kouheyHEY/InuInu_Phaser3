@@ -1,0 +1,6 @@
+// 進捗バー
+CONST_ACT1.SPRITETYPE = {
+    PLAYER: "PLAYER",
+    ENEMY: "ENEMY",
+
+};

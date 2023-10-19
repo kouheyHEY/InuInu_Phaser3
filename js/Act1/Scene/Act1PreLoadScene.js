@@ -6,9 +6,7 @@ class Act1PreLoadScene extends BaseScene {
         super(COMMON.ACT1PRELOADSCENE);
 
         // 各画像の画像IDとファイル名のリスト
-        this.preLoadImgList = [
-            [CONST_ACT1.IMGID.ANIM_PLAYER_STOP, CONST_ACT1.IMGNAME.ANIM_PLAYER_STOP],
-        ];
+        this.preLoadImgList = [];
     }
 
     /**

@@ -22,7 +22,6 @@ class Stt1TitleScene extends BaseScene {
 
         // 各画像の読み込み
         this.preLoadImgList.forEach(img => {
-            console.log(img[0] + ", " + img[1]);
             this.load.image(img[0], CONST_STT1.DIR.DIR_IMG + "/" + img[1]);
         });
     }
