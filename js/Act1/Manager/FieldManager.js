@@ -9,4 +9,8 @@ class FieldManager {
         this.groundGroup = this.scene.physics.add.group();
     }
 
+    loadMapDataCsv() {
+
+    }
+
 }

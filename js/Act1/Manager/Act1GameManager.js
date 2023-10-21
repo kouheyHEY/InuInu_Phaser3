@@ -13,6 +13,12 @@ class Act1GameManager {
      * 各パラメータの初期化
      */
     initParameter() {
+        // プレイヤーの作成
+        this.player = new Player(
+            this.scene,
+            100, 100, CONST_ACT1.SPRITETYPE.PLAYER, CONST_ACT1.IMGID.ANIM_PLAYER_STOP
+        );
+
 
     }
 }

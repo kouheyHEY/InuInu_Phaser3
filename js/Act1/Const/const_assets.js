@@ -2,6 +2,7 @@
 CONST_ACT1.DIR = {
     DIR_ASSETS: "../assets",
     DIR_IMG: "../assets/img/dogRunAdv",
+    DIR_MAP: "../Data/map"
 };
 
 // 各画像ファイルのファイル名
@@ -25,12 +26,11 @@ CONST_ACT1.ANIMKEY = {
     PLAYER_STOP: "PLAYER_STOP",
 }
 
-CONST_ACT1.ANIMFRAME = {
-    PLAYER_STOP: 8,
-}
-
 CONST_ACT1.ANIMFRAMENUM = {
     PLAYER_STOP: 4,
+}
+CONST_ACT1.ANIMFRAMERATE = {
+    PLAYER_STOP: 6,
 }
 
 CONST_ACT1.SPRITE = {
