@@ -7,18 +7,82 @@ class Act1GameManager {
         this.enemyGroup = this.scene.physics.add.group();
         // アイテムグループ
         this.itemGroup = this.scene.physics.add.group();
+        // フィールド上の足場のグループ
+        this.groundGroup = this.scene.physics.add.group();
     }
 
     /**
      * 各パラメータの初期化
      */
     initParameter() {
-        // プレイヤーの作成
-        this.player = new Player(
-            this.scene,
-            100, 100, CONST_ACT1.SPRITETYPE.PLAYER, CONST_ACT1.IMGID.ANIM_PLAYER_STOP
-        );
 
+        // プレイヤー
+        if (this.player != null) {
+            this.player.destroy();
+        }
+        this.player = null;
 
+        // 敵グループ
+        this.enemyGroup.clear(true, true);
+        // アイテムグループ
+        this.itemGroup.clear(true, true);
+        // フィールド上の足場のグループ
+        this.groundGroup.clear(true, true);
+    }
+
+    /**
+     * マップデータからオブジェクトを生成する。
+     */
+    generateAllObject(_mapData) {
+
+        for (let i = 0; i < _mapData.length; i++) {
+            for (let j = 0; j < _mapData[i].length; j++) {
+                let dataType = _mapData[i][j];
+                let x = (j + 0.5) * CONST_ACT1.SIZE.GROUND.WIDTH;
+                let y = (i + 0.5) * CONST_ACT1.SIZE.GROUND.HEIGHT;
+
+                if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_BLOCK_NORMAL) {
+                    console.log("generate ground_block");
+                } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.PLAYER) {
+                    console.log("generate player");
+                    // プレイヤーの場合
+                    if (this.player == null) {
+
+                        this.player = new Player(
+                            this.scene,
+                            x + CONST_ACT1.SIZE.GROUND.WIDTH / 2,
+                            y + CONST_ACT1.SIZE.GROUND.HEIGHT / 2,
+                            CONST_ACT1.SPRITETYPE.PLAYER,
+                            CONST_ACT1.IMGID.ANIM_PLAYER_STOP
+                        );
+                    }
+
+                } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_OUTSIDE) {
+
+                    console.log("generate grount_outside");
+
+                    let ground = new Ground(
+                        this.scene,
+                        x,
+                        y,
+                        CONST_ACT1.SPRITETYPE.GROUND_OUTSIDE,
+                        CONST_ACT1.IMGID.GROUND_OUTSIDE
+                    );
+                    this.groundGroup.add(ground);
+                } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_INSIDE) {
+
+                    console.log("generate grount_inside");
+
+                    let ground = new Ground(
+                        this.scene,
+                        x,
+                        y,
+                        CONST_ACT1.SPRITETYPE.GROUND_INSIDE,
+                        CONST_ACT1.IMGID.GROUND_INSIDE
+                    );
+                    this.groundGroup.add(ground);
+                }
+            }
+        }
     }
 }

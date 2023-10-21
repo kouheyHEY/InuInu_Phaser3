@@ -6,20 +6,21 @@ class FileUtil {
      */
     static getFileFromDialog() {
         return new Promise((resolve, reject) => {
-            const fileInput = document.createElement('input');
+            let fileInput = document.createElement('input');
             fileInput.type = 'file';
+            document.getElementById(CONST_ACT1.INPUT_ID).appendChild(fileInput);
 
             fileInput.addEventListener('change', function (event) {
-                const selectedFile = event.target.files[0];
+                let selectedFile = event.target.files[0];
                 if (selectedFile) {
-                    const fileName = selectedFile.name;
+                    let fileName = selectedFile.name;
                     resolve(fileName);
                 } else {
                     reject('ファイルが選択されていません。');
                 }
 
                 // ダイアログを削除
-                document.body.removeChild(fileInput);
+                document.getElementById(CONST_ACT1.INPUT_ID).removeChild(fileInput);
             });
 
             // ファイル選択ダイアログを表示
@@ -43,5 +44,36 @@ class FileUtil {
             .catch((error) => {
                 console.error(error);
             });
+    }
+
+    /**
+     * csvを配列に変換する（カンマ区切り）
+     * @param {string} _filePath ファイルパス（相対）
+     * @returns {Array} 配列
+     */
+    static loadCsvToArray(_filePath) {
+        // csvの配列データ
+        let csvData = [];
+
+        fetch(_filePath)
+            .then(response => response.text())
+            .then(data => {
+                // 1行ごとに処理
+                let lines = data.split('\n');
+
+                // カンマ区切りで配列に格納
+                for (let i = 0; i < lines.length; i++) {
+                    let row = lines[i].split(',');
+                    csvData.push(row);
+                }
+
+                // ファイルの内容を処理するためのコードをここに追加
+                console.log(csvData);
+            })
+            .catch(error => {
+                console.error('ファイルの読み込みエラー:', error);
+            });
+
+        return csvData;
     }
 }

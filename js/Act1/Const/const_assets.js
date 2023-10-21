@@ -9,7 +9,7 @@ CONST_ACT1.DIR = {
 CONST_ACT1.IMGNAME = {
     GROUND_INSIDE: "ground_inside.png",
     GROUND_OUTSIDE: "ground_outside.png",
-    GROUND_BLOCK: "ground_block.png",
+    GROUND_BLOCK_NORMAL: "ground_block_normal.png",
     ANIM_PLAYER_STOP: "dog_shiba_stop.png",
 };
 
@@ -17,7 +17,7 @@ CONST_ACT1.IMGNAME = {
 CONST_ACT1.IMGID = {
     GROUND_INSIDE: "GROUND_INSIDE",
     GROUND_OUTSIDE: "GROUND_OUTSIDE",
-    GROUND_BLOCK: "GROUND_BLOCK",
+    GROUND_BLOCK_NORMAL: "GROUND_BLOCK_NORMAL",
     ANIM_PLAYER_STOP: "ANIM_PLAYER_STOP",
 };
 
@@ -33,14 +33,11 @@ CONST_ACT1.ANIMFRAMERATE = {
     PLAYER_STOP: 6,
 }
 
-CONST_ACT1.SPRITE = {
-    PLAYER: "PLAYER",
-    ITEM: "ITEM",
-}
-
 CONST_ACT1.SIZE = {
     PLAYER:
         { WIDTH: 96, HEIGHT: 96 },
     ITEM:
         { WIDTH: 64, HEIGHT: 64 },
+    GROUND:
+        { WIDTH: 48, HEIGHT: 48 },
 };

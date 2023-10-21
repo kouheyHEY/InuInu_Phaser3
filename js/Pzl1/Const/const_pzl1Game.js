@@ -18,7 +18,7 @@ CONST_PZL1.ITEMTYPE_ID = {
 
 // 制限時間表示位置
 CONST_PZL1.TIMEINFO = {
-    INITTIME: 5,
+    INITTIME: 60,
     X: 16,
     Y: 40
 }

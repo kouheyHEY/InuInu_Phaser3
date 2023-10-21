@@ -157,7 +157,7 @@ class Grid {
 
 
             // 消去するタイプをランダムに決定する
-            while (deleteTypeList.length < DELETE_TYPE_NUM.ITEM_BONE_DOUBLE) {
+            while (deleteTypeList.length < CONST_PZL1.DELETE_TYPE_NUM.ITEM_BONE_DOUBLE) {
                 // 消去するタイプを、盤面上のアイコンのタイプから決定
                 let rndRow = Math.floor(Math.random() * this.numRows);
                 let rndCol = Math.floor(Math.random() * this.numCols);
