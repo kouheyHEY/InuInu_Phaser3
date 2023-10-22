@@ -46,14 +46,16 @@ class Act1GameScene extends BaseScene {
             this.mainCamera.startFollow(this.gameManager.player, true);
             this.mainCamera.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
 
-            // プレイヤーの速度設定
-            this.gameManager.player.body.setMaxVelocityX(CONST_ACT1.MAXSPEED.PLAYER);
             // プレイヤースプライトが境界線と衝突するように設定
             this.physics.world.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
             this.gameManager.player.setCollideWorldBounds(true);
 
             this.generateMapFlg = true;
+            return;
         }
+
+        // プレイヤーの更新
+        this.gameManager.player.update();
     }
 
     mousePointerDown() {
@@ -63,10 +65,11 @@ class Act1GameScene extends BaseScene {
         }
         let mouseX = this.input.activePointer.x;
 
-        // 移動方向に加速する
-        let moveDir = (mouseX <= SCR_WIDTH / 2) ? -1 : 1;
+        // 画面の左半分をクリックした場合、左方向に加速する
+        let moveDir = (mouseX <= SCR_WIDTH / 2) ? CONST_ACT1.DIRECTION.LEFT : CONST_ACT1.DIRECTION.RIGHT;
+        this.gameManager.player.moveX(moveDir);
 
-        this.gameManager.player.body.setAccelerationX(moveDir * CONST_ACT1.ACCELERATION.PLAYER);
+        this.gameManager.player.moving = true;
     }
 
     mousePointerUp() {
@@ -76,6 +79,9 @@ class Act1GameScene extends BaseScene {
         }
         let mouseX = this.input.activePointer.x;
         let mouseY = this.input.activePointer.y;
+
+        this.gameManager.player.moving = false;
+        this.gameManager.player.stopAcceleration();
     }
 
 }

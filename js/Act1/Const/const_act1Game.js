@@ -26,10 +26,24 @@ CONST_ACT1.INPUT_MAP = [
 ];
 
 // スプライト物理演算用の各プロパティ
+CONST_ACT1.GRAVITY = 768;
 CONST_ACT1.MAXSPEED = {
     PLAYER: 384,
 };
 
+CONST_ACT1.MINSPEED = {
+    PLAYER: 10,
+}
+
 CONST_ACT1.ACCELERATION = {
     PLAYER: 512
+}
+CONST_ACT1.DRAG = {
+    PLAYER: 0.04,
+}
+
+// スプライトの向き
+CONST_ACT1.DIRECTION = {
+    RIGHT: 1,
+    LEFT: -1
 }

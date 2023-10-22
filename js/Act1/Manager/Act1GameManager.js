@@ -8,7 +8,7 @@ class Act1GameManager {
         // アイテムグループ
         this.itemGroup = this.scene.physics.add.group();
         // フィールド上の足場のグループ
-        this.groundGroup = this.scene.physics.add.group();
+        this.groundGroup = this.scene.physics.add.staticGroup();
     }
 
     /**
@@ -67,32 +67,43 @@ class Act1GameManager {
                         );
                     }
 
+                    // プレイヤーの速度設定
+                    this.player.body.setMaxVelocity(CONST_ACT1.MAXSPEED.PLAYER, 0);
+
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_OUTSIDE) {
                     // 足場（表面）の場合
-                    console.log("generate grount_outside");
+                    console.log("generate ground_outside");
 
-                    let ground = new Ground(
-                        this.scene,
-                        x,
-                        y,
-                        CONST_ACT1.SPRITETYPE.GROUND_OUTSIDE,
-                        CONST_ACT1.IMGID.GROUND_OUTSIDE
-                    );
-                    this.groundGroup.add(ground);
+                    // let ground = new Ground(
+                    //     this.scene,
+                    //     x,
+                    //     y,
+                    //     CONST_ACT1.SPRITETYPE.GROUND_OUTSIDE,
+                    //     CONST_ACT1.IMGID.GROUND_OUTSIDE
+                    // );
+                    // this.groundGroup.add(ground);
+                    this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_OUTSIDE);
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_INSIDE) {
                     // 足場（内部）の場合
-                    console.log("generate grount_inside");
+                    console.log("generate ground_inside");
 
-                    let ground = new Ground(
-                        this.scene,
-                        x,
-                        y,
-                        CONST_ACT1.SPRITETYPE.GROUND_INSIDE,
-                        CONST_ACT1.IMGID.GROUND_INSIDE
-                    );
-                    this.groundGroup.add(ground);
+                    // let ground = new Ground(
+                    //     this.scene,
+                    //     x,
+                    //     y,
+                    //     CONST_ACT1.SPRITETYPE.GROUND_INSIDE,
+                    //     CONST_ACT1.IMGID.GROUND_INSIDE
+                    // );
+                    // this.groundGroup.add(ground);
+                    this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_INSIDE);
                 }
             }
         }
+
+        // 衝突判定の設定
+        this.scene.physics.add.collider(this.player, this.groundGroup);
+
+        // プレイヤーの速度設定
+        this.player.body.setMaxVelocityY(CONST_ACT1.MAXSPEED.PLAYER);
     }
 }
