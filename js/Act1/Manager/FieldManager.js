@@ -5,6 +5,9 @@ class FieldManager {
         this.field = [];
         // シーン
         this.scene = scene;
+        // フィールドの広さ
+        this.fieldWidth = 0;
+        this.fieldHeight = 0;
     }
 
     /**
@@ -31,6 +34,15 @@ class FieldManager {
      */
     hasMapData() {
         return this.field.length != 0;
+    }
+
+    /**
+     * フィールドのサイズを計算
+     */
+    calcFieldSize() {
+        // 読み込みをした配列から、フィールドの広さを計算
+        this.fieldWidth = this.field[0].length * CONST_ACT1.SIZE.GROUND.WIDTH;
+        this.fieldHeight = this.field.length * CONST_ACT1.SIZE.GROUND.HEIGHT;
     }
 
 }

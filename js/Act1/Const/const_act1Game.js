@@ -24,3 +24,12 @@ CONST_ACT1.INPUT_ID = "input-dummyId";
 CONST_ACT1.INPUT_MAP = [
     "map_0101.csv"
 ];
+
+// スプライト物理演算用の各プロパティ
+CONST_ACT1.MAXSPEED = {
+    PLAYER: 384,
+};
+
+CONST_ACT1.ACCELERATION = {
+    PLAYER: 512
+}

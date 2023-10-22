@@ -59,7 +59,7 @@ class FileUtil {
             .then(response => response.text())
             .then(data => {
                 // 1行ごとに処理
-                let lines = data.split('\n');
+                let lines = data.split('\r\n');
 
                 // カンマ区切りで配列に格納
                 for (let i = 0; i < lines.length; i++) {

@@ -42,10 +42,20 @@ class Act1GameManager {
                 let y = (i + 0.5) * CONST_ACT1.SIZE.GROUND.HEIGHT;
 
                 if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_BLOCK_NORMAL) {
+                    // 足場（ブロック）の場合
                     console.log("generate ground_block");
+
+                    let ground = new Ground(
+                        this.scene,
+                        x,
+                        y,
+                        CONST_ACT1.SPRITETYPE.GROUND_BLOCK_NORMAL,
+                        CONST_ACT1.IMGID.GROUND_BLOCK_NORMAL
+                    );
+                    this.groundGroup.add(ground);
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.PLAYER) {
-                    console.log("generate player");
                     // プレイヤーの場合
+                    console.log("generate player");
                     if (this.player == null) {
 
                         this.player = new Player(
@@ -58,7 +68,7 @@ class Act1GameManager {
                     }
 
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_OUTSIDE) {
-
+                    // 足場（表面）の場合
                     console.log("generate grount_outside");
 
                     let ground = new Ground(
@@ -70,7 +80,7 @@ class Act1GameManager {
                     );
                     this.groundGroup.add(ground);
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_INSIDE) {
-
+                    // 足場（内部）の場合
                     console.log("generate grount_inside");
 
                     let ground = new Ground(
