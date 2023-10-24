@@ -18,13 +18,20 @@ class Player extends PhysSprite {
         this.body.setDamping(true);
 
         // 動いているかどうか
-        this.moving = false;
+        this.isMoving = false;
+        this.onGround = false;
+
+        // ジャンプパワー
+        this.jumpSpeed = CONST_ACT1.JUMPSPEED.PLAYER;
 
     }
 
+    /**
+     * プレイヤーの更新処理
+     */
     update() {
-        // プレイヤーの更新処理
-        if (!this.moving) {
+        // 動いていない場合
+        if (!this.isMoving && this.onGround) {
             // 減速させる
             this.body.setDragX(CONST_ACT1.DRAG.PLAYER);
 
@@ -41,6 +48,16 @@ class Player extends PhysSprite {
     moveX(_dir) {
         super.accelHorizontal(_dir, CONST_ACT1.ACCELERATION.PLAYER);
         this.flipX = (_dir == CONST_ACT1.DIRECTION.LEFT);
+    }
+
+    /**
+     * ジャンプする
+     */
+    jump() {
+        if (this.onGround) {
+            this.body.setVelocityY(-this.jumpSpeed);
+            this.onGround = false;
+        }
     }
 
     /**

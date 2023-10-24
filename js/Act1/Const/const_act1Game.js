@@ -31,15 +31,20 @@ CONST_ACT1.MAXSPEED = {
     PLAYER: 384,
 };
 
+// 最低速度
 CONST_ACT1.MINSPEED = {
     PLAYER: 10,
 }
-
+// 加速度
 CONST_ACT1.ACCELERATION = {
     PLAYER: 512
 }
+// 減速率
 CONST_ACT1.DRAG = {
     PLAYER: 0.04,
+}
+CONST_ACT1.JUMPSPEED = {
+    PLAYER: 512,
 }
 
 // スプライトの向き

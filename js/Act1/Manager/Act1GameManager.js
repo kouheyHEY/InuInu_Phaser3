@@ -101,7 +101,11 @@ class Act1GameManager {
         }
 
         // 衝突判定の設定
-        this.scene.physics.add.collider(this.player, this.groundGroup);
+        // プレイヤーと足場の衝突
+        this.scene.physics.add.collider(this.player, this.groundGroup, (p, g) => {
+            // 接地フラグの設定
+            p.onGround = true;
+        });
 
         // プレイヤーの速度設定
         this.player.body.setMaxVelocityY(CONST_ACT1.MAXSPEED.PLAYER);

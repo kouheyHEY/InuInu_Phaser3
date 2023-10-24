@@ -56,32 +56,48 @@ class Act1GameScene extends BaseScene {
 
         // プレイヤーの更新
         this.gameManager.player.update();
+
+        console.log(this.gameManager.player.onGround);
     }
 
+    /**
+     * 画面をクリックした時の挙動
+     */
     mousePointerDown() {
         // クリック不可能な状態なら処理終了
         if (!this.generateMapFlg) {
             return;
         }
+        // 座標を取得
         let mouseX = this.input.activePointer.x;
 
         // 画面の左半分をクリックした場合、左方向に加速する
         let moveDir = (mouseX <= SCR_WIDTH / 2) ? CONST_ACT1.DIRECTION.LEFT : CONST_ACT1.DIRECTION.RIGHT;
         this.gameManager.player.moveX(moveDir);
 
-        this.gameManager.player.moving = true;
+        // プレイヤーが動いている間のフラグをオンにする
+        this.gameManager.player.isMoving = true;
     }
 
+    /**
+     * 画面からクリックを離した時の挙動
+     */
     mousePointerUp() {
         // クリック不可能な状態なら処理終了
         if (!this.generateMapFlg) {
             return;
         }
+        // 座標を取得
         let mouseX = this.input.activePointer.x;
         let mouseY = this.input.activePointer.y;
 
-        this.gameManager.player.moving = false;
+        // ジャンプする
+        this.gameManager.player.jump();
+        // 加速を中止
         this.gameManager.player.stopAcceleration();
+
+        // プレイヤーが動いている間のフラグをオフにする
+        this.gameManager.player.isMoving = false;
     }
 
 }
