@@ -56,8 +56,6 @@ class Act1GameScene extends BaseScene {
 
         // プレイヤーの更新
         this.gameManager.player.update();
-
-        console.log(this.gameManager.player.onGround);
     }
 
     /**
@@ -87,14 +85,13 @@ class Act1GameScene extends BaseScene {
         if (!this.generateMapFlg) {
             return;
         }
+
         // 座標を取得
         let mouseX = this.input.activePointer.x;
         let mouseY = this.input.activePointer.y;
 
         // ジャンプする
         this.gameManager.player.jump();
-        // 加速を中止
-        this.gameManager.player.stopAcceleration();
 
         // プレイヤーが動いている間のフラグをオフにする
         this.gameManager.player.isMoving = false;

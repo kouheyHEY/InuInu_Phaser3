@@ -20,11 +20,6 @@ CONST_ACT1.SPRITETYPE_MAP = {
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
 
-// マップファイルのファイル名リスト
-CONST_ACT1.INPUT_MAP = [
-    "map_0101.csv"
-];
-
 // スプライト物理演算用の各プロパティ
 CONST_ACT1.GRAVITY = 768;
 CONST_ACT1.MAXSPEED = {
@@ -41,7 +36,7 @@ CONST_ACT1.ACCELERATION = {
 }
 // 減速率
 CONST_ACT1.DRAG = {
-    PLAYER: 0.04,
+    PLAYER: 0.02,
 }
 CONST_ACT1.JUMPSPEED = {
     PLAYER: 512,

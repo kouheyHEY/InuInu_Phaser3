@@ -18,7 +18,8 @@ class FieldManager {
         // ファイル名が指定されなかった場合
         if (_fileName == null) {
             // ファイルはランダムに選択される
-            _fileName = CONST_ACT1.INPUT_MAP[0];
+            _fileName = CONST_ACT1.INPUT_MAP[1];
+            // _fileName = Phaser.Utils.Array.GetRandom(CONST_ACT1.INPUT_MAP);
         }
 
         // 読み込むファイル

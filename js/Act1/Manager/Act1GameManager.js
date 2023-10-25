@@ -45,14 +45,8 @@ class Act1GameManager {
                     // 足場（ブロック）の場合
                     console.log("generate ground_block");
 
-                    let ground = new Ground(
-                        this.scene,
-                        x,
-                        y,
-                        CONST_ACT1.SPRITETYPE.GROUND_BLOCK_NORMAL,
-                        CONST_ACT1.IMGID.GROUND_BLOCK_NORMAL
-                    );
-                    this.groundGroup.add(ground);
+                    this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_BLOCK_NORMAL);
+
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.PLAYER) {
                     // プレイヤーの場合
                     console.log("generate player");
@@ -68,34 +62,20 @@ class Act1GameManager {
                     }
 
                     // プレイヤーの速度設定
-                    this.player.body.setMaxVelocity(CONST_ACT1.MAXSPEED.PLAYER, 0);
+                    this.player.body.setMaxVelocityX(CONST_ACT1.MAXSPEED.PLAYER);
 
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_OUTSIDE) {
                     // 足場（表面）の場合
                     console.log("generate ground_outside");
 
-                    // let ground = new Ground(
-                    //     this.scene,
-                    //     x,
-                    //     y,
-                    //     CONST_ACT1.SPRITETYPE.GROUND_OUTSIDE,
-                    //     CONST_ACT1.IMGID.GROUND_OUTSIDE
-                    // );
-                    // this.groundGroup.add(ground);
                     this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_OUTSIDE);
+
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_INSIDE) {
                     // 足場（内部）の場合
                     console.log("generate ground_inside");
 
-                    // let ground = new Ground(
-                    //     this.scene,
-                    //     x,
-                    //     y,
-                    //     CONST_ACT1.SPRITETYPE.GROUND_INSIDE,
-                    //     CONST_ACT1.IMGID.GROUND_INSIDE
-                    // );
-                    // this.groundGroup.add(ground);
                     this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_INSIDE);
+
                 }
             }
         }
@@ -103,11 +83,12 @@ class Act1GameManager {
         // 衝突判定の設定
         // プレイヤーと足場の衝突
         this.scene.physics.add.collider(this.player, this.groundGroup, (p, g) => {
-            // 接地フラグの設定
-            p.onGround = true;
+            // 上からの衝突の場合
+            if (p.body.touching.down) {
+                // 接地フラグの設定
+                p.onGround = true;
+            }
         });
 
-        // プレイヤーの速度設定
-        this.player.body.setMaxVelocityY(CONST_ACT1.MAXSPEED.PLAYER);
     }
 }

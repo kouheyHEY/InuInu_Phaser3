@@ -31,13 +31,31 @@ class Player extends PhysSprite {
      */
     update() {
         // 動いていない場合
-        if (!this.isMoving && this.onGround) {
-            // 減速させる
-            this.body.setDragX(CONST_ACT1.DRAG.PLAYER);
+        if (!this.isMoving) {
 
+            if (this.onGround) {
+                // 接地している場合
+                // 減速させる
+                this.body.setDragX(CONST_ACT1.DRAG.PLAYER);
+            } else {
+                // 接地していない場合
+                // 加速を中止する
+                this.stopAcceleration();
+            }
+
+            // 最低速度を下回った場合、停止する
             if (Math.abs(this.body.velocity.x) < CONST_ACT1.MINSPEED.PLAYER) {
                 this.body.setVelocityX(0);
             }
+        }
+
+        // console.log("ACCEL : " + this.body.acceleration.x);
+
+        if (this.isMoving) {
+            // console.log("moving : " + this.isMoving);
+        }
+        if (this.onGround) {
+            // console.log("onGround : " + this.onGround);
         }
     }
 
@@ -46,7 +64,11 @@ class Player extends PhysSprite {
      * @param {int} _dir 加速方向
      */
     moveX(_dir) {
+        // 減速率を0にする
+        this.body.setDragX(1);
+        // 加速する
         super.accelHorizontal(_dir, CONST_ACT1.ACCELERATION.PLAYER);
+        // スプライトの向きの調整
         this.flipX = (_dir == CONST_ACT1.DIRECTION.LEFT);
     }
 

@@ -41,3 +41,9 @@ CONST_ACT1.SIZE = {
     GROUND:
         { WIDTH: 48, HEIGHT: 48 },
 };
+
+// マップファイルのファイル名リスト
+CONST_ACT1.INPUT_MAP = [
+    "map_0101.csv",
+    "map_0102.csv",
+];
