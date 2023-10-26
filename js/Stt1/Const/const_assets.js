@@ -27,7 +27,6 @@ CONST_STT1.SIZE = {
 
 CONST_STT1.POSITION = {
     BUTTON: {
-        Y: 300,
         SPACE: 48,
     }
 }

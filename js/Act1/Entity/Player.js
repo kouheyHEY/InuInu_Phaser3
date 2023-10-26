@@ -23,6 +23,9 @@ class Player extends PhysSprite {
 
         // ジャンプパワー
         this.jumpSpeed = CONST_ACT1.JUMPSPEED.PLAYER;
+        // 体力
+        this.hp = CONST_ACT1.HP.PLAYER;
+        this.maxHp = CONST_ACT1.HP.PLAYER;
 
     }
 
@@ -47,6 +50,9 @@ class Player extends PhysSprite {
             if (Math.abs(this.body.velocity.x) < CONST_ACT1.MINSPEED.PLAYER) {
                 this.body.setVelocityX(0);
             }
+        } else {
+            // 動いている最中はHPを減少させる
+            this.consumeHP(CONST_ACT1.HPCOST.MOVE);
         }
 
         // console.log("ACCEL : " + this.body.acceleration.x);
@@ -76,7 +82,11 @@ class Player extends PhysSprite {
      * ジャンプする
      */
     jump() {
+        // 接地している場合にジャンプする
         if (this.onGround) {
+            // エネルギーを消費する
+            this.consumeHP(CONST_ACT1.HPCOST.JUMP);
+            // 上方向に加速する
             this.body.setVelocityY(-this.jumpSpeed);
             this.onGround = false;
         }
@@ -87,5 +97,22 @@ class Player extends PhysSprite {
      */
     stopAcceleration() {
         this.body.setAccelerationX(0);
+    }
+
+    /**
+     * hpを、最大値を上限として回復する
+     * @param {int} _amount 回復量
+     */
+    recoverHP(_amount) {
+        this.hp = Math.min(this.maxHp, this.hp + _amount);
+        console.log(this.hp);
+    }
+
+    /**
+     * hpを、最低値を下限として消費する
+     * @param {int} _amount 消費量
+     */
+    consumeHP(_amount) {
+        this.hp = Math.max(0, this.hp - _amount);
     }
 }

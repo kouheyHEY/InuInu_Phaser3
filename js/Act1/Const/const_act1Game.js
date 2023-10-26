@@ -2,6 +2,7 @@
 CONST_ACT1.SPRITETYPE = {
     PLAYER: "PLAYER",
     ENEMY: "ENEMY",
+    ITEM_FOOD: "ITEM_FOOD",
     GROUND_OUTSIDE: "GROUND_OUTSIDE",
     GROUND_INSIDE: "GROUND_INSIDE",
     GROUND_BLOCK_NORMAL: "GROUND_BLOCK_NORMAL"
@@ -12,13 +13,37 @@ CONST_ACT1.SPRITETYPE_MAP = {
     EMPTY: "0",
     PLAYER: "p",
     ENEMY: "e",
+    ITEM_FOOD: "f",
     GROUND_OUTSIDE: "1",
     GROUND_INSIDE: "2",
-    GROUND_BLOCK_NORMAL: "3"
+    GROUND_BLOCK_NORMAL: "3",
 }
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
+
+// 体力の初期値
+CONST_ACT1.HP = {
+    PLAYER: 1000,
+};
+// 体力の減少値
+CONST_ACT1.HPCOST = {
+    JUMP: 100,
+    MOVE: 1,
+}
+// 体力の回復量
+CONST_ACT1.HPRECOVER = {
+    ITEM_FOOD: 400,
+}
+// 体力ゲージ
+CONST_ACT1.PLAYER_HPBAR = {
+    X: 20,
+    Y: 20,
+    WIDTH: 200,
+    HEIGHT: 20,
+    COLOR: 0x00ff00,
+    BGCOLOR: 0x808080,
+};
 
 // スプライト物理演算用の各プロパティ
 CONST_ACT1.GRAVITY = 768;

@@ -41,7 +41,7 @@ const config = {
         arcade: {
             // スプライトに緑の枠を表示
             // 物理演算ボディに紫の枠を表示
-            debug: true,
+            // debug: true,
         }
     },
 

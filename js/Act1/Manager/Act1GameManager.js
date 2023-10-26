@@ -76,6 +76,17 @@ class Act1GameManager {
 
                     this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_INSIDE);
 
+                } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.ITEM_FOOD) {
+                    // アイテム（餌）の場合
+                    console.log("generate item_food");
+
+                    this.itemGroup.add(new Item(
+                        this.scene,
+                        x,
+                        y,
+                        CONST_ACT1.SPRITETYPE.ITEM_FOOD,
+                        CONST_ACT1.IMGID.ITEM_FOOD
+                    ));
                 }
             }
         }
@@ -87,6 +98,18 @@ class Act1GameManager {
             if (p.body.touching.down) {
                 // 接地フラグの設定
                 p.onGround = true;
+            }
+        });
+
+        // プレイヤーとアイテムの衝突
+        this.scene.physics.add.overlap(this.player, this.itemGroup, (p, i) => {
+
+            // フードの場合
+            if (i.type == CONST_ACT1.SPRITETYPE.ITEM_FOOD) {
+                // プレイヤーの体力を回復する
+                this.player.recoverHP(CONST_ACT1.HPRECOVER.ITEM_FOOD);
+                // アイテムの消滅
+                i.destroy();
             }
         });
 

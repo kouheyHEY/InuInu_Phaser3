@@ -27,10 +27,11 @@ class Stt1TitleScene extends BaseScene {
     }
 
     create() {
+        let buttonY = (SCR_HEIGHT - (CONST_STT1.SIZE.BUTTON.HEIGHT) * 2 + CONST_STT1.POSITION.BUTTON.SPACE * 1) / 2;
         // Pzl1GameScene に遷移するボタン
         const buttonPzl1 = this.add.sprite(
             SCR_WIDTH / 2,
-            CONST_STT1.POSITION.BUTTON.Y,
+            buttonY,
             CONST_STT1.IMGID.BUTTON_DOGPUZZLE
         ).setInteractive();
 
@@ -46,10 +47,12 @@ class Stt1TitleScene extends BaseScene {
             this.scene.start(COMMON.PZL1PRELOADSCENE);
         });
 
+        buttonY += CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.POSITION.BUTTON.SPACE;
+
         // Act1GameScene に遷移するボタン
         const buttonAct1 = this.add.sprite(
             SCR_WIDTH / 2,
-            CONST_STT1.POSITION.BUTTON.Y + CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.POSITION.BUTTON.SPACE,
+            buttonY,
             CONST_STT1.IMGID.BUTTON_DOGRUN
         ).setInteractive();
 

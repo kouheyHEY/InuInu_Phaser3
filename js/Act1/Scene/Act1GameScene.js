@@ -21,6 +21,23 @@ class Act1GameScene extends BaseScene {
         // マップとなるファイルの選択
         this.fieldManager.loadMapDataFromCsv();
 
+        // ui要素の作成
+        this.ui = this.add.group();
+
+        // プレイヤーのHPゲージの表示
+        this.playerHPBarBG = this.add.graphics();
+        this.playerHPBarBG.fillStyle(CONST_ACT1.PLAYER_HPBAR.BGCOLOR, 0.8);
+        this.playerHPBarBG.fillRect(
+            CONST_ACT1.PLAYER_HPBAR.X,
+            CONST_ACT1.PLAYER_HPBAR.Y,
+            CONST_ACT1.PLAYER_HPBAR.WIDTH,
+            CONST_ACT1.PLAYER_HPBAR.HEIGHT
+        );
+        this.ui.add(this.playerHPBarBG);
+
+        this.playerHPBar = this.add.graphics();
+        this.ui.add(this.playerHPBar);
+
         // マウスボタンが押されたときのイベントを設定
         this.input.on('pointerdown', this.mousePointerDown, this);
 
@@ -46,6 +63,16 @@ class Act1GameScene extends BaseScene {
             this.mainCamera.startFollow(this.gameManager.player, true);
             this.mainCamera.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
 
+            this.mainCamera.ignore(this.ui);
+
+            // ui用のカメラも作成する
+            this.uiCamera = this.cameras.add(0, 0, SCR_WIDTH, SCR_HEIGHT);
+
+            this.uiCamera.ignore(this.gameManager.player);
+            this.uiCamera.ignore(this.gameManager.enemyGroup);
+            this.uiCamera.ignore(this.gameManager.groundGroup);
+            this.uiCamera.ignore(this.gameManager.itemGroup);
+
             // プレイヤースプライトが境界線と衝突するように設定
             this.physics.world.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
             this.gameManager.player.setCollideWorldBounds(true);
@@ -56,6 +83,19 @@ class Act1GameScene extends BaseScene {
 
         // プレイヤーの更新
         this.gameManager.player.update();
+
+        // プレイヤーのHPゲージの更新
+        let playerHP = this.gameManager.player.hp;
+        this.playerHPBar.clear();
+
+        let hpBarWidth = (playerHP / this.gameManager.player.maxHp) * CONST_ACT1.PLAYER_HPBAR.WIDTH;
+        this.playerHPBar.fillStyle(CONST_ACT1.PLAYER_HPBAR.COLOR);
+        this.playerHPBar.fillRect(
+            CONST_ACT1.PLAYER_HPBAR.X,
+            CONST_ACT1.PLAYER_HPBAR.Y,
+            hpBarWidth,
+            CONST_ACT1.PLAYER_HPBAR.HEIGHT
+        );
     }
 
     /**

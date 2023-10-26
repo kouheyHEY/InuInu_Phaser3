@@ -10,6 +10,7 @@ CONST_ACT1.IMGNAME = {
     GROUND_INSIDE: "ground_inside.png",
     GROUND_OUTSIDE: "ground_outside.png",
     GROUND_BLOCK_NORMAL: "ground_block_normal.png",
+    ITEM_FOOD: "item_food.png",
     ANIM_PLAYER_STOP: "dog_shiba_stop.png",
 };
 
@@ -18,6 +19,7 @@ CONST_ACT1.IMGID = {
     GROUND_INSIDE: "GROUND_INSIDE",
     GROUND_OUTSIDE: "GROUND_OUTSIDE",
     GROUND_BLOCK_NORMAL: "GROUND_BLOCK_NORMAL",
+    ITEM_FOOD: "ITEM_FOOD",
     ANIM_PLAYER_STOP: "ANIM_PLAYER_STOP",
 };
 
@@ -37,7 +39,7 @@ CONST_ACT1.SIZE = {
     PLAYER:
         { WIDTH: 96, HEIGHT: 96 },
     ITEM:
-        { WIDTH: 64, HEIGHT: 64 },
+        { WIDTH: 48, HEIGHT: 48 },
     GROUND:
         { WIDTH: 48, HEIGHT: 48 },
 };
