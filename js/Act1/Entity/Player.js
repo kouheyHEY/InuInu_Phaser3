@@ -17,7 +17,7 @@ class Player extends PhysSprite {
         // 減速の方法の初期設定
         this.body.setDamping(true);
 
-        // 動いているかどうか
+        // 各種フラグ
         this.isMoving = false;
         this.onGround = false;
 
@@ -40,10 +40,6 @@ class Player extends PhysSprite {
                 // 接地している場合
                 // 減速させる
                 this.body.setDragX(CONST_ACT1.DRAG.PLAYER);
-            } else {
-                // 接地していない場合
-                // 加速を中止する
-                this.stopAcceleration();
             }
 
             // 最低速度を下回った場合、停止する

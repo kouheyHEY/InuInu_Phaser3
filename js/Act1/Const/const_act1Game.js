@@ -37,7 +37,12 @@ CONST_ACT1.HPRECOVER = {
 }
 // 体力ゲージ
 CONST_ACT1.PLAYER_HPBAR = {
-    X: 20,
+    LABEL: "HP:",
+    LABELX: 20,
+    LABELY: 20,
+    LABELSIZE: 20,
+    LABELCOLOR: "#ffffff",
+    X: 60,
     Y: 20,
     WIDTH: 200,
     HEIGHT: 20,
@@ -61,7 +66,7 @@ CONST_ACT1.ACCELERATION = {
 }
 // 減速率
 CONST_ACT1.DRAG = {
-    PLAYER: 0.02,
+    PLAYER: 0.01,
 }
 CONST_ACT1.JUMPSPEED = {
     PLAYER: 512,

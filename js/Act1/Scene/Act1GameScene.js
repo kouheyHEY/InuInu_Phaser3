@@ -38,6 +38,16 @@ class Act1GameScene extends BaseScene {
         this.playerHPBar = this.add.graphics();
         this.ui.add(this.playerHPBar);
 
+        this.playerHPLabel = this.setText(
+            CONST_ACT1.PLAYER_HPBAR.LABEL,
+            CONST_ACT1.PLAYER_HPBAR.LABELX,
+            CONST_ACT1.PLAYER_HPBAR.LABELY,
+            CONST_ACT1.PLAYER_HPBAR.LABELSIZE,
+            CONST_ACT1.PLAYER_HPBAR.LABELCOLOR,
+        );
+        this.playerHPLabel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
+        this.ui.add(this.playerHPLabel);
+
         // マウスボタンが押されたときのイベントを設定
         this.input.on('pointerdown', this.mousePointerDown, this);
 
@@ -130,11 +140,15 @@ class Act1GameScene extends BaseScene {
         let mouseX = this.input.activePointer.x;
         let mouseY = this.input.activePointer.y;
 
-        // ジャンプする
-        this.gameManager.player.jump();
+        // 画面の上半分でマウスをリリースした場合、ジャンプする
+        if (mouseY <= SCR_HEIGHT / 2) {
+            this.gameManager.player.jump();
+        }
 
         // プレイヤーが動いている間のフラグをオフにする
         this.gameManager.player.isMoving = false;
+        // 加速を中止する
+        this.gameManager.player.stopAcceleration();
     }
 
 }
