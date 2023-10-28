@@ -43,13 +43,11 @@ class Act1GameManager {
 
                 if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_BLOCK_NORMAL) {
                     // 足場（ブロック）の場合
-                    console.log("generate ground_block");
 
                     this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_BLOCK_NORMAL);
 
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.PLAYER) {
                     // プレイヤーの場合
-                    console.log("generate player");
                     if (this.player == null) {
 
                         this.player = new Player(
@@ -66,19 +64,16 @@ class Act1GameManager {
 
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_OUTSIDE) {
                     // 足場（表面）の場合
-                    console.log("generate ground_outside");
 
                     this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_OUTSIDE);
 
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.GROUND_INSIDE) {
                     // 足場（内部）の場合
-                    console.log("generate ground_inside");
 
                     this.groundGroup.create(x, y, CONST_ACT1.IMGID.GROUND_INSIDE);
 
                 } else if (dataType == CONST_ACT1.SPRITETYPE_MAP.ITEM_FOOD) {
                     // アイテム（餌）の場合
-                    console.log("generate item_food");
 
                     this.itemGroup.add(new Item(
                         this.scene,

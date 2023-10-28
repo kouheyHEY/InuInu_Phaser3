@@ -66,9 +66,6 @@ class FileUtil {
                     let row = lines[i].split(',');
                     csvData.push(row);
                 }
-
-                // ファイルの内容を処理するためのコードをここに追加
-                console.log(csvData);
             })
             .catch(error => {
                 console.error('ファイルの読み込みエラー:', error);

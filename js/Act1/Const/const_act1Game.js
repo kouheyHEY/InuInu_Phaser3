@@ -21,6 +21,24 @@ CONST_ACT1.SPRITETYPE_MAP = {
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
+// ポインタを使用したアクションを起こす際の、ポインタの必要移動距離
+CONST_ACT1.POINTER_ACT_DIST = 60;
+// ポインタのアンカーの図形
+CONST_ACT1.POINTER_ANCHOR = {
+    COLOR: 0xD0D0D0,
+    ALPHA: 0.3,
+    RADIUS: 60,
+    WEIGHT: 2,
+    FADEINTIME: 200,
+}
+
+CONST_ACT1.POINTER = {
+    COLOR: 0xF4F4F4,
+    ALPHA: 0.8,
+    RADIUS: 20,
+    WEIGHT: 2,
+    FADEINTIME: 200,
+}
 
 // 体力の初期値
 CONST_ACT1.HP = {

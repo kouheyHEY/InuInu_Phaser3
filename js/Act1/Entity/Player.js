@@ -66,6 +66,8 @@ class Player extends PhysSprite {
      * @param {int} _dir 加速方向
      */
     moveX(_dir) {
+        // フラグを設定する
+        this.isMoving = true;
         // 減速率を0にする
         this.body.setDragX(1);
         // 加速する
@@ -96,12 +98,19 @@ class Player extends PhysSprite {
     }
 
     /**
+     * 移動を停止する
+     */
+    stopMovement() {
+        this.isMoving = false;
+        this.stopAcceleration();
+    }
+
+    /**
      * hpを、最大値を上限として回復する
      * @param {int} _amount 回復量
      */
     recoverHP(_amount) {
         this.hp = Math.min(this.maxHp, this.hp + _amount);
-        console.log(this.hp);
     }
 
     /**
