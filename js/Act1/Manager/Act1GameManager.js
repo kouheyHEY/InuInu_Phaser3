@@ -107,6 +107,9 @@ class Act1GameManager {
                 i.destroy();
             }
         });
+
+        // アイテムと足場の衝突
+        this.scene.physics.add.collider(this.itemGroup, this.groundGroup);
     }
 
     /**

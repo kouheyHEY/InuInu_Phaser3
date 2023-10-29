@@ -7,9 +7,6 @@ class PhysSprite extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.enable(this);
         this.scene.add.existing(this);
 
-        // 重力の設定
-        this.body.setGravityY(CONST_ACT1.GRAVITY);
-
         // スプライトのタイプ
         this.type = type;
 

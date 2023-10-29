@@ -39,10 +39,13 @@ const config = {
     physics: {
         default: "arcade",
         arcade: {
+            gravity: {
+                y: CONST_ACT1.GRAVITY,
+            },
             // スプライトに緑の枠を表示
             // 物理演算ボディに紫の枠を表示
             // debug: true,
-        }
+        },
     },
 
 }
