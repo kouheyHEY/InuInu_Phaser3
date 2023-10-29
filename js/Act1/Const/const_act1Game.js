@@ -8,6 +8,10 @@ CONST_ACT1.SPRITETYPE = {
     GROUND_BLOCK_NORMAL: "GROUND_BLOCK_NORMAL"
 };
 
+CONST_ACT1.ITEMTYPELIST = [
+    "ITEM_FOOD"
+];
+
 // マップデータの各オブジェクトを表す文字列
 CONST_ACT1.SPRITETYPE_MAP = {
     EMPTY: "0",
@@ -18,6 +22,9 @@ CONST_ACT1.SPRITETYPE_MAP = {
     GROUND_INSIDE: "2",
     GROUND_BLOCK_NORMAL: "3",
 }
+
+// マップ上のアイテムの最低数
+CONST_ACT1.ITEMNUM_MIN = 6;
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
@@ -69,11 +76,12 @@ CONST_ACT1.PLAYER_HPBAR = {
 };
 
 // スプライト物理演算用の各プロパティ
-CONST_ACT1.GRAVITY = 768;
+// 重力
+CONST_ACT1.GRAVITY = 1024;
+// 上限速度
 CONST_ACT1.MAXSPEED = {
     PLAYER: 384,
 };
-
 // 最低速度
 CONST_ACT1.MINSPEED = {
     PLAYER: 10,
@@ -86,6 +94,7 @@ CONST_ACT1.ACCELERATION = {
 CONST_ACT1.DRAG = {
     PLAYER: 0.01,
 }
+// ジャンプ速度
 CONST_ACT1.JUMPSPEED = {
     PLAYER: 512,
 }

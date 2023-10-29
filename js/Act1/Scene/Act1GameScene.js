@@ -149,6 +149,15 @@ class Act1GameScene extends BaseScene {
             }
         }
 
+        // プレイヤー以外のオブジェクトの更新
+        // アイテムの数が一定数未満になった場合
+        if (this.gameManager.itemGroup.getLength() < CONST_ACT1.ITEMNUM_MIN) {
+            // 新たにアイテムを生成
+            this.gameManager.generateItem(this.fieldManager.field, Phaser.Math.RND.pick(CONST_ACT1.ITEMTYPELIST));
+            this.uiCamera.ignore(this.gameManager.itemGroup);
+
+        }
+
         // UI描画の更新
         this.drawUI();
     }

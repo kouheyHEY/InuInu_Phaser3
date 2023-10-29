@@ -107,6 +107,56 @@ class Act1GameManager {
                 i.destroy();
             }
         });
-
     }
+
+    /**
+     * 任意の場所にアイテムを生成する。
+     * @param {Array} _mapData マップデータ
+     * @param {string} _itemType アイテムの種類
+     * @param {int} _x 生成するx座標
+     * @param {int} _y 生成するy座標
+     * @returns {Phaser.Math.Vector2} 生成した座標（生成できない場合はnull）
+     */
+    generateItem(_mapData, _itemType, _x, _y) {
+        // 座標が指定されているか
+        let assignedX = (_x != undefined);
+        let assignedY = (_y != undefined);
+
+        // 生成する座標を設定
+        let generateX = 0;
+        let generateY = 0;
+
+        if (!assignedY) {
+            generateY = Math.floor(Math.random() * _mapData.length);
+        } else {
+            generateY = _y;
+        }
+
+        if (!assignedX) {
+            generateX = Math.floor(Math.random() * _mapData[0].length);
+        } else {
+            generateX = _x;
+        }
+
+        // 他のアイテムと重なっている場合は再生成
+        while (_mapData[generateY][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY) {
+            if (assignedX || assignedY) {
+                return null;
+            }
+
+            generateX = Math.floor(Math.random() * _mapData[0].length);
+            generateY = Math.floor(Math.random() * _mapData.length);
+        }
+
+        this.itemGroup.add(new Item(
+            this.scene,
+            (generateX + 0.5) * CONST_ACT1.SIZE.ITEM.WIDTH,
+            (generateY + 0.5) * CONST_ACT1.SIZE.ITEM.HEIGHT,
+            CONST_ACT1.SPRITETYPE[_itemType],
+            CONST_ACT1.IMGID[_itemType]
+        ));
+
+        return new Phaser.Math.Vector2(generateX, generateY);
+    }
+
 }

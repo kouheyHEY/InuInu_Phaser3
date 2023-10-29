@@ -50,15 +50,6 @@ class Player extends PhysSprite {
             // 動いている最中はHPを減少させる
             this.consumeHP(CONST_ACT1.HPCOST.MOVE);
         }
-
-        // console.log("ACCEL : " + this.body.acceleration.x);
-
-        if (this.isMoving) {
-            // console.log("moving : " + this.isMoving);
-        }
-        if (this.onGround) {
-            // console.log("onGround : " + this.onGround);
-        }
     }
 
     /**
