@@ -11,6 +11,7 @@ CONST_ACT1.IMGNAME = {
     GROUND_OUTSIDE: "ground_outside.png",
     GROUND_BLOCK_NORMAL: "ground_block_normal.png",
     ITEM_FOOD: "item_food.png",
+    ICON_SKILL_1: "icon_skill_1.png",
     ANIM_PLAYER_STOP: "dog_shiba_stop.png",
 };
 
@@ -20,6 +21,7 @@ CONST_ACT1.IMGID = {
     GROUND_OUTSIDE: "GROUND_OUTSIDE",
     GROUND_BLOCK_NORMAL: "GROUND_BLOCK_NORMAL",
     ITEM_FOOD: "ITEM_FOOD",
+    ICON_SKILL_1: "ICON_SKILL_1",
     ANIM_PLAYER_STOP: "ANIM_PLAYER_STOP",
 };
 

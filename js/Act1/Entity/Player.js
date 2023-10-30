@@ -26,6 +26,9 @@ class Player extends PhysSprite {
         // 体力
         this.hp = CONST_ACT1.HP.PLAYER;
         this.maxHp = CONST_ACT1.HP.PLAYER;
+        // スキルゲージ
+        this.sp = CONST_ACT1.SP;
+        this.maxSp = CONST_ACT1.SP;
 
     }
 
@@ -49,6 +52,8 @@ class Player extends PhysSprite {
         } else {
             // 動いている最中はHPを減少させる
             this.consumeHP(CONST_ACT1.HPCOST.MOVE);
+            // SPは回復させる
+            this.recoverSP(CONST_ACT1.SPRECOVER.MOVE);
         }
     }
 
@@ -103,7 +108,6 @@ class Player extends PhysSprite {
     recoverHP(_amount) {
         this.hp = Math.min(this.maxHp, this.hp + _amount);
     }
-
     /**
      * hpを、最低値を下限として消費する
      * @param {int} _amount 消費量
@@ -111,4 +115,28 @@ class Player extends PhysSprite {
     consumeHP(_amount) {
         this.hp = Math.max(0, this.hp - _amount);
     }
+
+    /**
+     * spを、最大値を上限として回復する
+     * @param {int} _amount 回復量
+     */
+    recoverSP(_amount) {
+        this.sp = Math.min(this.maxSp, this.sp + _amount);
+    }
+    /**
+     * spを、最低値を下限として消費する
+     * @param {int} _amount 消費量
+     */
+    consumeSP(_amount) {
+        this.sp = Math.max(0, this.sp - _amount);
+    }
+
+    /**
+     * スキル「ノーズ」を使用する
+     */
+    useSkillNose() {
+        console.log("USE SKILL NOSE");
+        this.consumeSP(CONST_ACT1.SPCOST.NOSE);
+    }
+
 }

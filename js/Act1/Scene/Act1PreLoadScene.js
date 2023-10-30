@@ -11,6 +11,7 @@ class Act1PreLoadScene extends BaseScene {
             [CONST_ACT1.IMGID.GROUND_INSIDE, CONST_ACT1.IMGNAME.GROUND_INSIDE],
             [CONST_ACT1.IMGID.GROUND_OUTSIDE, CONST_ACT1.IMGNAME.GROUND_OUTSIDE],
             [CONST_ACT1.IMGID.ITEM_FOOD, CONST_ACT1.IMGNAME.ITEM_FOOD],
+            [CONST_ACT1.IMGID.ICON_SKILL_1, CONST_ACT1.IMGNAME.ICON_SKILL_1],
         ];
     }
 
@@ -64,11 +65,6 @@ class Act1PreLoadScene extends BaseScene {
             // ゲームシーンに遷移
             this.scene.start(COMMON.ACT1GAMESCENE);
         });
-
-        // プリロードが完了したときに次のシーンに遷移
-        // this.load.on('complete', () => {
-        //     this.scene.start(COMMON_PZL1.PZL1GAMESCENE);
-        // });
 
     }
 

@@ -54,6 +54,30 @@ class Act1GameScene extends BaseScene {
         this.playerHPLabel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
         this.ui.add(this.playerHPLabel);
 
+        // プレイヤーのスキルゲージの表示
+        this.playerSPBarBG = this.add.graphics();
+        this.playerSPBarBG.fillStyle(CONST_ACT1.PLAYER_SPBAR.BGCOLOR, 0.8);
+        this.playerSPBarBG.fillRect(
+            CONST_ACT1.PLAYER_SPBAR.X,
+            CONST_ACT1.PLAYER_SPBAR.Y,
+            CONST_ACT1.PLAYER_SPBAR.WIDTH,
+            CONST_ACT1.PLAYER_SPBAR.HEIGHT
+        );
+        this.ui.add(this.playerSPBarBG);
+
+        this.playerSPBar = this.add.graphics();
+        this.ui.add(this.playerSPBar);
+
+        this.playerSPLabel = this.setText(
+            CONST_ACT1.PLAYER_SPBAR.LABEL,
+            CONST_ACT1.PLAYER_SPBAR.LABELX,
+            CONST_ACT1.PLAYER_SPBAR.LABELY,
+            CONST_ACT1.PLAYER_SPBAR.LABELSIZE,
+            CONST_ACT1.PLAYER_SPBAR.LABELCOLOR,
+        );
+        this.playerSPLabel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
+        this.ui.add(this.playerSPLabel);
+
         // マウスボタンが押されたときのイベントを設定
         this.input.on('pointerdown', this.mousePointerDown, this);
         // マウスボタンが離されたときのイベントを設定
@@ -128,6 +152,20 @@ class Act1GameScene extends BaseScene {
             CONST_ACT1.PLAYER_HPBAR.HEIGHT
         );
 
+        // プレイヤーのスキルゲージの更新
+        let playerSP = this.gameManager.player.sp;
+        this.playerSPBar.clear();
+
+        let spBarWidth = (playerSP / this.gameManager.player.maxSp) * CONST_ACT1.PLAYER_SPBAR.WIDTH;
+        this.playerSPBar.fillStyle(CONST_ACT1.PLAYER_SPBAR.COLOR);
+        this.playerSPBar.fillRect(
+            CONST_ACT1.PLAYER_SPBAR.X,
+            CONST_ACT1.PLAYER_SPBAR.Y,
+            spBarWidth,
+            CONST_ACT1.PLAYER_SPBAR.HEIGHT
+        );
+
+
         // スペースキー押下時にジャンプ
         if (Phaser.Input.Keyboard.JustDown(this.keys.space)) {
             this.gameManager.player.jump();
@@ -146,6 +184,8 @@ class Act1GameScene extends BaseScene {
             } else {
                 // 移動を停止する
                 this.gameManager.player.stopMovement();
+                // スキルを使用する
+                this.gameManager.player.useSkillNose();
             }
         }
 

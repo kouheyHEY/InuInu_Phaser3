@@ -75,6 +75,31 @@ CONST_ACT1.PLAYER_HPBAR = {
     BGCOLOR: 0x808080,
 };
 
+// スキルポイントの初期値
+CONST_ACT1.SP = 1000;
+// スキルポイントの減少値
+CONST_ACT1.SPCOST = {
+    NOSE: 9,
+}
+// スキルポイントの回復量
+CONST_ACT1.SPRECOVER = {
+    MOVE: 1,
+}
+// スキルポイントのゲージ
+CONST_ACT1.PLAYER_SPBAR = {
+    LABEL: "SP:",
+    LABELX: 270,
+    LABELY: 20,
+    LABELSIZE: 20,
+    LABELCOLOR: "#ffffff",
+    X: 310,
+    Y: 20,
+    WIDTH: 200,
+    HEIGHT: 20,
+    COLOR: 0x80ff00,
+    BGCOLOR: 0x808080,
+};
+
 // スプライト物理演算用の各プロパティ
 // 重力
 CONST_ACT1.GRAVITY = 1024;

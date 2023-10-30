@@ -2,6 +2,7 @@ class Act1GameManager {
     constructor(scene) {
         this.scene = scene;
         // プレイヤー
+        /** @type {Player} */
         this.player = null;
         // 敵グループ
         this.enemyGroup = this.scene.physics.add.group();
