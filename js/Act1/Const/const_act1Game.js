@@ -24,7 +24,7 @@ CONST_ACT1.SPRITETYPE_MAP = {
 }
 
 // マップ上のアイテムの最低数
-CONST_ACT1.ITEMNUM_MIN = 6;
+CONST_ACT1.ITEMNUM_MIN = 1;
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
@@ -83,7 +83,7 @@ CONST_ACT1.SPCOST = {
 }
 // スキルポイントの回復量
 CONST_ACT1.SPRECOVER = {
-    MOVE: 1,
+    TIME: 1,
 }
 // スキルポイントのゲージ
 CONST_ACT1.PLAYER_SPBAR = {
@@ -99,6 +99,9 @@ CONST_ACT1.PLAYER_SPBAR = {
     COLOR: 0x80ff00,
     BGCOLOR: 0x808080,
 };
+CONST_ACT1.SKILL_NOSE = {
+    EFFECT_POS_DIST: 64,
+}
 
 // スプライト物理演算用の各プロパティ
 // 重力

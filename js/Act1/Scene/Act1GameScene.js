@@ -127,6 +127,7 @@ class Act1GameScene extends BaseScene {
             this.uiCamera.ignore(this.gameManager.enemyGroup);
             this.uiCamera.ignore(this.gameManager.groundGroup);
             this.uiCamera.ignore(this.gameManager.itemGroup);
+            this.uiCamera.ignore(this.gameManager.noseEffect);
 
             // プレイヤースプライトが境界線と衝突するように設定
             this.physics.world.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
@@ -136,8 +137,8 @@ class Act1GameScene extends BaseScene {
             return;
         }
 
-        // プレイヤーの更新
-        this.gameManager.player.update();
+        // 各スプライトの状態の更新
+        this.gameManager.updateObjects();
 
         // プレイヤーのHPゲージの更新
         let playerHP = this.gameManager.player.hp;
@@ -165,7 +166,6 @@ class Act1GameScene extends BaseScene {
             CONST_ACT1.PLAYER_SPBAR.HEIGHT
         );
 
-
         // スペースキー押下時にジャンプ
         if (Phaser.Input.Keyboard.JustDown(this.keys.space)) {
             this.gameManager.player.jump();
@@ -181,6 +181,8 @@ class Act1GameScene extends BaseScene {
                 // 画面の左半分をクリックしている場合、左方向に加速する
                 let moveDir = (curPointer.x <= this.anchorPoint.x) ? CONST_ACT1.DIRECTION.LEFT : CONST_ACT1.DIRECTION.RIGHT;
                 this.gameManager.player.moveX(moveDir);
+
+                this.gameManager.player.usingSkillNose = false;
             } else {
                 // 移動を停止する
                 this.gameManager.player.stopMovement();
@@ -195,7 +197,6 @@ class Act1GameScene extends BaseScene {
             // 新たにアイテムを生成
             this.gameManager.generateItem(this.fieldManager.field, Phaser.Math.RND.pick(CONST_ACT1.ITEMTYPELIST));
             this.uiCamera.ignore(this.gameManager.itemGroup);
-
         }
 
         // UI描画の更新
@@ -207,7 +208,6 @@ class Act1GameScene extends BaseScene {
      */
     drawUI() {
         // ポインタの描画
-
         if (this.drawPointerFlg) {
             // 描画をクリア
             this.pointerUI.clear();
@@ -221,16 +221,9 @@ class Act1GameScene extends BaseScene {
     }
 
     /**
-     * 画面をクリックした時の挙動
+     * ポインタを初回描画する
      */
-    mousePointerDown() {
-        // クリック不可能な状態なら処理終了
-        if (!this.generateMapFlg) {
-            return;
-        }
-        // 座標を取得
-        this.anchorPoint.set(this.input.activePointer.x, this.input.activePointer.y);
-
+    drawPointer() {
         // サイズを大きくしつつフェードインする
         this.anchorTween = this.tweens.add({
             targets: { radius: 0, alpha: 0 },
@@ -279,6 +272,21 @@ class Act1GameScene extends BaseScene {
                 this.pointerUI.setAlpha(target["alpha"]);
             }
         });
+    }
+
+    /**
+     * 画面をクリックした時の挙動
+     */
+    mousePointerDown() {
+        // クリック不可能な状態なら処理終了
+        if (!this.generateMapFlg) {
+            return;
+        }
+        // 座標を取得
+        this.anchorPoint.set(this.input.activePointer.x, this.input.activePointer.y);
+
+        // ポインタの描画
+        this.drawPointer();
 
         // プレイヤーが動いている間のフラグをオンにする
         this.gameManager.player.isMoving = true;
@@ -321,15 +329,11 @@ class Act1GameScene extends BaseScene {
         let mouseX = this.input.activePointer.x;
         let mouseY = this.input.activePointer.y;
 
-        // 画面の上半分でマウスをリリースした場合、ジャンプする
-        // if (mouseY <= SCR_HEIGHT / 2) {
-        //     this.gameManager.player.jump();
-        // }
-
         // プレイヤーの移動を停止する
         this.gameManager.player.stopMovement();
+        // スキル使用フラグを変更する
+        this.gameManager.player.usingSkillNose = false;
         // ポインタの状態を変更
         this.pointerDown = false;
     }
-
 }

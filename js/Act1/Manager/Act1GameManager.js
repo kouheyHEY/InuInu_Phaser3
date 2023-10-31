@@ -10,6 +10,10 @@ class Act1GameManager {
         this.itemGroup = this.scene.physics.add.group();
         // フィールド上の足場のグループ
         this.groundGroup = this.scene.physics.add.staticGroup();
+
+        // スキルの対象となるアイテムのインデックス
+        this.skillTargetItemIdx = 0;
+        this.noseEffect = null;
     }
 
     /**
@@ -104,6 +108,12 @@ class Act1GameManager {
             if (i.type == CONST_ACT1.SPRITETYPE.ITEM_FOOD) {
                 // プレイヤーの体力を回復する
                 this.player.recoverHP(CONST_ACT1.HPRECOVER.ITEM_FOOD);
+
+                // スキル対象のアイテムの更新
+                if (this.itemGroup.getChildren()[this.skillTargetItemIdx] === i) {
+                    this.chooseRandomItemIdx();
+                }
+
                 // アイテムの消滅
                 i.destroy();
             }
@@ -111,6 +121,11 @@ class Act1GameManager {
 
         // アイテムと足場の衝突
         this.scene.physics.add.collider(this.itemGroup, this.groundGroup);
+
+
+        // スキルエフェクト表示用のスプライトを作成しておき、非表示としておく
+        this.noseEffect = this.scene.physics.add.sprite(0, 0, CONST_ACT1.IMGID.ICON_ARROW_1);
+        this.noseEffect.body.setAllowGravity(false);
     }
 
     /**
@@ -161,6 +176,64 @@ class Act1GameManager {
         ));
 
         return new Phaser.Math.Vector2(generateX, generateY);
+    }
+
+    /**
+     * ランダムにアイテムを1つ選択し、プレイヤーのスキルの対象とする
+     * @returns {Item} ランダムに選択されたアイテム
+     */
+    chooseRandomItemIdx() {
+        this.skillTargetItemIdx = Math.floor(Math.random() * this.itemGroup.getLength());
+    }
+
+    /**
+     * スキルのターゲットとなるアイテムの取得
+     * @returns {Item} スキルのターゲットとなっているアイテム
+     */
+    getSkillTargetItem() {
+        return this.itemGroup.getChildren()[this.skillTargetItemIdx];
+    }
+
+    /**
+     * スキル「ノーズ」によるエフェクトの更新
+     */
+    updateSkillEffect() {
+        // アイテムが存在しない場合、処理を中止する
+        if (this.itemGroup.getLength() <= 0) {
+            this.noseEffect.setVisible(false);
+            return;
+        }
+
+        this.noseEffect.setVisible(this.player.usingSkillNose);
+
+        let playerX = this.player.x;
+        let playerY = this.player.y;
+
+        // プレイヤーからアイテムへの方向ベクトルを計算
+        let directionX = this.itemGroup.getChildren()[this.skillTargetItemIdx].x - playerX;
+        let directionY = this.itemGroup.getChildren()[this.skillTargetItemIdx].y - playerY;
+
+        // 方向ベクトルを正規化（長さを1に）
+        let length = Math.sqrt(directionX * directionX + directionY * directionY);
+        let normalizedDirectionX = directionX / length;
+        let normalizedDirectionY = directionY / length;
+
+        // 矢印エフェクトのプレイヤーからアイテムへの向きを設定
+        this.noseEffect.setRotation(Math.atan2(normalizedDirectionY, normalizedDirectionX));
+
+        // 矢印エフェクトをプレイヤーからアイテムへの直線上に配置
+        this.noseEffect.setPosition(
+            playerX + normalizedDirectionX * CONST_ACT1.SKILL_NOSE.EFFECT_POS_DIST,
+            playerY + normalizedDirectionY * CONST_ACT1.SKILL_NOSE.EFFECT_POS_DIST
+        );
+    }
+
+    /**
+     * 全てのオブジェクトの更新
+     */
+    updateObjects() {
+        this.player.update();
+        this.updateSkillEffect();
     }
 
 }

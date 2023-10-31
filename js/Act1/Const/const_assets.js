@@ -12,6 +12,7 @@ CONST_ACT1.IMGNAME = {
     GROUND_BLOCK_NORMAL: "ground_block_normal.png",
     ITEM_FOOD: "item_food.png",
     ICON_SKILL_1: "icon_skill_1.png",
+    ICON_ARROW_1: "icon_arrow_1.png",
     ANIM_PLAYER_STOP: "dog_shiba_stop.png",
 };
 
@@ -22,6 +23,7 @@ CONST_ACT1.IMGID = {
     GROUND_BLOCK_NORMAL: "GROUND_BLOCK_NORMAL",
     ITEM_FOOD: "ITEM_FOOD",
     ICON_SKILL_1: "ICON_SKILL_1",
+    ICON_ARROW_1: "ICON_ARROW_1",
     ANIM_PLAYER_STOP: "ANIM_PLAYER_STOP",
 };
 
@@ -44,6 +46,10 @@ CONST_ACT1.SIZE = {
         { WIDTH: 48, HEIGHT: 48 },
     GROUND:
         { WIDTH: 48, HEIGHT: 48 },
+    ICON_ARRAY:
+        { WIDTH: 24, HEIGHT: 24 },
+    ICON_SKILL:
+        { WIDTH: 24, HEIGHT: 24 },
 };
 
 // マップファイルのファイル名リスト
