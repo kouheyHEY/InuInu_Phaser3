@@ -14,6 +14,11 @@ class Act1GameManager {
         // スキルの対象となるアイテムのインデックス
         this.skillTargetItemIdx = 0;
         this.noseEffect = null;
+
+        // プレイヤーの武器スプライト
+        this.playerWeapon = null;
+        this.playerWeaponAngle = 0;
+        this.playerWeaponRotationSpeed = 0;
     }
 
     /**
@@ -122,10 +127,23 @@ class Act1GameManager {
         // アイテムと足場の衝突
         this.scene.physics.add.collider(this.itemGroup, this.groundGroup);
 
-
         // スキルエフェクト表示用のスプライトを作成しておき、非表示としておく
         this.noseEffect = this.scene.physics.add.sprite(0, 0, CONST_ACT1.IMGID.ICON_ARROW_1);
         this.noseEffect.body.setAllowGravity(false);
+
+        // プレイヤーの武器スプライトを生成する
+        // スプライトの初期角度
+        this.playerWeaponAngle = Phaser.Math.DegToRad(CONST_ACT1.WEAPON.INITANGLE);
+        let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
+        let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
+
+        // スプライトを作成
+        this.playerWeapon = this.scene.physics.add.sprite(weaponX, weaponY, CONST_ACT1.IMGID.WEAPON_BONE);
+        this.playerWeapon.body.setAllowGravity(false);
+
+        // スプライトに速度を設定
+        this.playerWeaponRotationSpeed = CONST_ACT1.WEAPON.ROTATIONSPEED.BONE
+        this.playerWeapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
     }
 
     /**
@@ -229,11 +247,27 @@ class Act1GameManager {
     }
 
     /**
+     * 武器オブジェクトの更新
+     */
+    updateWeapon() {
+        // 武器の位置の更新
+        let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
+        let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
+        this.playerWeapon.setPosition(weaponX, weaponY);
+
+        // 角度の更新
+        this.playerWeaponAngle += (this.playerWeaponRotationSpeed / COMMON.FPS);
+        if (this.playerWeaponAngle >= 360) {
+            this.playerWeaponAngle -= 360;
+        }
+    }
+
+    /**
      * 全てのオブジェクトの更新
      */
     updateObjects() {
         this.player.update();
         this.updateSkillEffect();
+        this.updateWeapon();
     }
-
 }

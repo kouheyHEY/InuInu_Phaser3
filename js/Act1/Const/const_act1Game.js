@@ -103,6 +103,17 @@ CONST_ACT1.SKILL_NOSE = {
     EFFECT_POS_DIST: 64,
 }
 
+// プレイヤーの武器の各プロパティ
+CONST_ACT1.WEAPON = {
+    RADIUS: {
+        BONE: 128,
+    },
+    ROTATIONSPEED: {
+        BONE: 360,
+    },
+    INITANGLE: 45,
+}
+
 // スプライト物理演算用の各プロパティ
 // 重力
 CONST_ACT1.GRAVITY = 1024;

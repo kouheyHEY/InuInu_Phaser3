@@ -128,6 +128,7 @@ class Act1GameScene extends BaseScene {
             this.uiCamera.ignore(this.gameManager.groundGroup);
             this.uiCamera.ignore(this.gameManager.itemGroup);
             this.uiCamera.ignore(this.gameManager.noseEffect);
+            this.uiCamera.ignore(this.gameManager.playerWeapon);
 
             // プレイヤースプライトが境界線と衝突するように設定
             this.physics.world.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);

@@ -14,6 +14,7 @@ CONST_ACT1.IMGNAME = {
     ICON_SKILL_1: "icon_skill_1.png",
     ICON_ARROW_1: "icon_arrow_1.png",
     ANIM_PLAYER_STOP: "dog_shiba_stop.png",
+    WEAPON_BONE: "weapon_bone.png",
 };
 
 // 各画像ファイルのファイルID
@@ -25,6 +26,7 @@ CONST_ACT1.IMGID = {
     ICON_SKILL_1: "ICON_SKILL_1",
     ICON_ARROW_1: "ICON_ARROW_1",
     ANIM_PLAYER_STOP: "ANIM_PLAYER_STOP",
+    WEAPON_BONE: "WEAPON_BONE",
 };
 
 // 各アニメーションの識別用キー
@@ -42,6 +44,8 @@ CONST_ACT1.ANIMFRAMERATE = {
 CONST_ACT1.SIZE = {
     PLAYER:
         { WIDTH: 96, HEIGHT: 96 },
+    WEAPON:
+        { WIDTH: 32, HEIGHT: 32 },
     ITEM:
         { WIDTH: 48, HEIGHT: 48 },
     GROUND:
