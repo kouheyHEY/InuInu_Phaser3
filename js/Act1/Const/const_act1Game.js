@@ -109,9 +109,9 @@ CONST_ACT1.WEAPON = {
         BONE: 128,
     },
     ROTATIONSPEED: {
-        BONE: 360,
+        BONE: 90,
     },
-    INITANGLE: 45,
+    INITANGLE: 0,
 }
 
 // スプライト物理演算用の各プロパティ
@@ -120,10 +120,14 @@ CONST_ACT1.GRAVITY = 1024;
 // 上限速度
 CONST_ACT1.MAXSPEED = {
     PLAYER: 384,
+    ENEMY: 256,
 };
 // 最低速度
 CONST_ACT1.MINSPEED = {
     PLAYER: 10,
+}
+CONST_ACT1.STDSPEED = {
+    ENEMY: 10
 }
 // 加速度
 CONST_ACT1.ACCELERATION = {
@@ -136,6 +140,7 @@ CONST_ACT1.DRAG = {
 // ジャンプ速度
 CONST_ACT1.JUMPSPEED = {
     PLAYER: 512,
+    ENEMY: 256,
 }
 
 // スプライトの向き
