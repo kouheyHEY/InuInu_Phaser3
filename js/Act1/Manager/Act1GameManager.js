@@ -19,6 +19,11 @@ class Act1GameManager {
         this.playerWeapon = null;
         this.playerWeaponAngle = 0;
         this.playerWeaponRotationSpeed = 0;
+
+        // 敵の最大数
+        this.enemyNum = CONST_ACT1.ENEMYNUM_MIN;
+        // 敵の撃破数
+        this.enemyBreakNum = 0;
     }
 
     /**
@@ -127,6 +132,20 @@ class Act1GameManager {
         // アイテムと足場の衝突
         this.scene.physics.add.collider(this.itemGroup, this.groundGroup);
 
+        // 敵と足場の衝突
+        this.scene.physics.add.collider(this.enemyGroup, this.groundGroup, (e, g) => {
+            // 上からの衝突の場合
+            if (e.body.touching.down) {
+                // 接地フラグの設定
+                e.onGround = true;
+            }
+            // 横からの衝突の場合
+            if (e.body.touching.left || e.body.touching.right) {
+                // 向きの変更
+                e.changeDir();
+            }
+        });
+
         // スキルエフェクト表示用のスプライトを作成しておき、非表示としておく
         this.noseEffect = this.scene.physics.add.sprite(0, 0, CONST_ACT1.IMGID.ICON_ARROW_1);
         this.noseEffect.body.setAllowGravity(false);
@@ -144,6 +163,12 @@ class Act1GameManager {
         // スプライトに速度を設定
         this.playerWeaponRotationSpeed = CONST_ACT1.WEAPON.ROTATIONSPEED.BONE
         this.playerWeapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
+
+        // 敵と武器の衝突
+        this.scene.physics.add.overlap(this.playerWeapon, this.enemyGroup, (weapon, enemy) => {
+            // 敵の消滅
+            enemy.destroy();
+        });
     }
 
     /**
@@ -194,6 +219,64 @@ class Act1GameManager {
         ));
 
         return new Phaser.Math.Vector2(generateX, generateY);
+    }
+
+    /**
+     * 任意の場所に敵を生成する。
+     * @param {Array} _mapData マップデータ
+     * @param {int} _x 生成するx座標
+     * @param {int} _y 生成するy座標
+     * @returns {Phaser.Math.Vector2} 生成した座標（生成できない場合はnull）
+     */
+    generateEnemy(_mapData, _x, _y) {
+        // 座標が指定されているか
+        let assignedX = (_x != undefined);
+        let assignedY = (_y != undefined);
+
+        // 生成する座標を設定
+        let generateX = 0;
+        let generateY = 0;
+
+        if (!assignedY) {
+            generateY = Math.floor(Math.random() * (_mapData.length - 1));
+        } else {
+            generateY = _y;
+        }
+
+        if (!assignedX) {
+            generateX = Math.floor(Math.random() * (_mapData[0].length - 1));
+        } else {
+            generateX = _x;
+        }
+
+        // 他のオブジェクトと重なっている場合は再生成
+        while (
+            _mapData[generateY][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
+            _mapData[generateY + 1][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
+            _mapData[generateY][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
+            _mapData[generateY + 1][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY
+        ) {
+            if (assignedX || assignedY) {
+                return null;
+            }
+
+            generateX = Math.floor(Math.random() * (_mapData[0].length - 1));
+            generateY = Math.floor(Math.random() * (_mapData.length - 1));
+        }
+
+        let enemy = new Enemy(
+            this.scene,
+            (generateX + 0.5) * CONST_ACT1.SIZE.GROUND.WIDTH,
+            (generateY + 0.5) * CONST_ACT1.SIZE.GROUND.HEIGHT,
+            CONST_ACT1.SPRITETYPE.ENEMY,
+            CONST_ACT1.IMGID.ANIM_ENEMY_NORMAL
+        );
+        this.enemyGroup.add(enemy);
+        // 速度の設定
+        enemy.body.setVelocityX(CONST_ACT1.STDSPEED.ENEMY);
+
+        return new Phaser.Math.Vector2(generateX, generateY);
+
     }
 
     /**
@@ -263,11 +346,24 @@ class Act1GameManager {
     }
 
     /**
+     * 敵グループの更新
+     */
+    updateEnemy() {
+        // グループ内の各オブジェクトに対して処理を行う
+        this.enemyGroup.children.iterate((enemy) => {
+            if ((this.player.x - enemy.x >= 0) == enemy.flipX) {
+                enemy.changeDir();
+            }
+        });
+    }
+
+    /**
      * 全てのオブジェクトの更新
      */
     updateObjects() {
         this.player.update();
         this.updateSkillEffect();
         this.updateWeapon();
+        this.updateEnemy();
     }
 }

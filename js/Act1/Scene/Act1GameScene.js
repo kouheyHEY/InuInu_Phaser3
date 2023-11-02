@@ -200,6 +200,13 @@ class Act1GameScene extends BaseScene {
             this.uiCamera.ignore(this.gameManager.itemGroup);
         }
 
+        // 敵の数が一定数未満になった場合
+        if (this.gameManager.enemyGroup.getLength() < this.gameManager.enemyNum) {
+            // 新たに敵を生成
+            this.gameManager.generateEnemy(this.fieldManager.field);
+            this.uiCamera.ignore(this.gameManager.enemyGroup);
+        }
+
         // UI描画の更新
         this.drawUI();
     }

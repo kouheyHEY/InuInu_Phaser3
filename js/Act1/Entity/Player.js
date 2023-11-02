@@ -148,7 +148,6 @@ class Player extends PhysSprite {
      */
     useSkillNose() {
         if (this.usableSkillNose) {
-            console.log("USE SKILL NOSE");
             this.consumeSP(CONST_ACT1.SPCOST.NOSE);
 
             if (!this.usingSkillNose) {

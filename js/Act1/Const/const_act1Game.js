@@ -25,6 +25,10 @@ CONST_ACT1.SPRITETYPE_MAP = {
 
 // マップ上のアイテムの最低数
 CONST_ACT1.ITEMNUM_MIN = 1;
+// 敵の最低数
+CONST_ACT1.ENEMYNUM_MIN = 10;
+// 敵の最高数
+CONST_ACT1.ENEMYNUM_MAX = 50;
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
@@ -126,8 +130,9 @@ CONST_ACT1.MAXSPEED = {
 CONST_ACT1.MINSPEED = {
     PLAYER: 10,
 }
+// 基準速度
 CONST_ACT1.STDSPEED = {
-    ENEMY: 10
+    ENEMY: 15
 }
 // 加速度
 CONST_ACT1.ACCELERATION = {

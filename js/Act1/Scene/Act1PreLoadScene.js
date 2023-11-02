@@ -40,6 +40,15 @@ class Act1PreLoadScene extends BaseScene {
                 frameHeight: CONST_ACT1.SIZE.PLAYER.HEIGHT
             }
         );
+        // 敵アニメーション
+        this.load.spritesheet(
+            CONST_ACT1.IMGID.ANIM_ENEMY_NORMAL,
+            CONST_ACT1.DIR.DIR_IMG + "/" + CONST_ACT1.IMGNAME.ANIM_ENEMY_NORMAL,
+            {
+                frameWidth: CONST_ACT1.SIZE.ENEMY.WIDTH,
+                frameHeight: CONST_ACT1.SIZE.ENEMY.HEIGHT
+            }
+        );
 
         // プリロード中に表示するプログレスバーの背景
         this.progressBarBg = this.add.graphics();
