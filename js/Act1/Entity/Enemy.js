@@ -1,4 +1,4 @@
-class ENEMY extends PhysSprite {
+class Enemy extends PhysSprite {
     constructor(scene, x, y, type, texture) {
         super(scene, x, y, type, texture, CONST_ACT1.SIZE.ENEMY.WIDTH, CONST_ACT1.SIZE.ENEMY.HEIGHT);
 
