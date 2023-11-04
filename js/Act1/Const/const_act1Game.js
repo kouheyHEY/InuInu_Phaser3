@@ -28,7 +28,9 @@ CONST_ACT1.ITEMNUM_MIN = 1;
 // 敵の最低数
 CONST_ACT1.ENEMYNUM_MIN = 10;
 // 敵の最高数
-CONST_ACT1.ENEMYNUM_MAX = 50;
+CONST_ACT1.ENEMYNUM_MAX = 100;
+// 敵の数の増加間隔（フレーム）
+CONST_ACT1.ENEMYNUM_INC_FRAME = COMMON.FPS * 20;
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
@@ -42,7 +44,7 @@ CONST_ACT1.POINTER_ANCHOR = {
     WEIGHT: 2,
     FADEINTIME: 200,
 }
-
+// ポインタの図形
 CONST_ACT1.POINTER = {
     COLOR: 0xF4F4F4,
     ALPHA: 0.8,
@@ -100,6 +102,7 @@ CONST_ACT1.WEAPON = {
     },
     ROTATIONSPEED_LVUP_INC: 15,
     INITANGLE: 0,
+    DOUBLE_LEVEL: 10,
 }
 
 // スプライト物理演算用の各プロパティ

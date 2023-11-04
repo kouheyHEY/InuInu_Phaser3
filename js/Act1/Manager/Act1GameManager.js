@@ -15,8 +15,8 @@ class Act1GameManager {
         this.skillTargetItemIdx = 0;
         this.noseEffect = null;
 
-        // プレイヤーの武器スプライト
-        this.playerWeapon = null;
+        // プレイヤーの武器スプライトのグループ
+        this.playerWeaponGroup = this.scene.physics.add.group();
         this.playerWeaponAngle = 0;
         this.playerWeaponRotationSpeed = 0;
 
@@ -24,6 +24,8 @@ class Act1GameManager {
         this.enemyNum = CONST_ACT1.ENEMYNUM_MIN;
         // 敵の撃破数
         this.enemyBreakNum = 0;
+        // 敵の速度
+        this.enemySpeed = CONST_ACT1.STDSPEED.ENEMY;
     }
 
     /**
@@ -157,15 +159,16 @@ class Act1GameManager {
         let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
 
         // スプライトを作成
-        this.playerWeapon = this.scene.physics.add.sprite(weaponX, weaponY, CONST_ACT1.IMGID.WEAPON_BONE);
-        this.playerWeapon.body.setAllowGravity(false);
+        let weapon = this.scene.physics.add.sprite(weaponX, weaponY, CONST_ACT1.IMGID.WEAPON_BONE);
+        this.playerWeaponGroup.add(weapon);
+        weapon.body.setAllowGravity(false);
 
         // スプライトに速度を設定
         this.playerWeaponRotationSpeed = CONST_ACT1.WEAPON.ROTATIONSPEED.BONE
-        this.playerWeapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
+        weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
 
         // 敵と武器の衝突
-        this.scene.physics.add.overlap(this.playerWeapon, this.enemyGroup, (weapon, enemy) => {
+        this.scene.physics.add.overlap(this.playerWeaponGroup, this.enemyGroup, (weapon, enemy) => {
             // 敵の消滅
             enemy.destroy();
         });
@@ -273,7 +276,7 @@ class Act1GameManager {
         );
         this.enemyGroup.add(enemy);
         // 速度の設定
-        enemy.body.setVelocityX(CONST_ACT1.STDSPEED.ENEMY);
+        enemy.body.setVelocityX(this.enemySpeed);
 
         return new Phaser.Math.Vector2(generateX, generateY);
 
@@ -333,22 +336,24 @@ class Act1GameManager {
      * 武器オブジェクトの更新
      */
     updateWeapon() {
-        if (this.player.sp == 0) {
-            // レベルに応じて武器速度の更新
-            this.playerWeaponRotationSpeed =
-                CONST_ACT1.WEAPON.ROTATIONSPEED.BONE + this.player.level * CONST_ACT1.WEAPON.ROTATIONSPEED_LVUP_INC;
-            this.playerWeapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
-        }
-        // 武器の位置の更新
-        let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
-        let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
-        this.playerWeapon.setPosition(weaponX, weaponY);
+        this.playerWeaponGroup.children.iterate((weapon) => {
+            if (this.player.sp == 0) {
+                // レベルに応じて武器速度の更新
+                this.playerWeaponRotationSpeed =
+                    CONST_ACT1.WEAPON.ROTATIONSPEED.BONE + this.player.level * CONST_ACT1.WEAPON.ROTATIONSPEED_LVUP_INC;
+                weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
+            }
+            // 武器の位置の更新
+            let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
+            let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
+            weapon.setPosition(weaponX, weaponY);
 
-        // 角度の更新
-        this.playerWeaponAngle += (this.playerWeaponRotationSpeed / COMMON.FPS);
-        if (this.playerWeaponAngle >= 360) {
-            this.playerWeaponAngle -= 360;
-        }
+            // 角度の更新
+            this.playerWeaponAngle += (this.playerWeaponRotationSpeed / COMMON.FPS);
+            if (this.playerWeaponAngle >= 360) {
+                this.playerWeaponAngle -= 360;
+            }
+        });
     }
 
     /**

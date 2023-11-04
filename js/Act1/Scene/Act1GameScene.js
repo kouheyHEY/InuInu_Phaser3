@@ -115,7 +115,7 @@ class Act1GameScene extends BaseScene {
             this.uiCamera.ignore(this.gameManager.groundGroup);
             this.uiCamera.ignore(this.gameManager.itemGroup);
             this.uiCamera.ignore(this.gameManager.noseEffect);
-            this.uiCamera.ignore(this.gameManager.playerWeapon);
+            this.uiCamera.ignore(this.gameManager.playerWeaponGroup);
 
             // プレイヤースプライトが境界線と衝突するように設定
             this.physics.world.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
@@ -181,6 +181,15 @@ class Act1GameScene extends BaseScene {
             // 新たに敵を生成
             this.gameManager.generateEnemy(this.fieldManager.field);
             this.uiCamera.ignore(this.gameManager.enemyGroup);
+        }
+
+        // 敵の最大数を一定時間で更新
+        if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
+            this.gameManager.enemyNum = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemyNum + 1);
+        }
+        // 敵の移動速度を一定時間で更新
+        if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
+            this.gameManager.enemySpeed = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemySpeed + 2);
         }
 
         // UI描画の更新
