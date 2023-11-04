@@ -20,17 +20,17 @@ class Player extends PhysSprite {
         // 各種フラグ
         this.isMoving = false;
         this.onGround = false;
-        this.usableSkillNose = false;
         this.usingSkillNose = false;
 
         // ジャンプパワー
         this.jumpSpeed = CONST_ACT1.JUMPSPEED.PLAYER;
-        // 体力
-        this.hp = CONST_ACT1.HP.PLAYER;
-        this.maxHp = CONST_ACT1.HP.PLAYER;
+
         // スキルゲージ
-        this.sp = CONST_ACT1.SP;
+        this.sp = 0;
         this.maxSp = CONST_ACT1.SP;
+
+        // レベル
+        this.level = 0;
 
     }
 
@@ -51,21 +51,15 @@ class Player extends PhysSprite {
             if (Math.abs(this.body.velocity.x) < CONST_ACT1.MINSPEED.PLAYER) {
                 this.body.setVelocityX(0);
             }
-        } else {
-            // 動いている最中はHPを減少させる
-            this.consumeHP(CONST_ACT1.HPCOST.MOVE);
         }
 
-        // スキル使用不可状態の場合
-        if (!this.usableSkillNose) {
-            // 時間経過でSPを回復させる
-            this.recoverSP(CONST_ACT1.SPRECOVER.TIME);
-        }
-
+        // SPがたまった場合、レベルアップする
         if (this.sp >= this.maxSp) {
-            // SPが回復しきったら、スキル使用可能フラグの更新
-            this.usableSkillNose = true;
+            this.level += 1;
+            this.sp = 0;
+            this.maxSp += CONST_ACT1.SP_LVUP_INC;
         }
+
     }
 
     /**
@@ -89,8 +83,6 @@ class Player extends PhysSprite {
     jump() {
         // 接地している場合にジャンプする
         if (this.onGround) {
-            // エネルギーを消費する
-            this.consumeHP(CONST_ACT1.HPCOST.JUMP);
             // 上方向に加速する
             this.body.setVelocityY(-this.jumpSpeed);
             this.onGround = false;
@@ -113,27 +105,13 @@ class Player extends PhysSprite {
     }
 
     /**
-     * hpを、最大値を上限として回復する
-     * @param {int} _amount 回復量
-     */
-    recoverHP(_amount) {
-        this.hp = Math.min(this.maxHp, this.hp + _amount);
-    }
-    /**
-     * hpを、最低値を下限として消費する
-     * @param {int} _amount 消費量
-     */
-    consumeHP(_amount) {
-        this.hp = Math.max(0, this.hp - _amount);
-    }
-
-    /**
      * spを、最大値を上限として回復する
      * @param {int} _amount 回復量
      */
     recoverSP(_amount) {
         this.sp = Math.min(this.maxSp, this.sp + _amount);
     }
+
     /**
      * spを、最低値を下限として消費する
      * @param {int} _amount 消費量
@@ -147,19 +125,18 @@ class Player extends PhysSprite {
      * @returns {boolean} スキルが使用できなかった場合false
      */
     useSkillNose() {
-        if (this.usableSkillNose) {
-            this.consumeSP(CONST_ACT1.SPCOST.NOSE);
+        if (this.sp < CONST_ACT1.SPCOST.NOSE) {
+            return false;
+        }
+        this.consumeSP(CONST_ACT1.SPCOST.NOSE);
 
-            if (!this.usingSkillNose) {
-                this.usingSkillNose = true;
-            }
+        if (!this.usingSkillNose) {
+            this.usingSkillNose = true;
+        }
 
-            if (this.sp <= 0) {
-                // スキル使用可能フラグの更新
-                this.usableSkillNose = false;
-                // スキル使用フラグの更新
-                this.usingSkillNose = false;
-            }
+        if (this.sp <= 0) {
+            // スキル使用フラグの更新
+            this.usingSkillNose = false;
         }
     }
 

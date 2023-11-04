@@ -30,31 +30,7 @@ class Act1GameScene extends BaseScene {
         // ui要素の作成
         this.ui = this.add.group();
 
-        // プレイヤーのHPゲージの表示
-        this.playerHPBarBG = this.add.graphics();
-        this.playerHPBarBG.fillStyle(CONST_ACT1.PLAYER_HPBAR.BGCOLOR, 0.8);
-        this.playerHPBarBG.fillRect(
-            CONST_ACT1.PLAYER_HPBAR.X,
-            CONST_ACT1.PLAYER_HPBAR.Y,
-            CONST_ACT1.PLAYER_HPBAR.WIDTH,
-            CONST_ACT1.PLAYER_HPBAR.HEIGHT
-        );
-        this.ui.add(this.playerHPBarBG);
-
-        this.playerHPBar = this.add.graphics();
-        this.ui.add(this.playerHPBar);
-
-        this.playerHPLabel = this.setText(
-            CONST_ACT1.PLAYER_HPBAR.LABEL,
-            CONST_ACT1.PLAYER_HPBAR.LABELX,
-            CONST_ACT1.PLAYER_HPBAR.LABELY,
-            CONST_ACT1.PLAYER_HPBAR.LABELSIZE,
-            CONST_ACT1.PLAYER_HPBAR.LABELCOLOR,
-        );
-        this.playerHPLabel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
-        this.ui.add(this.playerHPLabel);
-
-        // プレイヤーのスキルゲージの表示
+        // プレイヤーのSPゲージの表示
         this.playerSPBarBG = this.add.graphics();
         this.playerSPBarBG.fillStyle(CONST_ACT1.PLAYER_SPBAR.BGCOLOR, 0.8);
         this.playerSPBarBG.fillRect(
@@ -77,6 +53,17 @@ class Act1GameScene extends BaseScene {
         );
         this.playerSPLabel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
         this.ui.add(this.playerSPLabel);
+
+        // プレイヤーのレベルの表示
+        this.playerLevel = this.setText(
+            CONST_ACT1.PLAYER_LEVEL.LABEL,
+            CONST_ACT1.PLAYER_LEVEL.LABELX,
+            CONST_ACT1.PLAYER_LEVEL.LABELY,
+            CONST_ACT1.PLAYER_LEVEL.LABELSIZE,
+            CONST_ACT1.PLAYER_LEVEL.LABELCOLOR,
+        );
+        this.playerLevel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
+        this.ui.add(this.playerLevel);
 
         // マウスボタンが押されたときのイベントを設定
         this.input.on('pointerdown', this.mousePointerDown, this);
@@ -141,19 +128,6 @@ class Act1GameScene extends BaseScene {
         // 各スプライトの状態の更新
         this.gameManager.updateObjects();
 
-        // プレイヤーのHPゲージの更新
-        let playerHP = this.gameManager.player.hp;
-        this.playerHPBar.clear();
-
-        let hpBarWidth = (playerHP / this.gameManager.player.maxHp) * CONST_ACT1.PLAYER_HPBAR.WIDTH;
-        this.playerHPBar.fillStyle(CONST_ACT1.PLAYER_HPBAR.COLOR);
-        this.playerHPBar.fillRect(
-            CONST_ACT1.PLAYER_HPBAR.X,
-            CONST_ACT1.PLAYER_HPBAR.Y,
-            hpBarWidth,
-            CONST_ACT1.PLAYER_HPBAR.HEIGHT
-        );
-
         // プレイヤーのスキルゲージの更新
         let playerSP = this.gameManager.player.sp;
         this.playerSPBar.clear();
@@ -166,6 +140,8 @@ class Act1GameScene extends BaseScene {
             spBarWidth,
             CONST_ACT1.PLAYER_SPBAR.HEIGHT
         );
+        // プレイヤーのレベルの表示
+        this.playerLevel.setText(CONST_ACT1.PLAYER_LEVEL.LABEL + `${this.gameManager.player.level}`);
 
         // スペースキー押下時にジャンプ
         if (Phaser.Input.Keyboard.JustDown(this.keys.space)) {

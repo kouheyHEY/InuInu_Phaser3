@@ -116,8 +116,8 @@ class Act1GameManager {
 
             // フードの場合
             if (i.type == CONST_ACT1.SPRITETYPE.ITEM_FOOD) {
-                // プレイヤーの体力を回復する
-                this.player.recoverHP(CONST_ACT1.HPRECOVER.ITEM_FOOD);
+                // プレイヤーのSPを回復する
+                this.player.recoverSP(CONST_ACT1.SPRECOVER.ITEM_FOOD);
 
                 // スキル対象のアイテムの更新
                 if (this.itemGroup.getChildren()[this.skillTargetItemIdx] === i) {
@@ -333,6 +333,12 @@ class Act1GameManager {
      * 武器オブジェクトの更新
      */
     updateWeapon() {
+        if (this.player.sp == 0) {
+            // レベルに応じて武器速度の更新
+            this.playerWeaponRotationSpeed =
+                CONST_ACT1.WEAPON.ROTATIONSPEED.BONE + this.player.level * CONST_ACT1.WEAPON.ROTATIONSPEED_LVUP_INC;
+            this.playerWeapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
+        }
         // 武器の位置の更新
         let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
         let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));

@@ -51,52 +51,24 @@ CONST_ACT1.POINTER = {
     FADEINTIME: 200,
 }
 
-// 体力の初期値
-CONST_ACT1.HP = {
-    PLAYER: 1000,
-};
-// 体力の減少値
-CONST_ACT1.HPCOST = {
-    JUMP: 100,
-    MOVE: 1,
+// スキルポイントの初期値
+CONST_ACT1.SP = 1000;
+// スキルポイントの減少値
+CONST_ACT1.SPCOST = {
+    NOSE: 1,
 }
-// 体力の回復量
-CONST_ACT1.HPRECOVER = {
-    ITEM_FOOD: 400,
+// スキルポイントの回復量
+CONST_ACT1.SPRECOVER = {
+    ITEM_FOOD: 200,
 }
-// 体力ゲージ
-CONST_ACT1.PLAYER_HPBAR = {
-    LABEL: "HP:",
+// スキルポイントのゲージ
+CONST_ACT1.PLAYER_SPBAR = {
+    LABEL: "SP:",
     LABELX: 20,
     LABELY: 20,
     LABELSIZE: 20,
     LABELCOLOR: "#ffffff",
     X: 60,
-    Y: 20,
-    WIDTH: 200,
-    HEIGHT: 20,
-    COLOR: 0x00ff00,
-    BGCOLOR: 0x808080,
-};
-
-// スキルポイントの初期値
-CONST_ACT1.SP = 1000;
-// スキルポイントの減少値
-CONST_ACT1.SPCOST = {
-    NOSE: 9,
-}
-// スキルポイントの回復量
-CONST_ACT1.SPRECOVER = {
-    TIME: 1,
-}
-// スキルポイントのゲージ
-CONST_ACT1.PLAYER_SPBAR = {
-    LABEL: "SP:",
-    LABELX: 270,
-    LABELY: 20,
-    LABELSIZE: 20,
-    LABELCOLOR: "#ffffff",
-    X: 310,
     Y: 20,
     WIDTH: 200,
     HEIGHT: 20,
@@ -106,6 +78,17 @@ CONST_ACT1.PLAYER_SPBAR = {
 CONST_ACT1.SKILL_NOSE = {
     EFFECT_POS_DIST: 64,
 }
+// レベルアップに必要なSPの増加量
+CONST_ACT1.SP_LVUP_INC = 20;
+
+// レベルの表示
+CONST_ACT1.PLAYER_LEVEL = {
+    LABEL: "LEVEL:",
+    LABELX: 270,
+    LABELY: 20,
+    LABELSIZE: 20,
+    LABELCOLOR: "#ffffff",
+};
 
 // プレイヤーの武器の各プロパティ
 CONST_ACT1.WEAPON = {
@@ -115,6 +98,7 @@ CONST_ACT1.WEAPON = {
     ROTATIONSPEED: {
         BONE: 90,
     },
+    ROTATIONSPEED_LVUP_INC: 15,
     INITANGLE: 0,
 }
 
