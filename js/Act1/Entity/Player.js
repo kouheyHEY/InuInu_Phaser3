@@ -31,6 +31,8 @@ class Player extends PhysSprite {
 
         // レベル
         this.level = 0;
+        // レベルアップ時の更新用フラグ
+        this.levelUpFlg = false;
 
     }
 
@@ -58,6 +60,7 @@ class Player extends PhysSprite {
             this.level += 1;
             this.sp = 0;
             this.maxSp += CONST_ACT1.SP_LVUP_INC;
+            this.levelUpFlg = true;
         }
 
     }

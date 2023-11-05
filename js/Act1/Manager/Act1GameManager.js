@@ -1,5 +1,6 @@
 class Act1GameManager {
     constructor(scene) {
+        /** @type {Act1GameScene} */
         this.scene = scene;
         // プレイヤー
         /** @type {Player} */
@@ -154,7 +155,7 @@ class Act1GameManager {
 
         // プレイヤーの武器スプライトを生成する
         // スプライトの初期角度
-        this.playerWeaponAngle = Phaser.Math.DegToRad(CONST_ACT1.WEAPON.INITANGLE);
+        this.playerWeaponAngle = CONST_ACT1.WEAPON.INITANGLE;
         let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
         let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
 
@@ -336,24 +337,52 @@ class Act1GameManager {
      * 武器オブジェクトの更新
      */
     updateWeapon() {
+        // レベルアップ時
+        if (this.player.levelUpFlg) {
+
+            // レベルに応じて武器速度の更新
+            this.playerWeaponRotationSpeed =
+                CONST_ACT1.WEAPON.ROTATIONSPEED.BONE + this.player.level * CONST_ACT1.WEAPON.ROTATIONSPEED_LVUP_INC;
+
+            // レベルが一定数値以上なら、武器を追加
+            if (this.player.level >= CONST_ACT1.WEAPON.DOUBLE_LEVEL && this.playerWeaponGroup.getLength() <= 1) {
+                let weaponDeg = this.playerWeaponAngle + 180;
+                // プレイヤーの武器スプライトを、すでに存在する武器の対角線上に生成する
+                let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(weaponDeg));
+                let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(weaponDeg));
+
+                // スプライトを作成
+                let weapon = this.scene.physics.add.sprite(weaponX, weaponY, CONST_ACT1.IMGID.WEAPON_BONE);
+                this.playerWeaponGroup.add(weapon);
+                weapon.body.setAllowGravity(false);
+
+                // スプライトの角度を設定
+                weapon.body.rotation = this.playerWeaponGroup.getChildren()[0].body.rotation;
+
+                // uiカメラから武器を除外
+                this.scene.uiCamera.ignore(weapon);
+            }
+        }
+
+        let weaponDeg = this.playerWeaponAngle;
         this.playerWeaponGroup.children.iterate((weapon) => {
-            if (this.player.sp == 0) {
-                // レベルに応じて武器速度の更新
-                this.playerWeaponRotationSpeed =
-                    CONST_ACT1.WEAPON.ROTATIONSPEED.BONE + this.player.level * CONST_ACT1.WEAPON.ROTATIONSPEED_LVUP_INC;
+            if (this.player.levelUpFlg) {
                 weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
             }
             // 武器の位置の更新
-            let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(this.playerWeaponAngle));
-            let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(this.playerWeaponAngle));
+            let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(weaponDeg));
+            let weaponY = this.player.y + CONST_ACT1.WEAPON.RADIUS.BONE * Math.sin(Phaser.Math.DegToRad(weaponDeg));
             weapon.setPosition(weaponX, weaponY);
 
-            // 角度の更新
-            this.playerWeaponAngle += (this.playerWeaponRotationSpeed / COMMON.FPS);
-            if (this.playerWeaponAngle >= 360) {
-                this.playerWeaponAngle -= 360;
-            }
+            weaponDeg += (360 / this.playerWeaponGroup.getLength());
+
         });
+
+        // 角度の更新
+        this.playerWeaponAngle += (this.playerWeaponRotationSpeed / COMMON.FPS);
+        if (this.playerWeaponAngle >= 360) {
+            this.playerWeaponAngle -= 360;
+        }
     }
 
     /**
@@ -372,9 +401,16 @@ class Act1GameManager {
      * 全てのオブジェクトの更新
      */
     updateObjects() {
+        // プレイヤーの更新
         this.player.update();
+        // スキルのエフェクトの更新
         this.updateSkillEffect();
+        // 武器の更新
         this.updateWeapon();
+        // 敵の更新
         this.updateEnemy();
+
+        // レベルアップ時の更新フラグを更新
+        this.player.levelUpFlg = false;
     }
 }
