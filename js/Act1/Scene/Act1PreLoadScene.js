@@ -14,11 +14,12 @@ class Act1PreLoadScene extends BaseScene {
             [CONST_ACT1.IMGID.ICON_SKILL_1, CONST_ACT1.IMGNAME.ICON_SKILL_1],
             [CONST_ACT1.IMGID.ICON_ARROW_1, CONST_ACT1.IMGNAME.ICON_ARROW_1],
             [CONST_ACT1.IMGID.WEAPON_BONE, CONST_ACT1.IMGNAME.WEAPON_BONE],
+            [CONST_ACT1.IMGID.EFFECT_LEVELUP, CONST_ACT1.IMGNAME.EFFECT_LEVELUP],
         ];
     }
 
     /**
-     * Pzl1GameSceneで使用する画像やスプライトシートを読み込む
+     * Act1GameSceneで使用する画像やスプライトシートを読み込む
      */
     preload() {
         // SCR_WIDTHとSCR_HEIGHTの更新

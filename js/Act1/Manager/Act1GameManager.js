@@ -11,6 +11,8 @@ class Act1GameManager {
         this.itemGroup = this.scene.physics.add.group();
         // フィールド上の足場のグループ
         this.groundGroup = this.scene.physics.add.staticGroup();
+        // レベルアップ時のエフェクトグループ
+        this.effectGroup = this.scene.physics.add.group();
 
         // スキルの対象となるアイテムのインデックス
         this.skillTargetItemIdx = 0;
@@ -149,7 +151,7 @@ class Act1GameManager {
             }
         });
 
-        // スキルエフェクト表示用のスプライトを作成しておき、非表示としておく
+        // スキルエフェクト表示用のスプライトを生成
         this.noseEffect = this.scene.physics.add.sprite(0, 0, CONST_ACT1.IMGID.ICON_ARROW_1);
         this.noseEffect.body.setAllowGravity(false);
 
@@ -172,7 +174,22 @@ class Act1GameManager {
         this.scene.physics.add.overlap(this.playerWeaponGroup, this.enemyGroup, (weapon, enemy) => {
             // 敵の消滅
             enemy.destroy();
+            // プレイヤーのSPの回復
+            this.player.recoverSP(CONST_ACT1.SPRECOVER.ENEMY);
         });
+
+        // エフェクトグループの作成
+        let playerLvUp = new EffectSprite(
+            this.scene,
+            this.player.x,
+            this.player.y,
+            CONST_ACT1.IMGID.EFFECT_LEVELUP,
+            CONST_ACT1.SPRITETYPE.EFFECT_LEVELUP,
+        );
+        this.effectGroup.add(playerLvUp);
+        playerLvUp.setVisible(false);
+        playerLvUp.body.setAllowGravity(false);
+        console.log(this.effectGroup.children);
     }
 
     /**
@@ -398,6 +415,39 @@ class Act1GameManager {
     }
 
     /**
+     * エフェクトの更新
+     */
+    updateEffect() {
+        this.effectGroup.children.iterate((effect) => {
+            if (effect.type === CONST_ACT1.SPRITETYPE.EFFECT_LEVELUP) {
+
+                if (this.player.levelUpFlg) {
+                    // レベルアップエフェクトを表示
+                    effect.setVisible(true);
+                    effect.setDepth(1);
+                    effect.setPosition(this.player.x, this.player.y);
+                    // アニメーションを再生
+                    this.scene.tweens.add({
+                        targets: { "dist": 0, "effect": effect },
+                        dist: CONST_ACT1.EFFECT_LEVELUP.TRANS_DIST,
+                        duration: CONST_ACT1.EFFECT_LEVELUP.TIME,
+                        ease: 'Linear',
+                        onUpdate: (tween) => {
+                            let target = tween.targets[0];
+                            target["effect"].setPosition(this.player.x, this.player.y - target["dist"]);
+                        },
+                        onComplete: (tween) => {
+                            let target = tween.targets[0];
+                            target["effect"].setVisible(false);
+                        },
+                    });
+                    console.log(effect);
+                }
+            }
+        });
+    }
+
+    /**
      * 全てのオブジェクトの更新
      */
     updateObjects() {
@@ -409,6 +459,8 @@ class Act1GameManager {
         this.updateWeapon();
         // 敵の更新
         this.updateEnemy();
+        // エフェクトの更新
+        this.updateEffect();
 
         // レベルアップ時の更新フラグを更新
         this.player.levelUpFlg = false;

@@ -16,6 +16,7 @@ CONST_ACT1.IMGNAME = {
     ANIM_PLAYER_STOP: "dog_shiba_stop.png",
     ANIM_ENEMY_NORMAL: "enemy_1.png",
     WEAPON_BONE: "weapon_bone.png",
+    EFFECT_LEVELUP: "effect_levelup.png",
 };
 
 // 各画像ファイルのファイルID
@@ -29,6 +30,7 @@ CONST_ACT1.IMGID = {
     ANIM_PLAYER_STOP: "ANIM_PLAYER_STOP",
     ANIM_ENEMY_NORMAL: "ANIM_ENEMY_NORMAL",
     WEAPON_BONE: "WEAPON_BONE",
+    EFFECT_LEVELUP: "EFFECT_LEVELUP",
 };
 
 // 各アニメーションの識別用キー
@@ -61,6 +63,8 @@ CONST_ACT1.SIZE = {
         { WIDTH: 24, HEIGHT: 24 },
     ICON_SKILL:
         { WIDTH: 24, HEIGHT: 24 },
+    EFFECT_LEVELUP:
+        { WIDTH: 48, HEIGHT: 48 },
 };
 
 // マップファイルのファイル名リスト

@@ -114,6 +114,7 @@ class Act1GameScene extends BaseScene {
             this.uiCamera.ignore(this.gameManager.enemyGroup);
             this.uiCamera.ignore(this.gameManager.groundGroup);
             this.uiCamera.ignore(this.gameManager.itemGroup);
+            this.uiCamera.ignore(this.gameManager.effectGroup);
             this.uiCamera.ignore(this.gameManager.noseEffect);
             this.uiCamera.ignore(this.gameManager.playerWeaponGroup);
 
