@@ -36,6 +36,8 @@ CONST_ACT1.ENEMYNUM_MIN = 10;
 CONST_ACT1.ENEMYNUM_MAX = 100;
 // 敵の数の増加間隔（フレーム）
 CONST_ACT1.ENEMYNUM_INC_FRAME = COMMON.FPS * 20;
+// 敵の生成時のプレイヤーとの最低距離
+CONST_ACT1.ENEMY_PLAYER_DIST = 128;
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";

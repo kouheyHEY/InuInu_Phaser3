@@ -221,12 +221,13 @@ class Act1GameManager {
             generateX = _x;
         }
 
-        // 他のアイテムと重なっている場合は再生成
+        // 他のアイテムと重なっている場合
         while (_mapData[generateY][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY) {
             if (assignedX || assignedY) {
                 return null;
             }
 
+            // アイテムを再生成
             generateX = Math.floor(Math.random() * _mapData[0].length);
             generateY = Math.floor(Math.random() * _mapData.length);
         }
@@ -270,17 +271,20 @@ class Act1GameManager {
             generateX = _x;
         }
 
-        // 他のオブジェクトと重なっている場合は再生成
+        // 他のオブジェクトと重なっている場合
+        // またはプレイヤーから一定距離内の場合
         while (
             _mapData[generateY][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
             _mapData[generateY + 1][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
             _mapData[generateY][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
-            _mapData[generateY + 1][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY
+            _mapData[generateY + 1][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
+            Math.abs(generateX - this.player.x) <= CONST_ACT1.ENEMY_PLAYER_DIST
         ) {
             if (assignedX || assignedY) {
                 return null;
             }
 
+            // 再生成
             generateX = Math.floor(Math.random() * (_mapData[0].length - 1));
             generateY = Math.floor(Math.random() * (_mapData.length - 1));
         }
