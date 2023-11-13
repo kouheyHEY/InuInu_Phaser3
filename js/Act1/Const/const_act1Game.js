@@ -35,14 +35,24 @@ CONST_ACT1.ENEMYNUM_MIN = 10;
 // 敵の最高数
 CONST_ACT1.ENEMYNUM_MAX = 100;
 // 敵の数の増加間隔（フレーム）
-CONST_ACT1.ENEMYNUM_INC_FRAME = COMMON.FPS * 20;
+CONST_ACT1.ENEMYNUM_INC_FRAME = COMMON.FPS * 30;
 // 敵の生成時のプレイヤーとの最低距離
-CONST_ACT1.ENEMY_PLAYER_DIST = 128;
+CONST_ACT1.ENEMY_PLAYER_DIST = 196;
+// 敵のレベル
+CONST_ACT1.ENEMY_LEVEL = {
+    LABEL: "ENEMY LEVEL:",
+    LABELX: 450,
+    LABELY: 20,
+    LABELSIZE: 20,
+    LABELCOLOR: "#ffffff",
+}
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
 // ポインタを使用したアクションを起こす際の、ポインタの必要移動距離
 CONST_ACT1.POINTER_ACT_DIST = 60;
+// 必要なポインタのクリック持続フレーム
+CONST_ACT1.POINTER_ACT_FRAME = COMMON.FPS * 0.5;
 // ポインタのアンカーの図形
 CONST_ACT1.POINTER_ANCHOR = {
     COLOR: 0xD0D0D0,
@@ -104,6 +114,15 @@ CONST_ACT1.EFFECT_LEVELUP = {
     TIME: 400,
     TRANS_DIST: 48,
 }
+
+// スコア表示
+CONST_ACT1.SCORE = {
+    LABEL: "SCORE:",
+    LABELX: 360,
+    LABELY: 20,
+    LABELSIZE: 20,
+    LABELCOLOR: "#ffffff",
+};
 
 // プレイヤーの武器の各プロパティ
 CONST_ACT1.WEAPON = {

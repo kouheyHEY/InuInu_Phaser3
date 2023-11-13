@@ -29,6 +29,8 @@ class Act1GameManager {
         this.enemyBreakNum = 0;
         // 敵の速度
         this.enemySpeed = CONST_ACT1.STDSPEED.ENEMY;
+        // 敵のレベル
+        this.enemyLevel = 0;
     }
 
     /**
@@ -176,6 +178,8 @@ class Act1GameManager {
             enemy.destroy();
             // プレイヤーのSPの回復
             this.player.recoverSP(CONST_ACT1.SPRECOVER.ENEMY);
+            // 敵の撃破数のカウント
+            this.enemyBreakNum++;
         });
 
         // エフェクトグループの作成
@@ -189,7 +193,6 @@ class Act1GameManager {
         this.effectGroup.add(playerLvUp);
         playerLvUp.setVisible(false);
         playerLvUp.body.setAllowGravity(false);
-        console.log(this.effectGroup.children);
     }
 
     /**
@@ -271,6 +274,8 @@ class Act1GameManager {
             generateX = _x;
         }
 
+        let enemyX = (generateX + 0.5) * CONST_ACT1.SIZE.GROUND.WIDTH;
+
         // 他のオブジェクトと重なっている場合
         // またはプレイヤーから一定距離内の場合
         while (
@@ -278,7 +283,7 @@ class Act1GameManager {
             _mapData[generateY + 1][generateX] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
             _mapData[generateY][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
             _mapData[generateY + 1][generateX + 1] != CONST_ACT1.SPRITETYPE_MAP.EMPTY ||
-            Math.abs(generateX - this.player.x) <= CONST_ACT1.ENEMY_PLAYER_DIST
+            Math.abs(enemyX - this.player.x) <= CONST_ACT1.ENEMY_PLAYER_DIST
         ) {
             if (assignedX || assignedY) {
                 return null;
@@ -287,6 +292,7 @@ class Act1GameManager {
             // 再生成
             generateX = Math.floor(Math.random() * (_mapData[0].length - 1));
             generateY = Math.floor(Math.random() * (_mapData.length - 1));
+            enemyX = (generateX + 0.5) * CONST_ACT1.SIZE.GROUND.WIDTH;
         }
 
         let enemy = new Enemy(
@@ -445,7 +451,6 @@ class Act1GameManager {
                             target["effect"].setVisible(false);
                         },
                     });
-                    console.log(effect);
                 }
             }
         });

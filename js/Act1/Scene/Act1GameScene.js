@@ -65,6 +65,28 @@ class Act1GameScene extends BaseScene {
         this.playerLevel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
         this.ui.add(this.playerLevel);
 
+        // 敵のレベルの表示
+        this.enemyLevel = this.setText(
+            CONST_ACT1.ENEMY_LEVEL.LABEL,
+            CONST_ACT1.ENEMY_LEVEL.LABELX,
+            CONST_ACT1.ENEMY_LEVEL.LABELY,
+            CONST_ACT1.ENEMY_LEVEL.LABELSIZE,
+            CONST_ACT1.ENEMY_LEVEL.LABELCOLOR,
+        );
+        this.enemyLevel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
+        this.ui.add(this.enemyLevel);
+
+        // スコア表示
+        this.score = this.setText(
+            CONST_ACT1.SCORE.LABEL,
+            CONST_ACT1.SCORE.LABELX,
+            CONST_ACT1.SCORE.LABELY,
+            CONST_ACT1.SCORE.LABELSIZE,
+            CONST_ACT1.SCORE.LABELCOLOR,
+        );
+        this.score.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
+        this.ui.add(this.score);
+
         // マウスボタンが押されたときのイベントを設定
         this.input.on('pointerdown', this.mousePointerDown, this);
         // マウスボタンが離されたときのイベントを設定
@@ -86,6 +108,9 @@ class Act1GameScene extends BaseScene {
         this.ui.add(this.pointerUI);
         // ポインタ表示のtween
         this.pointerTween = null;
+
+        // クリック持続フレーム
+        this.pointerKeepFrame = 0;
 
     }
 
@@ -129,21 +154,6 @@ class Act1GameScene extends BaseScene {
         // 各スプライトの状態の更新
         this.gameManager.updateObjects();
 
-        // プレイヤーのスキルゲージの更新
-        let playerSP = this.gameManager.player.sp;
-        this.playerSPBar.clear();
-
-        let spBarWidth = (playerSP / this.gameManager.player.maxSp) * CONST_ACT1.PLAYER_SPBAR.WIDTH;
-        this.playerSPBar.fillStyle(CONST_ACT1.PLAYER_SPBAR.COLOR);
-        this.playerSPBar.fillRect(
-            CONST_ACT1.PLAYER_SPBAR.X,
-            CONST_ACT1.PLAYER_SPBAR.Y,
-            spBarWidth,
-            CONST_ACT1.PLAYER_SPBAR.HEIGHT
-        );
-        // プレイヤーのレベルの表示
-        this.playerLevel.setText(CONST_ACT1.PLAYER_LEVEL.LABEL + `${this.gameManager.player.level}`);
-
         // スペースキー押下時にジャンプ
         if (Phaser.Input.Keyboard.JustDown(this.keys.space)) {
             this.gameManager.player.jump();
@@ -159,13 +169,17 @@ class Act1GameScene extends BaseScene {
                 // 画面の左半分をクリックしている場合、左方向に加速する
                 let moveDir = (curPointer.x <= this.anchorPoint.x) ? CONST_ACT1.DIRECTION.LEFT : CONST_ACT1.DIRECTION.RIGHT;
                 this.gameManager.player.moveX(moveDir);
-
                 this.gameManager.player.usingSkillNose = false;
+                this.pointerKeepFrame = 0;
             } else {
                 // 移動を停止する
                 this.gameManager.player.stopMovement();
-                // スキルを使用する
-                this.gameManager.player.useSkillNose();
+                // 一定時間、ポインタを範囲内でキープした場合
+                this.pointerKeepFrame++;
+                if (this.pointerKeepFrame >= CONST_ACT1.POINTER_ACT_FRAME) {
+                    // スキルを使用する
+                    this.gameManager.player.useSkillNose();
+                }
             }
         }
 
@@ -190,7 +204,8 @@ class Act1GameScene extends BaseScene {
         }
         // 敵の移動速度を一定時間で更新
         if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
-            this.gameManager.enemySpeed = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemySpeed + 2);
+            this.gameManager.enemySpeed = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemySpeed + 1);
+            this.gameManager.enemyLevel++;
         }
 
         // UI描画の更新
@@ -212,6 +227,25 @@ class Act1GameScene extends BaseScene {
             this.pointerUI.fillCircleShape(pointerCirc);
             this.pointerUI.strokeCircleShape(pointerCirc);
         }
+
+        // プレイヤーのスキルゲージの更新
+        let playerSP = this.gameManager.player.sp;
+        this.playerSPBar.clear();
+
+        let spBarWidth = (playerSP / this.gameManager.player.maxSp) * CONST_ACT1.PLAYER_SPBAR.WIDTH;
+        this.playerSPBar.fillStyle(CONST_ACT1.PLAYER_SPBAR.COLOR);
+        this.playerSPBar.fillRect(
+            CONST_ACT1.PLAYER_SPBAR.X,
+            CONST_ACT1.PLAYER_SPBAR.Y,
+            spBarWidth,
+            CONST_ACT1.PLAYER_SPBAR.HEIGHT
+        );
+        // プレイヤーのレベルの表示
+        this.playerLevel.setText(CONST_ACT1.PLAYER_LEVEL.LABEL + `${this.gameManager.player.level}`);
+        // 敵のレベルの表示
+        this.enemyLevel.setText(CONST_ACT1.ENEMY_LEVEL.LABEL + `${this.gameManager.enemyLevel}`);
+        // スコアの表示
+        this.score.setText(CONST_ACT1.SCORE.LABEL + `${this.gameManager.enemyBreakNum}`);
     }
 
     /**
@@ -329,5 +363,6 @@ class Act1GameScene extends BaseScene {
         this.gameManager.player.usingSkillNose = false;
         // ポインタの状態を変更
         this.pointerDown = false;
+        this.pointerKeepFrame = 0;
     }
 }
