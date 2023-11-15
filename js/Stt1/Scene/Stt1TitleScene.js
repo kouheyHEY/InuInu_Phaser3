@@ -7,11 +7,23 @@ class Stt1TitleScene extends BaseScene {
 
         // 各画像の画像IDとファイル名のリスト
         this.preLoadImgList = [
+            // ボタン用
             [CONST_STT1.IMGID.BUTTON_DOGPUZZLE, CONST_STT1.IMGNAME.BUTTON_DOGPUZZLE],
             [CONST_STT1.IMGID.BUTTON_DOGRUN, CONST_STT1.IMGNAME.BUTTON_DOGRUN],
             [CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH, CONST_STT1.IMGNAME.BUTTON_DOGPUZZLE_PUSH],
             [CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH, CONST_STT1.IMGNAME.BUTTON_DOGRUN_PUSH],
         ];
+
+        // 背景用
+        this.preLoadImgList_pzl = [
+            [CONST_PZL1.IMGID.DOG_SHIBA, CONST_PZL1.IMGNAME.DOG_SHIBA],
+            [CONST_PZL1.IMGID.DOG_PAG, CONST_PZL1.IMGNAME.DOG_PAG],
+            [CONST_PZL1.IMGID.DOG_DALMATIAN, CONST_PZL1.IMGNAME.DOG_DALMATIAN],
+            [CONST_PZL1.IMGID.DOG_CORGI, CONST_PZL1.IMGNAME.DOG_CORGI],
+            [CONST_PZL1.IMGID.DOG_LABRADOR, CONST_PZL1.IMGNAME.DOG_LABRADOR],
+            [CONST_PZL1.IMGID.ITEM_BONE_SINGLE, CONST_PZL1.IMGNAME.ITEM_BONE_SINGLE],
+            [CONST_PZL1.IMGID.ITEM_BONE_DOUBLE, CONST_PZL1.IMGNAME.ITEM_BONE_DOUBLE]
+        ]
     }
 
     preload() {
@@ -24,9 +36,18 @@ class Stt1TitleScene extends BaseScene {
         this.preLoadImgList.forEach(img => {
             this.load.image(img[0], CONST_STT1.DIR.DIR_IMG + "/" + img[1]);
         });
+
+        this.preLoadImgList_pzl.forEach(img => {
+            this.load.image(img[0], CONST_PZL1.DIR.DIR_IMG + "/" + img[1]);
+        });
     }
 
     create() {
+        // 背景用のオブジェクトのグループ
+        this.bgIconList = [];
+        // 背景を初期描画する
+        this.createBg();
+
         let buttonY = (SCR_HEIGHT - (CONST_STT1.SIZE.BUTTON.HEIGHT) * 2 + CONST_STT1.POSITION.BUTTON.SPACE * 1) / 2;
         // Pzl1GameScene に遷移するボタン
         const buttonPzl1 = this.add.sprite(
@@ -66,6 +87,48 @@ class Stt1TitleScene extends BaseScene {
 
         buttonAct1.on('pointerdown', () => {
             this.scene.start(COMMON.ACT1PRELOADSCENE);
+        });
+    }
+
+    /**
+     * 背景を作成する
+     */
+    createBg() {
+        let iconX = 0;
+        let iconY = 0;
+        let rowCnt = 0;
+        while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
+            while (iconX <= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH) {
+                // ランダムな背景色を取得
+                let bgCol = Phaser.Math.RND.pick(CONST_STT1.BGICON.COLORLIST);
+                // ランダムなテクスチャを取得
+                let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
+                this.bgIconList.push(
+                    new BgIcon(this, iconX, iconY, bgTxt, bgCol)
+                );
+                iconX += CONST_STT1.SIZE.BGICON.WIDTH * 2;
+            }
+            rowCnt++;
+            // チェック柄となるように配置
+            iconX = (rowCnt % 2) * CONST_STT1.SIZE.BGICON.WIDTH;
+            iconY += CONST_STT1.SIZE.BGICON.HEIGHT;
+        }
+    }
+
+    update() {
+        // 背景を更新する
+        this.updateBg();
+    }
+
+    /**
+     * 背景を更新する
+     */
+    updateBg() {
+        this.bgIconList.forEach(icon => {
+            icon.x += CONST_STT1.BGICON.MOVE_X;
+            icon.y += CONST_STT1.BGICON.MOVE_Y;
+
+            // 画面端に到達したタイミングで逆側の端に移動
         });
     }
 }

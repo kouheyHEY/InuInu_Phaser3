@@ -23,6 +23,10 @@ CONST_STT1.IMGID = {
 CONST_STT1.SIZE = {
     BUTTON:
         { WIDTH: 288, HEIGHT: 96 },
+    ICON:
+        { WIDTH: 96, HEIGHT: 96 },
+    BGICON:
+        { WIDTH: 120, HEIGHT: 120 },
 }
 
 CONST_STT1.POSITION = {
