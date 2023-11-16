@@ -26,7 +26,7 @@ CONST_STT1.SIZE = {
     ICON:
         { WIDTH: 96, HEIGHT: 96 },
     BGICON:
-        { WIDTH: 120, HEIGHT: 120 },
+        { WIDTH: 120, HEIGHT: 120, ROUND: 16 },
 }
 
 CONST_STT1.POSITION = {

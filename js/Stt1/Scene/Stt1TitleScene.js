@@ -43,8 +43,10 @@ class Stt1TitleScene extends BaseScene {
     }
 
     create() {
-        // 背景用のオブジェクトのグループ
+        // 背景オブジェクトのグループ
         this.bgIconList = [];
+        // 背景オブジェクトの更新タイミングのフレーム
+        this.bgIconUpdateFrame = CONST_STT1.SIZE.BGICON.WIDTH / CONST_STT1.BGICON.MOVE_X;
         // 背景を初期描画する
         this.createBg();
 
@@ -94,8 +96,8 @@ class Stt1TitleScene extends BaseScene {
      * 背景を作成する
      */
     createBg() {
-        let iconX = 0;
-        let iconY = 0;
+        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH / 2;
+        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT / 2;
         let rowCnt = 0;
         while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
             while (iconX <= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH) {
@@ -110,7 +112,7 @@ class Stt1TitleScene extends BaseScene {
             }
             rowCnt++;
             // チェック柄となるように配置
-            iconX = (rowCnt % 2) * CONST_STT1.SIZE.BGICON.WIDTH;
+            iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH;
             iconY += CONST_STT1.SIZE.BGICON.HEIGHT;
         }
     }
@@ -124,11 +126,45 @@ class Stt1TitleScene extends BaseScene {
      * 背景を更新する
      */
     updateBg() {
-        this.bgIconList.forEach(icon => {
+        let repeatBgIcon = (phaser.getFrame() % this.bgIconUpdateFrame == 0);
+        this.bgIconList.forEach((icon, index) => {
             icon.x += CONST_STT1.BGICON.MOVE_X;
             icon.y += CONST_STT1.BGICON.MOVE_Y;
 
-            // 画面端に到達したタイミングで逆側の端に移動
+            // 表示されないオブジェクトは削除
+            if (icon.x >= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH || icon.y >= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
+                this.bgIconList.splice(index, 1);
+                icon.destroy();
+            }
         });
+
+        // 画面端に到達したタイミングで画面外のオブジェクトを新規作成
+        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH / 2;
+        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT / 2;
+        let rowCnt = 0;
+        if (repeatBgIcon) {
+            while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
+                while (iconX <= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH) {
+                    if (rowCnt != 0 && iconX >= 0) {
+                        break;
+                    } else {
+                        // ランダムな背景色を取得
+                        let bgCol = Phaser.Math.RND.pick(CONST_STT1.BGICON.COLORLIST);
+                        // ランダムなテクスチャを取得
+                        let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
+                        let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+                        // 背景アイコンを生成
+                        bgIcon.setDepth(-1);
+                        this.bgIconList.push(bgIcon);
+
+                        iconX += CONST_STT1.SIZE.BGICON.WIDTH * 2;
+                    }
+                }
+                rowCnt++;
+                // チェック柄となるように配置
+                iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH;
+                iconY += CONST_STT1.SIZE.BGICON.HEIGHT;
+            }
+        }
     }
 }

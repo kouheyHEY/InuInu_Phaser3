@@ -14,11 +14,12 @@ class BgIcon extends Phaser.GameObjects.Container {
         let rectangle = scene.add.graphics();
         rectangle.fillStyle(color);
         // 中心が (0, 0) にくるように調整
-        rectangle.fillRect(
+        rectangle.fillRoundedRect(
             -CONST_STT1.SIZE.BGICON.WIDTH / 2,
             -CONST_STT1.SIZE.BGICON.HEIGHT / 2,
             CONST_STT1.SIZE.BGICON.WIDTH,
-            CONST_STT1.SIZE.BGICON.HEIGHT
+            CONST_STT1.SIZE.BGICON.HEIGHT,
+            CONST_STT1.SIZE.BGICON.ROUND
         );
 
         // 画像
