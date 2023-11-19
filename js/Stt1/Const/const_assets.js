@@ -10,6 +10,7 @@ CONST_STT1.IMGNAME = {
     BUTTON_DOGRUN: "button_dogRun.png",
     BUTTON_DOGPUZZLE_PUSH: "button_dogPuzzle_push.png",
     BUTTON_DOGRUN_PUSH: "button_dogRun_push.png",
+    TITLE: "title.png",
 };
 
 // 各画像ファイルのファイルID
@@ -18,6 +19,7 @@ CONST_STT1.IMGID = {
     BUTTON_DOGRUN: "BUTTON_DOGRUN",
     BUTTON_DOGPUZZLE_PUSH: "BUTTON_DOGPUZZLE_PUSH",
     BUTTON_DOGRUN_PUSH: "BUTTON_DOGRUN_PUSH",
+    TITLE: "TITLE",
 };
 
 CONST_STT1.SIZE = {
@@ -27,10 +29,12 @@ CONST_STT1.SIZE = {
         { WIDTH: 96, HEIGHT: 96 },
     BGICON:
         { WIDTH: 120, HEIGHT: 120, ROUND: 16 },
+    BGTITLE:
+        { WIDTH: 288, HEIGHT: 128 },
 }
 
 CONST_STT1.POSITION = {
     BUTTON: {
-        SPACE: 48,
+        SPACE: 36,
     }
 }

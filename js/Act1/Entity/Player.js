@@ -56,10 +56,10 @@ class Player extends PhysSprite {
         }
 
         // SPがたまった場合、レベルアップする
-        if (this.sp >= this.maxSp) {
+        if (this.level < CONST_ACT1.PLAYER_LEVEL_MAX && this.sp >= this.maxSp) {
             this.level += 1;
             this.sp = 0;
-            this.maxSp += CONST_ACT1.SP_LVUP_INC;
+            this.maxSp *= CONST_ACT1.SP_LVUP_INC_RATE;
             this.levelUpFlg = true;
         }
 

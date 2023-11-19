@@ -12,6 +12,8 @@ class Stt1TitleScene extends BaseScene {
             [CONST_STT1.IMGID.BUTTON_DOGRUN, CONST_STT1.IMGNAME.BUTTON_DOGRUN],
             [CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH, CONST_STT1.IMGNAME.BUTTON_DOGPUZZLE_PUSH],
             [CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH, CONST_STT1.IMGNAME.BUTTON_DOGRUN_PUSH],
+            // タイトル
+            [CONST_STT1.IMGID.TITLE, CONST_STT1.IMGNAME.TITLE]
         ];
 
         // 背景用
@@ -48,15 +50,52 @@ class Stt1TitleScene extends BaseScene {
         // 背景オブジェクトの更新タイミングのフレーム
         this.bgIconUpdateFrame = CONST_STT1.SIZE.BGICON.WIDTH / CONST_STT1.BGICON.MOVE_X;
         // 背景を初期描画する
+        this.createdBg = false;
         this.createBg();
 
-        let buttonY = (SCR_HEIGHT - (CONST_STT1.SIZE.BUTTON.HEIGHT) * 2 + CONST_STT1.POSITION.BUTTON.SPACE * 1) / 2;
+        // モードの数
+        let modeNum = 2;
+
+        // タイトル背景のサイズを計算
+        let bgTitleW = CONST_STT1.SIZE.BUTTON.WIDTH * modeNum + CONST_STT1.POSITION.BUTTON.SPACE * (modeNum - 1) + CONST_STT1.BGTITLE.MARGIN * 2;
+        let bgTitleH = CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.SIZE.BGTITLE.HEIGHT + CONST_STT1.BGTITLE.MARGIN;
+
+        // タイトルオブジェクト
+        this.bgTitleObj = this.add.container();
+        this.bgTitleObj.setPosition(SCR_WIDTH / 2, (SCR_HEIGHT - bgTitleH) / 2);
+
+        let bgTitleObjY = 0;
+        // タイトル背景の描画
+        let bgTitle = this.add.graphics();
+        bgTitle.fillStyle(CONST_STT1.BGTITLE.COLOR);
+        bgTitle.fillRoundedRect(
+            -bgTitleW / 2,
+            bgTitleObjY,
+            bgTitleW,
+            bgTitleH,
+            CONST_STT1.BGTITLE.ROUND
+        );
+        bgTitle.setAlpha(CONST_STT1.BGTITLE.ALPHA);
+        this.bgTitleObj.add(bgTitle);
+
+        // タイトルの描画
+        let titleSprtie = this.add.sprite(
+            0,
+            bgTitleObjY,
+            CONST_STT1.IMGID.TITLE
+        );
+        titleSprtie.setOrigin(0.5, 0);
+        this.bgTitleObj.add(titleSprtie);
+        bgTitleObjY += CONST_STT1.SIZE.BGTITLE.HEIGHT;
+
+        // ボタンの描画
+        let buttonX = -(CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE) * (modeNum - 1) / 2;
         // Pzl1GameScene に遷移するボタン
         const buttonPzl1 = this.add.sprite(
-            SCR_WIDTH / 2,
-            buttonY,
+            buttonX,
+            bgTitleObjY,
             CONST_STT1.IMGID.BUTTON_DOGPUZZLE
-        ).setInteractive();
+        ).setInteractive().setOrigin(0.5, 0);
 
         buttonPzl1.on('pointerover', () => {
             buttonPzl1.setTexture(CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH);
@@ -70,14 +109,17 @@ class Stt1TitleScene extends BaseScene {
             this.scene.start(COMMON.PZL1PRELOADSCENE);
         });
 
-        buttonY += CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.POSITION.BUTTON.SPACE;
+        this.bgTitleObj.add(buttonPzl1);
+
+        buttonX += CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE;
+        // buttonY += CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.POSITION.BUTTON.SPACE;
 
         // Act1GameScene に遷移するボタン
         const buttonAct1 = this.add.sprite(
-            SCR_WIDTH / 2,
-            buttonY,
+            buttonX,
+            bgTitleObjY,
             CONST_STT1.IMGID.BUTTON_DOGRUN
-        ).setInteractive();
+        ).setInteractive().setOrigin(0.5, 0);
 
         buttonAct1.on('pointerover', () => {
             buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH);
@@ -90,12 +132,17 @@ class Stt1TitleScene extends BaseScene {
         buttonAct1.on('pointerdown', () => {
             this.scene.start(COMMON.ACT1PRELOADSCENE);
         });
+
+        this.bgTitleObj.add(buttonAct1);
+
     }
 
     /**
      * 背景を作成する
      */
     createBg() {
+        this.cameras.main.setBackgroundColor(CONST_STT1.BGCOLOR);
+
         let iconX = -CONST_STT1.SIZE.BGICON.WIDTH / 2;
         let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT / 2;
         let rowCnt = 0;
@@ -105,9 +152,10 @@ class Stt1TitleScene extends BaseScene {
                 let bgCol = Phaser.Math.RND.pick(CONST_STT1.BGICON.COLORLIST);
                 // ランダムなテクスチャを取得
                 let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
-                this.bgIconList.push(
-                    new BgIcon(this, iconX, iconY, bgTxt, bgCol)
-                );
+                let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+                // 背景アイコンを生成
+                bgIcon.setDepth(-2);
+                this.bgIconList.push(bgIcon);
                 iconX += CONST_STT1.SIZE.BGICON.WIDTH * 2;
             }
             rowCnt++;
@@ -154,7 +202,7 @@ class Stt1TitleScene extends BaseScene {
                         let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
                         let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
                         // 背景アイコンを生成
-                        bgIcon.setDepth(-1);
+                        bgIcon.setDepth(-2);
                         this.bgIconList.push(bgIcon);
 
                         iconX += CONST_STT1.SIZE.BGICON.WIDTH * 2;

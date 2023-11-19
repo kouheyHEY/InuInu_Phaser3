@@ -170,7 +170,7 @@ class Act1GameManager {
 
         // スプライトに速度を設定
         this.playerWeaponRotationSpeed = CONST_ACT1.WEAPON.ROTATIONSPEED.BONE
-        weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
+        weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed * 2);
 
         // 敵と武器の衝突
         this.scene.physics.add.overlap(this.playerWeaponGroup, this.enemyGroup, (weapon, enemy) => {
@@ -394,7 +394,7 @@ class Act1GameManager {
         let weaponDeg = this.playerWeaponAngle;
         this.playerWeaponGroup.children.iterate((weapon) => {
             if (this.player.levelUpFlg) {
-                weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed);
+                weapon.body.setAngularVelocity(this.playerWeaponRotationSpeed * 2);
             }
             // 武器の位置の更新
             let weaponX = this.player.x + CONST_ACT1.WEAPON.RADIUS.BONE * Math.cos(Phaser.Math.DegToRad(weaponDeg));

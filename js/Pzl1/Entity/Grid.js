@@ -59,7 +59,6 @@ class Grid {
      * @returns アイコンのタイプ（犬のみ）
      */
     getRandomIconType() {
-        console.log(CONST_PZL1.DOG_NUM);
         return Math.floor(Math.random() * CONST_PZL1.DOG_NUM);
     }
 

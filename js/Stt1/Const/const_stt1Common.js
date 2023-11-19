@@ -16,3 +16,15 @@ CONST_STT1.BGICON = {
     MOVE_X: 0.5,
     MOVE_Y: 0.5,
 };
+
+// タイトルの背景
+CONST_STT1.BGTITLE = {
+    // COLOR: 0xffc4c4,
+    COLOR: 0xffd0d0,
+    ALPHA: 0.9,
+    ROUND: 24,
+    MARGIN: 24
+}
+
+// 背景色
+CONST_STT1.BGCOLOR = "#ff9090";

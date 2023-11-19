@@ -204,7 +204,7 @@ class Act1GameScene extends BaseScene {
         }
         // 敵の移動速度を一定時間で更新
         if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
-            this.gameManager.enemySpeed = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemySpeed + 1);
+            this.gameManager.enemySpeed = Math.min(CONST_ACT1.MAXSPEED.ENEMY, this.gameManager.enemySpeed + 1);
             this.gameManager.enemyLevel++;
         }
 
@@ -240,8 +240,11 @@ class Act1GameScene extends BaseScene {
             spBarWidth,
             CONST_ACT1.PLAYER_SPBAR.HEIGHT
         );
-        // プレイヤーのレベルの表示
-        this.playerLevel.setText(CONST_ACT1.PLAYER_LEVEL.LABEL + `${this.gameManager.player.level}`);
+        let playerLevelDisp = this.gameManager.player.level;
+        if (this.gameManager.player.level >= CONST_ACT1.PLAYER_LEVEL_MAX) {
+            playerLevelDisp = CONST_ACT1.PLAYER_LEVEL.LABELMAX;
+        }
+        this.playerLevel.setText(CONST_ACT1.PLAYER_LEVEL.LABEL + `${playerLevelDisp}`);
         // 敵のレベルの表示
         this.enemyLevel.setText(CONST_ACT1.ENEMY_LEVEL.LABEL + `${this.gameManager.enemyLevel}`);
         // スコアの表示
