@@ -7,9 +7,16 @@ class Pzl1GameScene extends BaseScene {
         this.cameras.main.setBackgroundColor(CONST_PZL1.COMMON_PZL1.BGCOLOR_DEFAULT);
         console.log("Pzl1GameScene Start");
 
+        // 画面によるアイコンのサイズの倍率
+        if (SCR_WIDTH <= CONST_PZL1.SMALL_THR_WIDTH || SCR_HEIGHT <= CONST_PZL1.SMALL_THR_HEIGHT) {
+            this.iconSizeRate = CONST_PZL1.ICON.SMALL_RATE;
+        } else {
+            this.iconSizeRate = 1;
+        }
+
         // ゲームの初期化と設定
         this.pzl1GameManager = new Pzl1GameManager(this);
-        this.grid = new Grid(this, 4, 6, this.pzl1GameManager);
+        this.grid = new Grid(this, 5, 6, this.pzl1GameManager);
 
         // アイコン消去数表示用エリアの設定
         this.createDeleteInfoArea();

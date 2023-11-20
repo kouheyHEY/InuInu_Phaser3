@@ -5,8 +5,20 @@ class Grid {
         this.numRows = numRows;
         this.numCols = numCols;
 
-        this.gridX = (SCR_WIDTH - this.numCols * CONST_PZL1.ICON.WIDTH) / 2;
-        this.gridY = (SCR_HEIGHT - this.numRows * CONST_PZL1.ICON.HEIGHT) / 2;
+        // アイコンのサイズ
+        this.iconWidth = CONST_PZL1.ICON.WIDTH * this.scene.iconSizeRate;
+        this.iconHeight = CONST_PZL1.ICON.HEIGHT * this.scene.iconSizeRate;
+
+        let gridWidth = this.numCols * this.iconWidth;
+        let gridHeight = this.numRows * this.iconHeight;
+
+        this.gridX = (SCR_WIDTH - gridWidth) / 2;
+        this.gridY = (SCR_HEIGHT - gridHeight) / 2 + CONST_PZL1.ICON_DELETEINFO.HEIGHT;
+
+        let line = this.scene.add.graphics();
+        line.lineStyle(2, 0x000000, 1);
+        line.lineBetween(0, this.gridY, SCR_WIDTH, this.gridY);
+        console.log();
 
         /** @type {Pzl1GameManager} */
         this.pzl1GameManager = pzl1GameManager;
@@ -353,7 +365,7 @@ class Grid {
                 this.scene.tweens.add({
                     targets: newIcon,
                     alpha: 1,
-                    scale: 1,
+                    scale: this.scene.iconSizeRate,
                     y: newIcon.y + CONST_PZL1.ICONFADEIN.YDIST,
                     duration: CONST_PZL1.ICONFADEIN.TIME,
                     ease: 'Power2',
@@ -379,7 +391,7 @@ class Grid {
         this.scene.tweens.add({
             targets: item,
             alpha: 1,
-            scale: 1,
+            scale: this.scene.iconSizeRate,
             duration: CONST_PZL1.ICONFADEIN.TIME,
             ease: 'Power2',
         }, this.scene);
@@ -396,11 +408,13 @@ class Grid {
      */
     createIcon(_row, _col, _iconType, _fadeIn = false) {
 
-        let x = _col * CONST_PZL1.ICON.WIDTH + this.gridX + CONST_PZL1.ICON.WIDTH / 2;
-        let y = _row * CONST_PZL1.ICON.HEIGHT + this.gridY + CONST_PZL1.ICON.HEIGHT / 2;
+        let x = _col * this.iconWidth + this.gridX + this.iconWidth / 2;
+        let y = _row * this.iconHeight + this.gridY + this.iconHeight / 2;
 
         // アイコンの設定をする
         let icon = new Icon(this.scene, x, y, CONST_PZL1.ICONTYPE[_iconType], _iconType, _row, _col, this);
+        // アイコンのサイズ設定
+        icon.setScale(this.scene.iconSizeRate);
         // アニメーションの設定をする
         icon.setAnimation();
 
@@ -422,10 +436,12 @@ class Grid {
      * @returns 生成したアイコン
      */
     createItem(_row, _col, _itemType, _fadeIn = false) {
-        let x = _col * CONST_PZL1.ICON.WIDTH + this.gridX + CONST_PZL1.ICON.WIDTH / 2;
-        let y = _row * CONST_PZL1.ICON.HEIGHT + this.gridY + CONST_PZL1.ICON.HEIGHT / 2;
+        let x = _col * this.iconWidth + this.gridX + this.iconWidth / 2;
+        let y = _row * this.iconHeight + this.gridY + this.iconHeight / 2;
 
         let item = new Icon(this.scene, x, y, CONST_PZL1.ICONTYPE[_itemType], _itemType, _row, _col, this);
+        // アイコンのサイズ設定
+        item.setScale(this.scene.iconSizeRate);
         // アニメーションの設定をする
         item.setAnimation();
 
@@ -460,7 +476,7 @@ class Grid {
                     // 移動する場合
                     if (moveRow > 0) {
                         // 移動先の座標
-                        let targetY = icon.y + moveRow * CONST_PZL1.ICON.HEIGHT;
+                        let targetY = icon.y + moveRow * this.iconHeight;
 
                         // アニメーションの設定
                         this.scene.tweens.add({
