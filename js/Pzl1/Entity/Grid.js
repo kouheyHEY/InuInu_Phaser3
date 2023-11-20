@@ -17,7 +17,7 @@ class Grid {
 
         let line = this.scene.add.graphics();
         line.lineStyle(2, 0x000000, 1);
-        line.lineBetween(0, this.gridY, SCR_WIDTH, this.gridY);
+        line.lineBetween(0, this.gridY - 2, SCR_WIDTH, this.gridY - 2);
         console.log();
 
         /** @type {Pzl1GameManager} */
@@ -106,7 +106,7 @@ class Grid {
             // エフェクトアニメーションの再生
             this.scene.tweens.add({
                 targets: selectedIcon,
-                scale: CONST_PZL1.ITEMDELETE.SCALE,
+                scale: CONST_PZL1.ITEMDELETE.SCALE * this.scene.iconSizeRate,
                 duration: CONST_PZL1.ITEMDELETE.TIME,
                 ease: 'Power1',
             }, this.scene);
@@ -313,7 +313,7 @@ class Grid {
                             }
 
                             // スケールをもとに戻す
-                            deleteIcon.setScale(1);
+                            deleteIcon.setScale(this.scene.iconSizeRate);
 
                         }
                         // アニメーションを開始する
@@ -422,7 +422,7 @@ class Grid {
         if (_fadeIn) {
             icon.y = y - CONST_PZL1.ICONFADEIN.YDIST;
             icon.setAlpha(0);
-            icon.setScale(0.5);
+            icon.setScale(0.5 * this.scene.iconSizeRate);
         }
         return icon;
     }
