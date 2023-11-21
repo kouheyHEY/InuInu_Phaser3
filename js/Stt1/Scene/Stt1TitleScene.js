@@ -45,6 +45,15 @@ class Stt1TitleScene extends BaseScene {
     }
 
     create() {
+
+        // デバイスのタイプをチェックして、スケールを設定
+        if (this.sys.game.device.os.android || this.sys.game.device.os.iOS) {
+            // スマートフォン版の場合
+            this.objScale = CONST_STT1.SIZE.SMALLSCALE;
+        } else {
+            this.objScale = CONST_STT1.SIZE.LARGESCALE;
+        }
+
         // 背景オブジェクトのグループ
         this.bgIconList = [];
         // 背景オブジェクトの更新タイミングのフレーム
@@ -62,7 +71,7 @@ class Stt1TitleScene extends BaseScene {
 
         // タイトルオブジェクト
         this.bgTitleObj = this.add.container();
-        this.bgTitleObj.setPosition(SCR_WIDTH / 2, (SCR_HEIGHT - bgTitleH) / 2);
+        this.bgTitleObj.setPosition(SCR_WIDTH / 2, (SCR_HEIGHT - bgTitleH * this.objScale) / 2);
 
         let bgTitleObjY = 0;
         // タイトル背景の描画
@@ -135,6 +144,8 @@ class Stt1TitleScene extends BaseScene {
 
         this.bgTitleObj.add(buttonAct1);
 
+        this.bgTitleObj.setScale(this.objScale);
+
     }
 
     /**
@@ -153,15 +164,16 @@ class Stt1TitleScene extends BaseScene {
                 // ランダムなテクスチャを取得
                 let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
                 let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+                bgIcon.setScale(this.objScale);
                 // 背景アイコンを生成
                 bgIcon.setDepth(-2);
                 this.bgIconList.push(bgIcon);
-                iconX += CONST_STT1.SIZE.BGICON.WIDTH * 2;
+                iconX += CONST_STT1.SIZE.BGICON.WIDTH * this.objScale * 2;
             }
             rowCnt++;
             // チェック柄となるように配置
-            iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH;
-            iconY += CONST_STT1.SIZE.BGICON.HEIGHT;
+            iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH * this.objScale;
+            iconY += CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale;
         }
     }
 
@@ -176,8 +188,8 @@ class Stt1TitleScene extends BaseScene {
     updateBg() {
         let repeatBgIcon = (phaser.getFrame() % this.bgIconUpdateFrame == 0);
         this.bgIconList.forEach((icon, index) => {
-            icon.x += CONST_STT1.BGICON.MOVE_X;
-            icon.y += CONST_STT1.BGICON.MOVE_Y;
+            icon.x += CONST_STT1.BGICON.MOVE_X * this.objScale;
+            icon.y += CONST_STT1.BGICON.MOVE_Y * this.objScale;
 
             // 表示されないオブジェクトは削除
             if (icon.x >= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH || icon.y >= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
@@ -201,17 +213,18 @@ class Stt1TitleScene extends BaseScene {
                         // ランダムなテクスチャを取得
                         let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
                         let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+                        bgIcon.setScale(this.objScale);
                         // 背景アイコンを生成
                         bgIcon.setDepth(-2);
                         this.bgIconList.push(bgIcon);
 
-                        iconX += CONST_STT1.SIZE.BGICON.WIDTH * 2;
+                        iconX += CONST_STT1.SIZE.BGICON.WIDTH * this.objScale * 2;
                     }
                 }
                 rowCnt++;
                 // チェック柄となるように配置
-                iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH;
-                iconY += CONST_STT1.SIZE.BGICON.HEIGHT;
+                iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH * this.objScale;
+                iconY += CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale;
             }
         }
     }

@@ -6,14 +6,14 @@ class Grid {
         this.numCols = numCols;
 
         // アイコンのサイズ
-        this.iconWidth = CONST_PZL1.ICON.WIDTH * this.scene.iconSizeRate;
-        this.iconHeight = CONST_PZL1.ICON.HEIGHT * this.scene.iconSizeRate;
+        this.iconWidth = CONST_PZL1.ICON.WIDTH * this.scene.objScale;
+        this.iconHeight = CONST_PZL1.ICON.HEIGHT * this.scene.objScale;
 
         let gridWidth = this.numCols * this.iconWidth;
         let gridHeight = this.numRows * this.iconHeight;
 
         this.gridX = (SCR_WIDTH - gridWidth) / 2;
-        this.gridY = (SCR_HEIGHT - gridHeight) / 2 + CONST_PZL1.ICON_DELETEINFO.HEIGHT;
+        this.gridY = (SCR_HEIGHT - gridHeight) / 2 + CONST_PZL1.ICON_DELETEINFO.HEIGHT * this.scene.objScale;
 
         let line = this.scene.add.graphics();
         line.lineStyle(2, 0x000000, 1);
@@ -106,7 +106,7 @@ class Grid {
             // エフェクトアニメーションの再生
             this.scene.tweens.add({
                 targets: selectedIcon,
-                scale: CONST_PZL1.ITEMDELETE.SCALE * this.scene.iconSizeRate,
+                scale: CONST_PZL1.ITEMDELETE.SCALE * this.scene.objScale,
                 duration: CONST_PZL1.ITEMDELETE.TIME,
                 ease: 'Power1',
             }, this.scene);
@@ -313,7 +313,7 @@ class Grid {
                             }
 
                             // スケールをもとに戻す
-                            deleteIcon.setScale(this.scene.iconSizeRate);
+                            deleteIcon.setScale(this.scene.objScale);
 
                         }
                         // アニメーションを開始する
@@ -365,7 +365,7 @@ class Grid {
                 this.scene.tweens.add({
                     targets: newIcon,
                     alpha: 1,
-                    scale: this.scene.iconSizeRate,
+                    scale: this.scene.objScale,
                     y: newIcon.y + CONST_PZL1.ICONFADEIN.YDIST,
                     duration: CONST_PZL1.ICONFADEIN.TIME,
                     ease: 'Power2',
@@ -391,7 +391,7 @@ class Grid {
         this.scene.tweens.add({
             targets: item,
             alpha: 1,
-            scale: this.scene.iconSizeRate,
+            scale: this.scene.objScale,
             duration: CONST_PZL1.ICONFADEIN.TIME,
             ease: 'Power2',
         }, this.scene);
@@ -414,7 +414,7 @@ class Grid {
         // アイコンの設定をする
         let icon = new Icon(this.scene, x, y, CONST_PZL1.ICONTYPE[_iconType], _iconType, _row, _col, this);
         // アイコンのサイズ設定
-        icon.setScale(this.scene.iconSizeRate);
+        icon.setScale(this.scene.objScale);
         // アニメーションの設定をする
         icon.setAnimation();
 
@@ -422,7 +422,7 @@ class Grid {
         if (_fadeIn) {
             icon.y = y - CONST_PZL1.ICONFADEIN.YDIST;
             icon.setAlpha(0);
-            icon.setScale(0.5 * this.scene.iconSizeRate);
+            icon.setScale(0.5 * this.scene.objScale);
         }
         return icon;
     }
@@ -441,7 +441,7 @@ class Grid {
 
         let item = new Icon(this.scene, x, y, CONST_PZL1.ICONTYPE[_itemType], _itemType, _row, _col, this);
         // アイコンのサイズ設定
-        item.setScale(this.scene.iconSizeRate);
+        item.setScale(this.scene.objScale);
         // アニメーションの設定をする
         item.setAnimation();
 

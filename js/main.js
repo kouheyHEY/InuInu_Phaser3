@@ -2,16 +2,24 @@
 const config = {
     type: Phaser.AUTO,
 
-    // 画面の幅
-    width: COMMON.D_WIDTH,
+    // // 画面の幅
+    // width: COMMON.D_WIDTH,
 
-    // 画面の高さ
-    height: COMMON.D_HEIGHT,
+    // // 画面の高さ
+    // height: COMMON.D_HEIGHT,
 
     scale: {
-        mode: Phaser.Scale.RESIZE, // スケールモードをリサイズに設定
-        parent: 'phaser-game', // レンダリングする要素のID
-        autoCenter: Phaser.Scale.CENTER_BOTH // ゲーム画面を中央に配置
+        // スケールモードをリサイズに設定
+        mode: Phaser.Scale.RESIZE,
+        // レンダリングする要素のID
+        parent: 'phaser-game',
+        // ゲーム画面を中央に配置
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        // 画面の幅
+        width: COMMON.D_WIDTH,
+
+        // 画面の高さ
+        height: COMMON.D_HEIGHT,
     },
 
     // アンチエイリアス
