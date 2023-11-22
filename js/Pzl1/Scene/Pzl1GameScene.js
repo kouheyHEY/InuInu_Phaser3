@@ -43,7 +43,7 @@ class Pzl1GameScene extends BaseScene {
         // 画面上部に消去数を表示する
         this.deleteInfoArea = this.add.group();
 
-        let deleteInfoX = CONST_PZL1.DELETEINFO.X;
+        let deleteInfoX = CONST_PZL1.DELETEINFO.X * this.objScale;
         let deleteInfoY = CONST_PZL1.DELETEINFO.Y * this.objScale;
         let typeID = 0;
         let DELETEINFO_X_LIMIT = SCR_WIDTH - CONST_PZL1.DELETEINFO.X * this.objScale;

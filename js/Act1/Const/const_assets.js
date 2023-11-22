@@ -65,6 +65,8 @@ CONST_ACT1.SIZE = {
         { WIDTH: 24, HEIGHT: 24 },
     EFFECT_LEVELUP:
         { WIDTH: 48, HEIGHT: 48 },
+    SMALLSCALE: 1,
+    LARGESCALE: 2
 };
 
 // マップファイルのファイル名リスト

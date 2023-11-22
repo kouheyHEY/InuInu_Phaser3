@@ -11,6 +11,14 @@ class Act1GameScene extends BaseScene {
 
     create() {
 
+        // デバイスのタイプをチェックして、スケールを設定
+        if (this.sys.game.device.os.android || this.sys.game.device.os.iOS) {
+            // スマートフォン版の場合
+            this.objScale = CONST_ACT1.SIZE.SMALLSCALE;
+        } else {
+            this.objScale = CONST_ACT1.SIZE.LARGESCALE;
+        }
+
         // 各種キーの設定
         this.keys = {
             space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
@@ -34,21 +42,22 @@ class Act1GameScene extends BaseScene {
         this.playerSPBarBG = this.add.graphics();
         this.playerSPBarBG.fillStyle(CONST_ACT1.PLAYER_SPBAR.BGCOLOR, 0.8);
         this.playerSPBarBG.fillRect(
-            CONST_ACT1.PLAYER_SPBAR.X,
-            CONST_ACT1.PLAYER_SPBAR.Y,
-            CONST_ACT1.PLAYER_SPBAR.WIDTH,
-            CONST_ACT1.PLAYER_SPBAR.HEIGHT
+            CONST_ACT1.PLAYER_SPBAR.X * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.Y * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.WIDTH * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.HEIGHT * this.objScale
         );
         this.ui.add(this.playerSPBarBG);
 
         this.playerSPBar = this.add.graphics();
         this.ui.add(this.playerSPBar);
 
+        // spゲージのラベル
         this.playerSPLabel = this.setText(
             CONST_ACT1.PLAYER_SPBAR.LABEL,
-            CONST_ACT1.PLAYER_SPBAR.LABELX,
-            CONST_ACT1.PLAYER_SPBAR.LABELY,
-            CONST_ACT1.PLAYER_SPBAR.LABELSIZE,
+            CONST_ACT1.PLAYER_SPBAR.LABELX * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.LABELY * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.LABELSIZE * this.objScale,
             CONST_ACT1.PLAYER_SPBAR.LABELCOLOR,
         );
         this.playerSPLabel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
@@ -57,9 +66,9 @@ class Act1GameScene extends BaseScene {
         // プレイヤーのレベルの表示
         this.playerLevel = this.setText(
             CONST_ACT1.PLAYER_LEVEL.LABEL,
-            CONST_ACT1.PLAYER_LEVEL.LABELX,
-            CONST_ACT1.PLAYER_LEVEL.LABELY,
-            CONST_ACT1.PLAYER_LEVEL.LABELSIZE,
+            CONST_ACT1.PLAYER_LEVEL.LABELX * this.objScale,
+            CONST_ACT1.PLAYER_LEVEL.LABELY * this.objScale,
+            CONST_ACT1.PLAYER_LEVEL.LABELSIZE * this.objScale,
             CONST_ACT1.PLAYER_LEVEL.LABELCOLOR,
         );
         this.playerLevel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
@@ -68,9 +77,9 @@ class Act1GameScene extends BaseScene {
         // 敵のレベルの表示
         this.enemyLevel = this.setText(
             CONST_ACT1.ENEMY_LEVEL.LABEL,
-            CONST_ACT1.ENEMY_LEVEL.LABELX,
-            CONST_ACT1.ENEMY_LEVEL.LABELY,
-            CONST_ACT1.ENEMY_LEVEL.LABELSIZE,
+            CONST_ACT1.ENEMY_LEVEL.LABELX * this.objScale,
+            CONST_ACT1.ENEMY_LEVEL.LABELY * this.objScale,
+            CONST_ACT1.ENEMY_LEVEL.LABELSIZE * this.objScale,
             CONST_ACT1.ENEMY_LEVEL.LABELCOLOR,
         );
         this.enemyLevel.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
@@ -79,9 +88,9 @@ class Act1GameScene extends BaseScene {
         // スコア表示
         this.score = this.setText(
             CONST_ACT1.SCORE.LABEL,
-            CONST_ACT1.SCORE.LABELX,
-            CONST_ACT1.SCORE.LABELY,
-            CONST_ACT1.SCORE.LABELSIZE,
+            CONST_ACT1.SCORE.LABELX * this.objScale,
+            CONST_ACT1.SCORE.LABELY * this.objScale,
+            CONST_ACT1.SCORE.LABELSIZE * this.objScale,
             CONST_ACT1.SCORE.LABELCOLOR,
         );
         this.score.setFontFamily(CONST_ACT1.COMMON_ACT1.FONTSTYLE_NORMAL);
@@ -131,6 +140,7 @@ class Act1GameScene extends BaseScene {
             this.mainCamera.setBounds(0, 0, this.fieldManager.fieldWidth, this.fieldManager.fieldHeight);
 
             this.mainCamera.ignore(this.ui);
+            this.mainCamera.setZoom(this.objScale);
 
             // ui用のカメラも作成する
             this.uiCamera = this.cameras.add(0, 0, SCR_WIDTH, SCR_HEIGHT);
@@ -197,15 +207,14 @@ class Act1GameScene extends BaseScene {
             this.gameManager.generateEnemy(this.fieldManager.field);
             this.uiCamera.ignore(this.gameManager.enemyGroup);
         }
+        if (this.gameManager.enemyLevel < CONST_ACT1.ENEMY_LEVEL_MAX) {
 
-        // 敵の最大数を一定時間で更新
-        if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
-            this.gameManager.enemyNum = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemyNum + 1);
-        }
-        // 敵の移動速度を一定時間で更新
-        if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
-            this.gameManager.enemySpeed = Math.min(CONST_ACT1.MAXSPEED.ENEMY, this.gameManager.enemySpeed + 1);
-            this.gameManager.enemyLevel++;
+            // 敵の最大数、移動速度を一定時間で更新
+            if (phaser.getFrame() % CONST_ACT1.ENEMYNUM_INC_FRAME === 0) {
+                this.gameManager.enemyNum = Math.min(CONST_ACT1.ENEMYNUM_MAX, this.gameManager.enemyNum + 1);
+                this.gameManager.enemySpeed = Math.min(CONST_ACT1.MAXSPEED.ENEMY, this.gameManager.enemySpeed + 1);
+                this.gameManager.enemyLevel++;
+            }
         }
 
         // UI描画の更新
@@ -235,10 +244,10 @@ class Act1GameScene extends BaseScene {
         let spBarWidth = (playerSP / this.gameManager.player.maxSp) * CONST_ACT1.PLAYER_SPBAR.WIDTH;
         this.playerSPBar.fillStyle(CONST_ACT1.PLAYER_SPBAR.COLOR);
         this.playerSPBar.fillRect(
-            CONST_ACT1.PLAYER_SPBAR.X,
-            CONST_ACT1.PLAYER_SPBAR.Y,
-            spBarWidth,
-            CONST_ACT1.PLAYER_SPBAR.HEIGHT
+            CONST_ACT1.PLAYER_SPBAR.X * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.Y * this.objScale,
+            spBarWidth * this.objScale,
+            CONST_ACT1.PLAYER_SPBAR.HEIGHT * this.objScale
         );
         let playerLevelDisp = this.gameManager.player.level;
         if (this.gameManager.player.level >= CONST_ACT1.PLAYER_LEVEL_MAX) {

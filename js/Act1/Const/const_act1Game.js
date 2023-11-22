@@ -46,6 +46,7 @@ CONST_ACT1.ENEMY_LEVEL = {
     LABELSIZE: 20,
     LABELCOLOR: "#ffffff",
 }
+CONST_ACT1.ENEMY_LEVEL_MAX = 200;
 
 // ファイル選択時のinput要素を生成するdivタグのID
 CONST_ACT1.INPUT_ID = "input-dummyId";
