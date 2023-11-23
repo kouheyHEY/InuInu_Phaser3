@@ -12,6 +12,8 @@ CONST_ACT1.COMMON_ACT1 = {
 
     // 背景色
     BGCOLOR_DEFAULT: "#808080",
+    BGCOLOR_ACTION: "#80D0E8",
+    // BGCOLOR_ACTION: "#000000",
 
 };
 

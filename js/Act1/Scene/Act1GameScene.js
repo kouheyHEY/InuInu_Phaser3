@@ -19,6 +19,9 @@ class Act1GameScene extends BaseScene {
             this.objScale = CONST_ACT1.SIZE.LARGESCALE;
         }
 
+        // 背景色の設定
+        this.cameras.main.setBackgroundColor(CONST_ACT1.COMMON_ACT1.BGCOLOR_ACTION);
+
         // 各種キーの設定
         this.keys = {
             space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)

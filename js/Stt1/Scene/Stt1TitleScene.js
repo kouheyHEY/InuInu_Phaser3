@@ -152,10 +152,11 @@ class Stt1TitleScene extends BaseScene {
      * 背景を作成する
      */
     createBg() {
+        // 背景色の設定
         this.cameras.main.setBackgroundColor(CONST_STT1.BGCOLOR);
 
-        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH / 2;
-        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT / 2;
+        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH * this.objScale / 2;
+        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale / 2;
         let rowCnt = 0;
         while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
             while (iconX <= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH) {
@@ -164,6 +165,7 @@ class Stt1TitleScene extends BaseScene {
                 // ランダムなテクスチャを取得
                 let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
                 let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+
                 bgIcon.setScale(this.objScale);
                 // 背景アイコンを生成
                 bgIcon.setDepth(-2);
@@ -199,8 +201,8 @@ class Stt1TitleScene extends BaseScene {
         });
 
         // 画面端に到達したタイミングで画面外のオブジェクトを新規作成
-        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH / 2;
-        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT / 2;
+        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH * this.objScale / 2;
+        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale / 2;
         let rowCnt = 0;
         if (repeatBgIcon) {
             while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {

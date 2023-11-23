@@ -17,13 +17,13 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
         // 画面の幅
         width: COMMON.D_WIDTH,
-
         // 画面の高さ
         height: COMMON.D_HEIGHT,
     },
 
     // アンチエイリアス
-    antialias: true,
+    // antialias: true,
+    pixelArt: false,
 
     // シーン設定
     scene: [
