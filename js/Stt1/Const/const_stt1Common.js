@@ -28,3 +28,8 @@ CONST_STT1.BGTITLE = {
 
 // 背景色
 CONST_STT1.BGCOLOR = "#ff9090";
+
+// ボタンの数
+CONST_STT1.MODE_NUM = 3;
+// ボタンの表示列数
+CONST_STT1.BUTTON_COL = 2;

@@ -10,8 +10,10 @@ class Stt1TitleScene extends BaseScene {
             // ボタン用
             [CONST_STT1.IMGID.BUTTON_DOGPUZZLE, CONST_STT1.IMGNAME.BUTTON_DOGPUZZLE],
             [CONST_STT1.IMGID.BUTTON_DOGRUN, CONST_STT1.IMGNAME.BUTTON_DOGRUN],
+            [CONST_STT1.IMGID.BUTTON_ACHIEVE, CONST_STT1.IMGNAME.BUTTON_ACHIEVE],
             [CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH, CONST_STT1.IMGNAME.BUTTON_DOGPUZZLE_PUSH],
             [CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH, CONST_STT1.IMGNAME.BUTTON_DOGRUN_PUSH],
+            [CONST_STT1.IMGID.BUTTON_ACHIEVE_PUSH, CONST_STT1.IMGNAME.BUTTON_ACHIEVE_PUSH],
             // タイトル
             [CONST_STT1.IMGID.TITLE, CONST_STT1.IMGNAME.TITLE]
         ];
@@ -63,11 +65,17 @@ class Stt1TitleScene extends BaseScene {
         this.createBg();
 
         // モードの数
-        let modeNum = 2;
+        let modeNum = CONST_STT1.MODE_NUM;
 
         // タイトル背景のサイズを計算
-        let bgTitleW = CONST_STT1.SIZE.BUTTON.WIDTH * modeNum + CONST_STT1.POSITION.BUTTON.SPACE * (modeNum - 1) + CONST_STT1.BGTITLE.MARGIN * 2;
-        let bgTitleH = CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.SIZE.BGTITLE.HEIGHT + CONST_STT1.BGTITLE.MARGIN;
+        let bgTitleW =
+            CONST_STT1.SIZE.BUTTON.WIDTH * CONST_STT1.BUTTON_COL +
+            CONST_STT1.POSITION.BUTTON.SPACE * (CONST_STT1.BUTTON_COL - 1) +
+            CONST_STT1.BGTITLE.MARGIN * 2;
+        let bgTitleH =
+            CONST_STT1.SIZE.BUTTON.HEIGHT * Math.ceil(modeNum / CONST_STT1.BUTTON_COL) +
+            CONST_STT1.POSITION.BUTTON.SPACE * (CONST_STT1.BUTTON_COL - 1) +
+            CONST_STT1.SIZE.BGTITLE.HEIGHT + CONST_STT1.BGTITLE.MARGIN;
 
         // タイトルオブジェクト
         this.bgTitleObj = this.add.container();
@@ -97,53 +105,113 @@ class Stt1TitleScene extends BaseScene {
         this.bgTitleObj.add(titleSprtie);
         bgTitleObjY += CONST_STT1.SIZE.BGTITLE.HEIGHT;
 
-        // ボタンの描画
-        let buttonX = -(CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE) * (modeNum - 1) / 2;
-        // Pzl1GameScene に遷移するボタン
-        const buttonPzl1 = this.add.sprite(
-            buttonX,
-            bgTitleObjY,
-            CONST_STT1.IMGID.BUTTON_DOGPUZZLE
-        ).setInteractive().setOrigin(0.5, 0);
+        // ボタンのプロパティ
+        let buttonPropList = [
+            {
+                button_normal: CONST_STT1.IMGID.BUTTON_DOGPUZZLE,
+                button_push: CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH,
+                nextScene: COMMON.ACT1PRELOADSCENE
+            },
+            {
+                button_normal: CONST_STT1.IMGID.BUTTON_DOGRUN,
+                button_push: CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH,
+                nextScene: COMMON.PZL1PRELOADSCENE
+            },
+            {
+                button_normal: CONST_STT1.IMGID.BUTTON_ACHIEVE,
+                button_push: CONST_STT1.IMGID.BUTTON_ACHIEVE_PUSH,
+                nextScene: ""
+            }
+        ];
+        this.buttonList = [];
 
-        buttonPzl1.on('pointerover', () => {
-            buttonPzl1.setTexture(CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH);
-        });
+        // ボタンのx座標
+        let buttonX = 0;
+        for (let i = 0; i < buttonPropList.length; i++) {
 
-        buttonPzl1.on('pointerout', () => {
-            buttonPzl1.setTexture(CONST_STT1.IMGID.BUTTON_DOGPUZZLE);
-        });
+            buttonX =
+                (CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE) * (i % CONST_STT1.BUTTON_COL) -
+                (CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE) * (CONST_STT1.BUTTON_COL - 1) / 2;
+            let buttonProp = buttonPropList[i];
 
-        buttonPzl1.on('pointerdown', () => {
-            this.scene.start(COMMON.PZL1PRELOADSCENE);
-        });
+            // Pzl1GameScene に遷移するボタン
+            let button = this.add.sprite(
+                buttonX,
+                bgTitleObjY,
+                buttonPropList[i].button_normal
+            ).setInteractive().setOrigin(0.5, 0);
 
-        this.bgTitleObj.add(buttonPzl1);
+            button.on('pointerover', () => {
+                button.setTexture(buttonProp.button_push);
+            });
 
-        buttonX += CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE;
-        // buttonY += CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.POSITION.BUTTON.SPACE;
+            button.on('pointerout', () => {
+                button.setTexture(buttonProp.button_normal);
+            });
 
-        // Act1GameScene に遷移するボタン
-        const buttonAct1 = this.add.sprite(
-            buttonX,
-            bgTitleObjY,
-            CONST_STT1.IMGID.BUTTON_DOGRUN
-        ).setInteractive().setOrigin(0.5, 0);
+            if (buttonProp.nextScene !== "") {
+                button.on('pointerdown', () => {
+                    this.scene.start(buttonProp.nextScene);
+                });
+            }
 
-        buttonAct1.on('pointerover', () => {
-            buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH);
-        });
+            this.buttonList.push(button);
+            this.bgTitleObj.add(button);
 
-        buttonAct1.on('pointerout', () => {
-            buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN);
-        });
+            bgTitleObjY += (CONST_STT1.SIZE.BUTTON.HEIGHT + CONST_STT1.POSITION.BUTTON.SPACE) * (i % CONST_STT1.BUTTON_COL);
+        }
 
-        buttonAct1.on('pointerdown', () => {
-            this.scene.start(COMMON.ACT1PRELOADSCENE);
-        });
 
-        this.bgTitleObj.add(buttonAct1);
 
+        // buttonX += CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE;
+
+        // // Act1GameScene に遷移するボタン
+        // const buttonAct1 = this.add.sprite(
+        //     buttonX,
+        //     bgTitleObjY,
+        //     CONST_STT1.IMGID.BUTTON_DOGRUN
+        // ).setInteractive().setOrigin(0.5, 0);
+
+        // buttonAct1.on('pointerover', () => {
+        //     buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH);
+        // });
+
+        // buttonAct1.on('pointerout', () => {
+        //     buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN);
+        // });
+
+        // buttonAct1.on('pointerdown', () => {
+        //     this.scene.start(COMMON.ACT1PRELOADSCENE);
+        // });
+
+        // this.bgTitleObj.add(buttonAct1);
+
+        // buttonX = -(CONST_STT1.SIZE.BUTTON.WIDTH + CONST_STT1.POSITION.BUTTON.SPACE) * (modeNum - 1) / 2;
+        // bgTitleObjY
+
+        // // 実績表示用ボタン
+        // const buttonAchv = this.add.sprite(
+        //     buttonX,
+        //     bgTitleObjY,
+        //     CONST_STT1.IMGID.BUTTON_DOGRUN
+        // ).setInteractive().setOrigin(0.5, 0);
+
+        // buttonAct1.on('pointerover', () => {
+        //     buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH);
+        // });
+
+        // buttonAct1.on('pointerout', () => {
+        //     buttonAct1.setTexture(CONST_STT1.IMGID.BUTTON_DOGRUN);
+        // });
+
+        // buttonAct1.on('pointerdown', () => {
+        //     this.scene.start(COMMON.ACT1PRELOADSCENE);
+        // });
+
+        // this.bgTitleObj.add(buttonAct1);
+
+
+        // タイトルオブジェクトのスケール設定
         this.bgTitleObj.setScale(this.objScale);
 
     }

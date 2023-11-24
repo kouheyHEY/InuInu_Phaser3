@@ -8,8 +8,10 @@ CONST_STT1.DIR = {
 CONST_STT1.IMGNAME = {
     BUTTON_DOGPUZZLE: "button_dogPuzzle.png",
     BUTTON_DOGRUN: "button_dogRun.png",
+    BUTTON_ACHIEVE: "button_achieve.png",
     BUTTON_DOGPUZZLE_PUSH: "button_dogPuzzle_push.png",
     BUTTON_DOGRUN_PUSH: "button_dogRun_push.png",
+    BUTTON_ACHIEVE_PUSH: "button_achieve_push.png",
     TITLE: "title.png",
 };
 
@@ -17,8 +19,10 @@ CONST_STT1.IMGNAME = {
 CONST_STT1.IMGID = {
     BUTTON_DOGPUZZLE: "BUTTON_DOGPUZZLE",
     BUTTON_DOGRUN: "BUTTON_DOGRUN",
+    BUTTON_ACHIEVE: "BUTTON_ACHIEVE",
     BUTTON_DOGPUZZLE_PUSH: "BUTTON_DOGPUZZLE_PUSH",
     BUTTON_DOGRUN_PUSH: "BUTTON_DOGRUN_PUSH",
+    BUTTON_ACHIEVE_PUSH: "BUTTON_ACHIEVE_PUSH",
     TITLE: "TITLE",
 };
 
