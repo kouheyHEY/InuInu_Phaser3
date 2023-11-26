@@ -58,7 +58,37 @@ const config = {
 
 }
 
+// プレイヤーのデータの取得
+let PLAYER_DATA_JSON = localStorage.getItem(PLAYER_DATA_KEY);
+var PLAYER_DATA = null;
+// プレイヤーのデータがローカルストレージに存在しない場合は、新規に作成
+if (PLAYER_DATA_JSON === null) {
+    PLAYER_DATA = {};
+
+    for (let key of PLAYER_DATA_KEY_LIST) {
+        PLAYER_DATA[key] = {};
+        // 実績一覧を作成
+        if (key === ACHIEVE_LIST) {
+            // ゲームカテゴリごとの実績
+            for (const [key_game] of Object.entries(ACHIEVE_LIST_STR)) {
+                PLAYER_DATA[key][key_game] = {};
+                // 実績一覧の初期生成
+                for (const [key_achieve] of Object.entries(ACHIEVE_LIST_STR[key_game])) {
+                    PLAYER_DATA[key][key_game][key_achieve] = false;
+                }
+            }
+        }
+    }
+    // ローカルストレージに保存
+    localStorage.setItem(PLAYER_DATA_KEY, JSON.stringify(PLAYER_DATA));
+} else {
+    // JSON形式から復元
+    PLAYER_DATA = JSON.parse(PLAYER_DATA_JSON);
+}
+
+// 画面サイズの取得
 var SCR_WIDTH = COMMON.D_WIDTH;
 var SCR_HEIGHT = COMMON.D_HEIGHT;
 
+// ゲームインスタンスの作成
 const phaser = new Phaser.Game(config);

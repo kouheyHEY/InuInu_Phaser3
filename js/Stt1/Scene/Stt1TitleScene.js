@@ -110,12 +110,12 @@ class Stt1TitleScene extends BaseScene {
             {
                 button_normal: CONST_STT1.IMGID.BUTTON_DOGPUZZLE,
                 button_push: CONST_STT1.IMGID.BUTTON_DOGPUZZLE_PUSH,
-                nextScene: COMMON.ACT1PRELOADSCENE
+                nextScene: COMMON.PZL1PRELOADSCENE
             },
             {
                 button_normal: CONST_STT1.IMGID.BUTTON_DOGRUN,
                 button_push: CONST_STT1.IMGID.BUTTON_DOGRUN_PUSH,
-                nextScene: COMMON.PZL1PRELOADSCENE
+                nextScene: COMMON.ACT1PRELOADSCENE
             },
             {
                 button_normal: CONST_STT1.IMGID.BUTTON_ACHIEVE,
