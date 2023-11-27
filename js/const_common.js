@@ -59,7 +59,6 @@ const ACHIEVE_LIST_STR = {
         ENEMY_LEVEL_5: "敵のレベルを100にする",
         ENEMY_LEVEL_6: "敵のレベルを150にする",
         ENEMY_LEVEL_7: "敵のレベルを200にする",
-
     }
 };
 

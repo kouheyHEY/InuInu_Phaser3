@@ -1,0 +1,29 @@
+// 実績
+CONST_STT1.ACHIEVE_BG = {
+    COLOR: 0xffd0d0,
+    ALPHA: 0.9,
+    MARGIN: 24,
+    ROUND: 24,
+}
+
+// 実績オブジェクト
+CONST_STT1.ACHIEVE_OBJ = {
+    WIDTH: 128,
+    HEIGHT: 32,
+
+    COLOR: 0xffd0d0,
+    ROUND: 16,
+    SPACE: 16,
+
+    FONTCOLOR: 0x000000,
+    FONTSIZE: 16,
+}
+
+// 実績カテゴリ別タイトル
+CONST_STT1.ACHIEVE_CATEGORY_TITLE = {
+    FONTCOLOR: 0x000000,
+    FONTSIZE: 24,
+};
+
+// 表示列数
+CONST_STT1.ACHIEVE_COL = 4;

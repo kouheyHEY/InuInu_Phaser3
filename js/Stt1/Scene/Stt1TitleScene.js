@@ -64,6 +64,49 @@ class Stt1TitleScene extends BaseScene {
         this.createdBg = false;
         this.createBg();
 
+        // タイトル背景オブジェクトを作成する
+        this.createTitleObj();
+
+        // 実績一覧を作成する
+        this.createAchieveObj();
+
+    }
+
+    /**
+     * 背景を作成する
+     */
+    createBg() {
+        // 背景色の設定
+        this.cameras.main.setBackgroundColor(CONST_STT1.BGCOLOR);
+
+        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH * this.objScale / 2;
+        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale / 2;
+        let rowCnt = 0;
+        while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
+            while (iconX <= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH) {
+                // ランダムな背景色を取得
+                let bgCol = Phaser.Math.RND.pick(CONST_STT1.BGICON.COLORLIST);
+                // ランダムなテクスチャを取得
+                let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
+                let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+
+                bgIcon.setScale(this.objScale);
+                // 背景アイコンを生成
+                bgIcon.setDepth(-2);
+                this.bgIconList.push(bgIcon);
+                iconX += CONST_STT1.SIZE.BGICON.WIDTH * this.objScale * 2;
+            }
+            rowCnt++;
+            // チェック柄となるように配置
+            iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH * this.objScale;
+            iconY += CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale;
+        }
+    }
+
+    /**
+     * タイトル背景オブジェクトを作成する
+     */
+    createTitleObj() {
         // モードの数
         let modeNum = CONST_STT1.MODE_NUM;
 
@@ -169,38 +212,73 @@ class Stt1TitleScene extends BaseScene {
 
         // タイトルオブジェクトのスケール設定
         this.bgTitleObj.setScale(this.objScale);
-
     }
 
     /**
-     * 背景を作成する
+     * 実績一覧を作成する
      */
-    createBg() {
-        // 背景色の設定
-        this.cameras.main.setBackgroundColor(CONST_STT1.BGCOLOR);
+    createAchieveObj() {
+        this.achieveList = this.add.container();
 
-        let iconX = -CONST_STT1.SIZE.BGICON.WIDTH * this.objScale / 2;
-        let iconY = -CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale / 2;
-        let rowCnt = 0;
-        while (iconY <= SCR_HEIGHT + CONST_STT1.SIZE.BGICON.HEIGHT) {
-            while (iconX <= SCR_WIDTH + CONST_STT1.SIZE.BGICON.WIDTH) {
-                // ランダムな背景色を取得
-                let bgCol = Phaser.Math.RND.pick(CONST_STT1.BGICON.COLORLIST);
-                // ランダムなテクスチャを取得
-                let bgTxt = Phaser.Math.RND.pick(CONST_STT1.BGICON.TEXTURELIST);
-                let bgIcon = new BgIcon(this, iconX, iconY, bgTxt, bgCol);
+        // 実績一覧の背景オブジェクトのプロパティ
+        let achieveBgW =
+            CONST_STT1.ACHIEVE_OBJ.WIDTH * CONST_STT1.ACHIEVE_COL +
+            CONST_STT1.ACHIEVE_OBJ.SPACE * (CONST_STT1.ACHIEVE_COL - 1) +
+            CONST_STT1.ACHIEVE_BG.MARGIN * 2;
+        let achieveBgH = 0;
 
-                bgIcon.setScale(this.objScale);
-                // 背景アイコンを生成
-                bgIcon.setDepth(-2);
-                this.bgIconList.push(bgIcon);
-                iconX += CONST_STT1.SIZE.BGICON.WIDTH * this.objScale * 2;
+        // カテゴリごとに実績を表示
+        for (const [category, achieve] of Object.entries(ACHIEVE_LIST_STR)) {
+            let achieveCnt = 0;
+            for (const [key_achieve, achieve_str] of Object.entries(achieve)) {
+                let achieveObj = this.setText(
+                    achieve_str,
+                    achieveCnt * CONST_STT1.ACHIEVE_OBJ.WIDTH,
+                    Math.floor(achieveCnt / CONST_STT1.ACHIEVE_COL) * CONST_STT1.ACHIEVE_OBJ.HEIGHT,
+                    CONST_STT1.ACHIEVE_OBJ.FONTSIZE,
+                    CONST_STT1.ACHIEVE_OBJ.FONTCOLOR
+                );
+
             }
-            rowCnt++;
-            // チェック柄となるように配置
-            iconX = (rowCnt % 2 - 0.5) * CONST_STT1.SIZE.BGICON.WIDTH * this.objScale;
-            iconY += CONST_STT1.SIZE.BGICON.HEIGHT * this.objScale;
         }
+
+
+        // const ACHIEVE_LIST_STR = {
+        //     PZL1: {
+        //         DEL_SHIBA_1: "柴犬を100匹消去する",
+        //         DEL_PUG_1: "パグを100匹消去する",
+        //         DEL_DALM_1: "ダルメシアンを100匹消去する",
+        //         DEL_CORGI_1: "コーギーを100匹消去する",
+        //         DEL_LABRA_1: "ラブラドールを100匹消去する",
+        //         DEL_BONE_S_1: "アイテム（ホネ）を10個消去する",
+        //         DEL_BONE_D_1: "アイテム（ホネホネ）を10個消去する",
+        //         DEL_ALLDOG_1: "全ての種類を合計500匹消去する",
+        //     },
+        //     ACT1: {
+        //         SCORE_1: "50スコアを取得する",
+        //         SCORE_2: "100スコアを取得する",
+        //         SCORE_3: "200スコアを取得する",
+        //         SCORE_4: "500スコアを取得する",
+        //         SCORE_5: "1000スコアを取得する",
+        //         SCORE_6: "5000スコアを取得する",
+        //         SCORE_7: "10000スコアを取得する",
+        //         SCORE_8: "100000スコアを取得する",
+        //         SCORE_9: "1000000スコアを取得する",
+        //         PLAYER_LEVEL_1: "プレイヤーのレベルを5にする",
+        //         PLAYER_LEVEL_2: "プレイヤーのレベルを10にする",
+        //         PLAYER_LEVEL_3: "プレイヤーのレベルを15にする",
+        //         PLAYER_LEVEL_4: "プレイヤーのレベルを20にする",
+        //         PLAYER_JUMP_1: "100回ジャンプする",
+        //         PLAYER_SP_1: "SPを10000消費する",
+        //         ENEMY_LEVEL_1: "敵のレベルを5にする",
+        //         ENEMY_LEVEL_2: "敵のレベルを10にする",
+        //         ENEMY_LEVEL_3: "敵のレベルを20にする",
+        //         ENEMY_LEVEL_4: "敵のレベルを50にする",
+        //         ENEMY_LEVEL_5: "敵のレベルを100にする",
+        //         ENEMY_LEVEL_6: "敵のレベルを150にする",
+        //         ENEMY_LEVEL_7: "敵のレベルを200にする",
+        //     }
+        // };
     }
 
     update() {
