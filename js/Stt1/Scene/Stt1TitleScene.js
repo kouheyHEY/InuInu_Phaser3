@@ -212,36 +212,113 @@ class Stt1TitleScene extends BaseScene {
 
         // タイトルオブジェクトのスケール設定
         this.bgTitleObj.setScale(this.objScale);
+        this.bgTitleObj.setVisible(false);
     }
 
     /**
      * 実績一覧を作成する
      */
     createAchieveObj() {
-        this.achieveList = this.add.container();
+        this.achieveList = {};
 
         // 実績一覧の背景オブジェクトのプロパティ
         let achieveBgW =
             CONST_STT1.ACHIEVE_OBJ.WIDTH * CONST_STT1.ACHIEVE_COL +
             CONST_STT1.ACHIEVE_OBJ.SPACE * (CONST_STT1.ACHIEVE_COL - 1) +
             CONST_STT1.ACHIEVE_BG.MARGIN * 2;
-        let achieveBgH = 0;
 
         // カテゴリごとに実績を表示
+        this.achieveBgContainer = this.add.container();
+        let achieveObjY = 0;
         for (const [category, achieve] of Object.entries(ACHIEVE_LIST_STR)) {
+            // カテゴリごとの実績オブジェクトのリスト
+            this.achieveList[category] = {};
+
+            // TODO: DEBUG
+            this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
+
+            // カテゴリの表示
+            achieveObjY += CONST_STT1.ACHIEVE_BG.MARGIN;
+            let achieveCategoryText = this.setText(
+                ACHIEVE_LIST_CATEGORY_STR[category],
+                0,
+                achieveObjY,
+                CONST_STT1.ACHIEVE_CATEGORY_TITLE.FONTSIZE,
+                CONST_STT1.ACHIEVE_CATEGORY_TITLE.FONTCOLOR
+            ).setFontFamily(CONST_STT1.ACHIEVE_CATEGORY_TITLE.FONTSTYLE_BOLD).setOrigin(0.5, 0);
+            this.achieveBgContainer.add(achieveCategoryText);
+
+            // TODO: DEBUG
+            this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
+
+
+            achieveObjY += CONST_STT1.ACHIEVE_CATEGORY_TITLE.FONTSIZE + CONST_STT1.ACHIEVE_BG.MARGIN;
+
+            // TODO: DEBUG
+            this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
+
             let achieveCnt = 0;
             for (const [key_achieve, achieve_str] of Object.entries(achieve)) {
-                let achieveObj = this.setText(
-                    achieve_str,
-                    achieveCnt * CONST_STT1.ACHIEVE_OBJ.WIDTH,
-                    Math.floor(achieveCnt / CONST_STT1.ACHIEVE_COL) * CONST_STT1.ACHIEVE_OBJ.HEIGHT,
-                    CONST_STT1.ACHIEVE_OBJ.FONTSIZE,
-                    CONST_STT1.ACHIEVE_OBJ.FONTCOLOR
+
+                if (achieveCnt % 4 == 0 && achieveCnt !== 0) {
+                    achieveObjY += CONST_STT1.ACHIEVE_OBJ.HEIGHT + CONST_STT1.ACHIEVE_OBJ.SPACE;
+                }
+
+                console.log(ACHIEVE_LIST_CATEGORY_STR[category]);
+                console.log(key_achieve + ", " + achieve_str);
+                console.log(achieveCnt % 4 - CONST_STT1.ACHIEVE_COL + 1);
+
+                // 実績オブジェクトの生成
+                let achieveObjContainer = this.add.container().setPosition(
+                    (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * (achieveCnt % 4 - (CONST_STT1.ACHIEVE_COL - 1) / 2),
+                    achieveObjY
                 );
+
+                let achieveObj = this.add.graphics()
+                    .fillStyle(CONST_STT1.ACHIEVE_OBJ.COLOR)
+                    .fillRoundedRect(
+                        -CONST_STT1.ACHIEVE_OBJ.WIDTH / 2,
+                        -CONST_STT1.ACHIEVE_OBJ.HEIGHT / 2,
+                        CONST_STT1.ACHIEVE_OBJ.WIDTH,
+                        CONST_STT1.ACHIEVE_OBJ.HEIGHT,
+                        CONST_STT1.ACHIEVE_OBJ.ROUND
+                    );
+                achieveObjContainer.add(achieveObj);
+                // 実績オブジェクトのリストに追加
+                this.achieveList[category][key_achieve] = achieveObj;
+
+                // let achieveText = this.setText(
+                //     achieve_str,
+                //     achieveCnt * CONST_STT1.ACHIEVE_OBJ.WIDTH,
+                //     Math.floor(achieveCnt / CONST_STT1.ACHIEVE_COL) * CONST_STT1.ACHIEVE_OBJ.HEIGHT,
+                //     CONST_STT1.ACHIEVE_OBJ.FONTSIZE,
+                //     CONST_STT1.ACHIEVE_OBJ.FONTCOLOR
+                // );
+
+                achieveCnt++;
+
+                this.achieveBgContainer.add(achieveObjContainer);
 
             }
         }
 
+        achieveObjY += CONST_STT1.ACHIEVE_OBJ.HEIGHT + CONST_STT1.ACHIEVE_BG.MARGIN;
+
+        // 実績一覧オブジェクトの表示位置
+        this.achieveBgContainer.setPosition(
+            SCR_WIDTH / 2,
+            (SCR_HEIGHT - achieveObjY) / 2
+        );
+
+        let achieveBgObj = this.add.graphics().fillStyle(CONST_STT1.ACHIEVE_BG.COLOR).fillRoundedRect(
+            -achieveBgW / 2,
+            0,
+            achieveBgW,
+            achieveObjY,
+            CONST_STT1.ACHIEVE_BG.ROUND
+        ).setAlpha(CONST_STT1.ACHIEVE_BG.ALPHA);
+        this.achieveBgContainer.add(achieveBgObj);
+        this.achieveBgContainer.sendToBack(achieveBgObj);
 
         // const ACHIEVE_LIST_STR = {
         //     PZL1: {

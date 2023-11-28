@@ -25,6 +25,11 @@ const PLAYER_DATA_KEY_LIST = [
     ACHIEVE_LIST
 ];
 // 実績リスト
+const ACHIEVE_LIST_CATEGORY_STR = {
+    PZL1: "犬パズル",
+    ACT1: "犬ラン"
+}
+
 const ACHIEVE_LIST_STR = {
     PZL1: {
         DEL_SHIBA_1: "柴犬を100匹消去する",

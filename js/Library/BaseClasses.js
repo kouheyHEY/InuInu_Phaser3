@@ -33,7 +33,7 @@ class BaseScene extends Phaser.Scene {
      * @param {int} _x 文字列のx座標
      * @param {int} _y 文字列のy座標
      * @param {int} _fontSize 文字列のサイズ
-     * @param {int} _color 文字列の色
+     * @param {string} _color 文字列の色
      */
     setText(_text, _x, _y, _fontSize, _color = "#000000") {
         return this.add.text(_x, _y, _text).setFontSize(_fontSize).setFill(_color);
