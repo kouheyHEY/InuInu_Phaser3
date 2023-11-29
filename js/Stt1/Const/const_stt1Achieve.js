@@ -8,16 +8,19 @@ CONST_STT1.ACHIEVE_BG = {
 
 // 実績オブジェクト
 CONST_STT1.ACHIEVE_OBJ = {
-    WIDTH: 288,
-    HEIGHT: 64,
+    WIDTH: 192,
+    HEIGHT: 48,
 
     COLOR: 0xffd0d0,
     COLOR_DONE: 0xff8080,
     ROUND: 16,
     SPACE: 20,
 
-    FONTCOLOR: 0x000000,
+    FONTCOLOR: "#000000",
     FONTSIZE: 16,
+
+    FONTSTYLE_NORMAL: "Bit12",
+    FONTSTYLE_BOLD: "Bit12Bold",
 }
 
 // 実績カテゴリ別タイトル

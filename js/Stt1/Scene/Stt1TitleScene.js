@@ -222,9 +222,11 @@ class Stt1TitleScene extends BaseScene {
         this.achieveList = {};
 
         // 実績一覧の背景オブジェクトのプロパティ
+        // TODO: 表示列数
+        let achieveCol = Math.floor(SCR_WIDTH / (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE));
         let achieveBgW =
-            CONST_STT1.ACHIEVE_OBJ.WIDTH * CONST_STT1.ACHIEVE_COL +
-            CONST_STT1.ACHIEVE_OBJ.SPACE * (CONST_STT1.ACHIEVE_COL - 1) +
+            CONST_STT1.ACHIEVE_OBJ.WIDTH * achieveCol +
+            CONST_STT1.ACHIEVE_OBJ.SPACE * (achieveCol - 1) +
             CONST_STT1.ACHIEVE_BG.MARGIN * 2;
 
         // カテゴリごとに実績を表示
@@ -233,9 +235,6 @@ class Stt1TitleScene extends BaseScene {
         for (const [category, achieve] of Object.entries(ACHIEVE_LIST_STR)) {
             // カテゴリごとの実績オブジェクトのリスト
             this.achieveList[category] = {};
-
-            // TODO: DEBUG
-            this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
 
             // カテゴリの表示
             achieveObjY += CONST_STT1.ACHIEVE_BG.MARGIN;
@@ -248,29 +247,18 @@ class Stt1TitleScene extends BaseScene {
             ).setFontFamily(CONST_STT1.ACHIEVE_CATEGORY_TITLE.FONTSTYLE_BOLD).setOrigin(0.5, 0);
             this.achieveBgContainer.add(achieveCategoryText);
 
-            // TODO: DEBUG
-            this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
-
-
             achieveObjY += CONST_STT1.ACHIEVE_CATEGORY_TITLE.FONTSIZE + CONST_STT1.ACHIEVE_BG.MARGIN;
-
-            // TODO: DEBUG
-            this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
 
             let achieveCnt = 0;
             for (const [key_achieve, achieve_str] of Object.entries(achieve)) {
 
-                if (achieveCnt % 4 == 0 && achieveCnt !== 0) {
+                if (achieveCnt % achieveCol == 0 && achieveCnt !== 0) {
                     achieveObjY += CONST_STT1.ACHIEVE_OBJ.HEIGHT + CONST_STT1.ACHIEVE_OBJ.SPACE;
                 }
 
-                console.log(ACHIEVE_LIST_CATEGORY_STR[category]);
-                console.log(key_achieve + ", " + achieve_str);
-                console.log(achieveCnt % 4 - CONST_STT1.ACHIEVE_COL + 1);
-
                 // 実績オブジェクトの生成
                 let achieveObjContainer = this.add.container().setPosition(
-                    (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * (achieveCnt % 4 - (CONST_STT1.ACHIEVE_COL - 1) / 2),
+                    (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * (achieveCnt % 4 - (achieveCol - 1) / 2),
                     achieveObjY
                 );
 
@@ -287,13 +275,20 @@ class Stt1TitleScene extends BaseScene {
                 // 実績オブジェクトのリストに追加
                 this.achieveList[category][key_achieve] = achieveObj;
 
-                // let achieveText = this.setText(
-                //     achieve_str,
-                //     achieveCnt * CONST_STT1.ACHIEVE_OBJ.WIDTH,
-                //     Math.floor(achieveCnt / CONST_STT1.ACHIEVE_COL) * CONST_STT1.ACHIEVE_OBJ.HEIGHT,
-                //     CONST_STT1.ACHIEVE_OBJ.FONTSIZE,
-                //     CONST_STT1.ACHIEVE_OBJ.FONTCOLOR
-                // );
+                // TODO: DEBUG
+                // this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
+
+                let achieveText = this.setText(
+                    achieve_str,
+                    0,
+                    0,
+                    CONST_STT1.ACHIEVE_OBJ.FONTSIZE,
+                    CONST_STT1.ACHIEVE_OBJ.FONTCOLOR
+                ).setFontFamily(CONST_STT1.ACHIEVE_OBJ.FONTSTYLE_NORMAL)
+                    .setOrigin(0.5, 0.5)
+                    .setWordWrapWidth(CONST_STT1.ACHIEVE_OBJ.WIDTH - CONST_STT1.ACHIEVE_OBJ.ROUND, true);
+
+                achieveObjContainer.add(achieveText);
 
                 achieveCnt++;
 
@@ -307,7 +302,7 @@ class Stt1TitleScene extends BaseScene {
         // 実績一覧オブジェクトの表示位置
         this.achieveBgContainer.setPosition(
             SCR_WIDTH / 2,
-            (SCR_HEIGHT - achieveObjY) / 2
+            (SCR_HEIGHT - achieveObjY * this.objScale) / 2
         );
 
         let achieveBgObj = this.add.graphics().fillStyle(CONST_STT1.ACHIEVE_BG.COLOR).fillRoundedRect(
@@ -319,6 +314,8 @@ class Stt1TitleScene extends BaseScene {
         ).setAlpha(CONST_STT1.ACHIEVE_BG.ALPHA);
         this.achieveBgContainer.add(achieveBgObj);
         this.achieveBgContainer.sendToBack(achieveBgObj);
+
+        this.achieveBgContainer.setScale(this.objScale);
 
         // const ACHIEVE_LIST_STR = {
         //     PZL1: {
