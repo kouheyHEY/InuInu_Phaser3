@@ -4,6 +4,8 @@ CONST_STT1.ACHIEVE_BG = {
     ALPHA: 0.9,
     MARGIN: 36,
     ROUND: 24,
+
+    OUTERMARGIN: 36
 }
 
 // 実績オブジェクト

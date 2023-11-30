@@ -223,7 +223,11 @@ class Stt1TitleScene extends BaseScene {
 
         // 実績一覧の背景オブジェクトのプロパティ
         // TODO: 表示列数
-        let achieveCol = Math.floor(SCR_WIDTH / (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE));
+        let achieveCol = Math.floor(
+            (SCR_WIDTH - CONST_STT1.ACHIEVE_BG.MARGIN * 2 - CONST_STT1.ACHIEVE_BG.OUTERMARGIN * 2) /
+            ((CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * this.objScale)
+        );
+        console.log(achieveCol);
         let achieveBgW =
             CONST_STT1.ACHIEVE_OBJ.WIDTH * achieveCol +
             CONST_STT1.ACHIEVE_OBJ.SPACE * (achieveCol - 1) +
@@ -258,7 +262,7 @@ class Stt1TitleScene extends BaseScene {
 
                 // 実績オブジェクトの生成
                 let achieveObjContainer = this.add.container().setPosition(
-                    (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * (achieveCnt % 4 - (achieveCol - 1) / 2),
+                    (CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * (achieveCnt % achieveCol - (achieveCol - 1) / 2),
                     achieveObjY
                 );
 
@@ -278,14 +282,15 @@ class Stt1TitleScene extends BaseScene {
                 // TODO: DEBUG
                 // this.achieveBgContainer.add(this.add.graphics().lineStyle(2, 0x000000, 1).lineBetween(-SCR_WIDTH, achieveObjY, SCR_WIDTH, achieveObjY));
 
+                // 実績文字列の表示
                 let achieveText = this.setText(
                     achieve_str,
-                    0,
+                    -(CONST_STT1.ACHIEVE_OBJ.WIDTH - CONST_STT1.ACHIEVE_OBJ.ROUND) / 2,
                     0,
                     CONST_STT1.ACHIEVE_OBJ.FONTSIZE,
                     CONST_STT1.ACHIEVE_OBJ.FONTCOLOR
                 ).setFontFamily(CONST_STT1.ACHIEVE_OBJ.FONTSTYLE_NORMAL)
-                    .setOrigin(0.5, 0.5)
+                    .setOrigin(0, 0.5)
                     .setWordWrapWidth(CONST_STT1.ACHIEVE_OBJ.WIDTH - CONST_STT1.ACHIEVE_OBJ.ROUND, true);
 
                 achieveObjContainer.add(achieveText);
@@ -302,7 +307,7 @@ class Stt1TitleScene extends BaseScene {
         // 実績一覧オブジェクトの表示位置
         this.achieveBgContainer.setPosition(
             SCR_WIDTH / 2,
-            (SCR_HEIGHT - achieveObjY * this.objScale) / 2
+            Math.max((SCR_HEIGHT - achieveObjY * this.objScale) / 2, CONST_STT1.ACHIEVE_BG.OUTERMARGIN)
         );
 
         let achieveBgObj = this.add.graphics().fillStyle(CONST_STT1.ACHIEVE_BG.COLOR).fillRoundedRect(
