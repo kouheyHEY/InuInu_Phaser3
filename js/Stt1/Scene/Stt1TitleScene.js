@@ -222,12 +222,11 @@ class Stt1TitleScene extends BaseScene {
         this.achieveList = {};
 
         // 実績一覧の背景オブジェクトのプロパティ
-        // TODO: 表示列数
         let achieveCol = Math.floor(
             (SCR_WIDTH - CONST_STT1.ACHIEVE_BG.MARGIN * 2 - CONST_STT1.ACHIEVE_BG.OUTERMARGIN * 2) /
             ((CONST_STT1.ACHIEVE_OBJ.WIDTH + CONST_STT1.ACHIEVE_OBJ.SPACE) * this.objScale)
         );
-        console.log(achieveCol);
+
         let achieveBgW =
             CONST_STT1.ACHIEVE_OBJ.WIDTH * achieveCol +
             CONST_STT1.ACHIEVE_OBJ.SPACE * (achieveCol - 1) +
