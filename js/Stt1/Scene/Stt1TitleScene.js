@@ -63,12 +63,17 @@ class Stt1TitleScene extends BaseScene {
         // 背景を初期描画する
         this.createdBg = false;
         this.createBg();
+        // 実績オブジェクトの配列
+        this.achieveList = {};
+        // 実績表示用オブジェクト
+        this.achieveBgContainer = null;
+
+        // 実績一覧を作成する
+        this.createAchieveObj();
 
         // タイトル背景オブジェクトを作成する
         this.createTitleObj();
 
-        // 実績一覧を作成する
-        this.createAchieveObj();
 
     }
 
@@ -201,6 +206,12 @@ class Stt1TitleScene extends BaseScene {
                 button.on('pointerdown', () => {
                     this.scene.start(buttonProp.nextScene);
                 });
+            } else {
+                button.on('pointerdown', () => {
+                    // タイトルオブジェクトを非表示にし、実績オブジェクトを表示する
+                    this.bgTitleObj.setVisible(false);
+                    this.achieveBgContainer.setVisible(true);
+                });
             }
 
             // ボタンリストに追加
@@ -212,15 +223,12 @@ class Stt1TitleScene extends BaseScene {
 
         // タイトルオブジェクトのスケール設定
         this.bgTitleObj.setScale(this.objScale);
-        this.bgTitleObj.setVisible(false);
     }
 
     /**
      * 実績一覧を作成する
      */
     createAchieveObj() {
-        this.achieveList = {};
-
         // 実績一覧の背景オブジェクトのプロパティ
         let achieveCol = Math.floor(
             (SCR_WIDTH - CONST_STT1.ACHIEVE_BG.MARGIN * 2 - CONST_STT1.ACHIEVE_BG.OUTERMARGIN * 2) /
@@ -320,6 +328,9 @@ class Stt1TitleScene extends BaseScene {
         this.achieveBgContainer.sendToBack(achieveBgObj);
 
         this.achieveBgContainer.setScale(this.objScale);
+
+        // 実績オブジェクトを非表示にする
+        this.achieveBgContainer.setVisible(false);
 
         // const ACHIEVE_LIST_STR = {
         //     PZL1: {
