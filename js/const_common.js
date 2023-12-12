@@ -29,6 +29,8 @@ const ACHIEVE_LIST_CATEGORY_STR = {
     PZL1: "犬パズル",
     ACT1: "犬ラン"
 }
+const PZL1 = "PZL1";
+const ACT1 = "ACT1";
 
 const ACHIEVE_LIST_STR = {
     PZL1: {

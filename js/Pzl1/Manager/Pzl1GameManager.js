@@ -44,7 +44,9 @@ class Pzl1GameManager {
         this.scene.updateTimerText(this.currentTime);
 
         if (this.currentTime <= 0) {
-            // 制限時間切れの場合の処理
+            // 実績の確認
+            this.checkAchieve();
+            // ゲームオーバー処理
             this.gameOver();
         }
     }
@@ -54,6 +56,9 @@ class Pzl1GameManager {
         return Math.floor(Math.random() * CONST_PZL1.DOG_NUM);
     }
 
+    /**
+     * ゲームオーバー処理を行う
+     */
     gameOver() {
         let iconType = 0;
         for (let i = 0; i < CONST_PZL1.DOG_NUM; i++) {
@@ -80,6 +85,40 @@ class Pzl1GameManager {
 
         this.deleteDogNum[_deleteType] += _deleteNum;
         this.scene.updateDeleteInfo(_deleteType, this.deleteDogNum[_deleteType]);
+    }
+
+    /**
+     * 実績の達成を確認する
+     */
+    checkAchieve() {
+        // 実績一覧
+        // PZL1: {
+        //     DEL_SHIBA_1: "柴犬を100匹消去する",
+        //     DEL_PUG_1: "パグを100匹消去する",
+        //     DEL_DALM_1: "ダルメシアンを100匹消去する",
+        //     DEL_CORGI_1: "コーギーを100匹消去する",
+        //     DEL_LABRA_1: "ラブラドールを100匹消去する",
+        //     DEL_BONE_S_1: "アイテム（ホネ）を10個消去する",
+        //     DEL_BONE_D_1: "アイテム（ホネホネ）を10個消去する",
+        //     DEL_ALLDOG_1: "全ての種類を合計500匹消去する",
+        // }
+
+        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_SHIBA] >= 100) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_SHIBA_1"] = true;
+        }
+        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_PAG] >= 100) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_PAG_1"] = true;
+        }
+        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_DALMATIAN] >= 100) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_DALM_1"] = true;
+        }
+        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_CORGI] >= 100) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_CORGI_1"] = true;
+        }
+        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_LABRADOR] >= 100) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_LABRA_1"] = true;
+        }
+
     }
 
     /**
