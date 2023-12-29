@@ -103,21 +103,50 @@ class Pzl1GameManager {
         //     DEL_ALLDOG_1: "全ての種類を合計500匹消去する",
         // }
 
-        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_SHIBA] >= 100) {
+        console.log("ACHIEVE CHECK START.")
+
+        let del_shiba = this.deleteDogNum[CONST_PZL1.ICONTYPE_ID.DOG_SHIBA];
+        let del_pag = this.deleteDogNum[CONST_PZL1.ICONTYPE_ID.DOG_PAG];
+        let del_dalmatian = this.deleteDogNum[CONST_PZL1.ICONTYPE_ID.DOG_DALMATIAN];
+        let del_corgi = this.deleteDogNum[CONST_PZL1.ICONTYPE_ID.DOG_CORGI];
+        let del_labrador = this.deleteDogNum[CONST_PZL1.ICONTYPE_ID.DOG_LABRADOR];
+        let del_bone_s = this.deleteDogNum[CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_SINGLE];
+        let del_bone_d = this.deleteDogNum[CONST_PZL1.ITEMTYPE_ID.ITEM_BONE_DOUBLE];
+
+        if (del_shiba >= 100) {
             PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_SHIBA_1"] = true;
+            console.log("shiba 100");
         }
-        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_PAG] >= 100) {
+        if (del_pag >= 100) {
             PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_PAG_1"] = true;
+            console.log("pag 100");
         }
-        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_DALMATIAN] >= 100) {
+        if (del_dalmatian >= 100) {
             PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_DALM_1"] = true;
+            console.log("dalmatian 100");
         }
-        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_CORGI] >= 100) {
+        if (del_corgi >= 100) {
             PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_CORGI_1"] = true;
+            console.log("corgi 100");
         }
-        if (CONST_PZL1.ICONTYPE[CONST_PZL1.ICONTYPE_ID.DOG_LABRADOR] >= 100) {
+        if (del_labrador >= 100) {
             PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_LABRA_1"] = true;
+            console.log("lablador 100");
         }
+        if (del_bone_s >= 10) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_BONE_S_1"] = true;
+            console.log("bone_s 10");
+        }
+        if (del_bone_d >= 10) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_BONE_D_1"] = true;
+            console.log("bone_d 10");
+        }
+        if (del_shiba + del_pag + del_dalmatian + del_corgi + del_labrador >= 500) {
+            PLAYER_DATA[ACHIEVE_LIST][PZL1]["DEL_BONE_D_1"] = true;
+            console.log("bone_d 10");
+        }
+
+        console.log("ACHIEVE CHECK END.");
 
     }
 

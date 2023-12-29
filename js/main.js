@@ -63,6 +63,7 @@ let PLAYER_DATA_JSON = localStorage.getItem(PLAYER_DATA_KEY);
 var PLAYER_DATA = null;
 // プレイヤーのデータがローカルストレージに存在しない場合は、新規に作成
 if (PLAYER_DATA_JSON === null) {
+    console.log("START MAKING PLAYERDATA.");
     PLAYER_DATA = {};
 
     for (let key of PLAYER_DATA_KEY_LIST) {
@@ -81,9 +82,13 @@ if (PLAYER_DATA_JSON === null) {
     }
     // ローカルストレージに保存
     localStorage.setItem(PLAYER_DATA_KEY, JSON.stringify(PLAYER_DATA));
+
+    console.log("END MAKING PLAYERDATA.");
 } else {
+    console.log("START LOADING PLAYERDATA.");
     // JSON形式から復元
     PLAYER_DATA = JSON.parse(PLAYER_DATA_JSON);
+    console.log("END LOADING PLAYERDATA.");
 }
 
 // 画面サイズの取得
