@@ -27,13 +27,7 @@ const config = {
 
     // シーン設定
     scene: [
-        Stt1TitleScene,
-        Pzl1PreLoadScene,
-        Pzl1GameScene,
-        Pzl1GameOverScene,
-        Act1PreLoadScene,
-        Act1GameScene,
-        Act1GameOverScene
+        ActGameScene,
     ],
 
     // フレームレート設定
@@ -56,39 +50,6 @@ const config = {
         },
     },
 
-}
-
-// プレイヤーのデータの取得
-let PLAYER_DATA_JSON = localStorage.getItem(PLAYER_DATA_KEY);
-var PLAYER_DATA = null;
-// プレイヤーのデータがローカルストレージに存在しない場合は、新規に作成
-if (PLAYER_DATA_JSON === null) {
-    console.log("START MAKING PLAYERDATA.");
-    PLAYER_DATA = {};
-
-    for (let key of PLAYER_DATA_KEY_LIST) {
-        PLAYER_DATA[key] = {};
-        // 実績一覧を作成
-        if (key === ACHIEVE_LIST) {
-            // ゲームカテゴリごとの実績
-            for (const [key_game] of Object.entries(ACHIEVE_LIST_STR)) {
-                PLAYER_DATA[key][key_game] = {};
-                // 実績一覧の初期生成
-                for (const [key_achieve] of Object.entries(ACHIEVE_LIST_STR[key_game])) {
-                    PLAYER_DATA[key][key_game][key_achieve] = false;
-                }
-            }
-        }
-    }
-    // ローカルストレージに保存
-    localStorage.setItem(PLAYER_DATA_KEY, JSON.stringify(PLAYER_DATA));
-
-    console.log("END MAKING PLAYERDATA.");
-} else {
-    console.log("START LOADING PLAYERDATA.");
-    // JSON形式から復元
-    PLAYER_DATA = JSON.parse(PLAYER_DATA_JSON);
-    console.log("END LOADING PLAYERDATA.");
 }
 
 // 画面サイズの取得

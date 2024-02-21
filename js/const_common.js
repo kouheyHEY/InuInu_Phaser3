@@ -8,13 +8,7 @@ const COMMON = {
     FPS: 60,
 
     // シーンのID
-    STT1TITLESCENE: "Stt1TitleScene",
-    PZL1PRELOADSCENE: "Pzl1PreLoadScene",
-    PZL1GAMESCENE: "Pzl1GameScene",
-    PZL1GAMEOVERSCENE: "Pzl1GameOverScene",
-    ACT1PRELOADSCENE: "Act1PreLoadScene",
-    ACT1GAMESCENE: "Act1GameScene",
-    ACT1GAMEOVERSCENE: "Act1GameOverScene",
+    ACTGAMESCENE: "ActGameScene",
 
 };
 
@@ -25,25 +19,8 @@ const PLAYER_DATA_KEY_LIST = [
     ACHIEVE_LIST
 ];
 // 実績リスト
-const ACHIEVE_LIST_CATEGORY_STR = {
-    PZL1: "犬パズル",
-    ACT1: "犬ラン"
-}
-const PZL1 = "PZL1";
-const ACT1 = "ACT1";
-
 const ACHIEVE_LIST_STR = {
-    PZL1: {
-        DEL_SHIBA_1: "柴犬を100匹消去する",
-        DEL_PUG_1: "パグを100匹消去する",
-        DEL_DALM_1: "ダルメシアンを100匹消去する",
-        DEL_CORGI_1: "コーギーを100匹消去する",
-        DEL_LABRA_1: "ラブラドールを100匹消去する",
-        DEL_BONE_S_1: "アイテム（ホネ）を10個消去する",
-        DEL_BONE_D_1: "アイテム（ホネホネ）を10個消去する",
-        DEL_ALLDOG_1: "全ての種類を合計500匹消去する",
-    },
-    ACT1: {
+    ACT: {
         SCORE_1: "50スコアを取得する",
         SCORE_2: "100スコアを取得する",
         SCORE_3: "200スコアを取得する",
@@ -69,7 +46,4 @@ const ACHIEVE_LIST_STR = {
     }
 };
 
-
-const CONST_STT1 = {};
-const CONST_PZL1 = {};
-const CONST_ACT1 = {};
+const CONST_ACT = {};
